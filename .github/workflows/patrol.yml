@@ -84,6 +84,18 @@ jobs:
           test -s "$JWT_FILE"
           echo "ANTHROPIC_IDENTITY_TOKEN_FILE=$JWT_FILE" >> "$GITHUB_ENV"
 
+      # Dry runs prove the WIF exchange even when nothing drifted: count_tokens is
+      # free and needs a valid access token, so it exercises the full JWT -> token path.
+      - name: Verify Anthropic WIF exchange (dry run only)
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: |
+          node -e '
+            const Anthropic = require("@anthropic-ai/sdk").default;
+            new Anthropic().messages.countTokens({ model: "claude-opus-5", messages: [{ role: "user", content: "sisyphus auth check" }] })
+              .then(r => console.log("WIF exchange OK; count_tokens ->", r.input_tokens, "input tokens"))
+              .catch(e => { console.error("WIF exchange FAILED:", e.status ?? "", e.message); process.exit(1); });
+          '
+
       - name: Patrol
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
