@@ -13,7 +13,7 @@ export const FOOTER = "Sisyphus does not merge. A human reads the receipts first
 export const LABEL = "sisyphus";
 export const UPSTREAM = process.env.SISYPHUS_UPSTREAM ?? "wiftax/wiftax";
 export const BOT_NAME = "wiftax-sisyphus[bot]";
-export const BOT_EMAIL = "wiftax-sisyphus[bot]@users.noreply.github.com";
+export const BOT_EMAIL = "330547003+wiftax-sisyphus[bot]@users.noreply.github.com";
 
 const RANK: Record<string, number> = { F: 1, D: 2, C: 3, B: 4, A: 5, "N/A": 6 };
 
