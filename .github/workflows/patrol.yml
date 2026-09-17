@@ -33,7 +33,6 @@ jobs:
       ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
       ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
       ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
-      ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/gha-jwt
       WIFTAX_DIR: ${{ github.workspace }}/wiftax
     steps:
       - name: Mint GitHub App installation token
@@ -77,10 +76,13 @@ jobs:
       # minutes after issuance, and the SDK exchanges it on first use.
       - name: Request GitHub OIDC token for Anthropic
         run: |
+          # runner.temp is not available in job-level env, so the path is exported here.
+          JWT_FILE="$RUNNER_TEMP/gha-jwt"
           curl -sS --fail-with-body -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
             "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
-            | jq -r .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE"
-          test -s "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+            | jq -r .value > "$JWT_FILE"
+          test -s "$JWT_FILE"
+          echo "ANTHROPIC_IDENTITY_TOKEN_FILE=$JWT_FILE" >> "$GITHUB_ENV"
 
       - name: Patrol
         env:
