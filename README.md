@@ -160,7 +160,7 @@ matches `pull_request` runs, including runs triggered from forks."
   "name": "sisyphus-patrol",
   "issuer_id": "fdis_...",
   "match": {
-    "subject_prefix": "repo:wiftax/sisyphus:ref:refs/heads/main",
+    "subject_prefix": "repo:wiftax@330212943/sisyphus@1374555161:ref:refs/heads/main",
     "audience": "https://api.anthropic.com",
     "claims": { "repository_owner": "wiftax" }
   },
@@ -170,6 +170,12 @@ matches `pull_request` runs, including runs triggered from forks."
   "token_lifetime_seconds": 3600
 }
 ```
+
+> **Subject format.** GitHub now embeds numeric IDs in the OIDC `sub` claim:
+> `repo:<owner>@<owner_id>/<repo>@<repo_id>:ref:refs/heads/main`. The Console
+> wizard pre-fills the old `repo:<owner>/<repo>:...` form, which is denied with
+> `match_subject_prefix`. Use the exact `sub` shown in the Console's
+> authentication log (Settings → Workload identity → Authentication events).
 
 Notes on those fields, from the WIF reference:
 
