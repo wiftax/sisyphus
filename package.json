@@ -1,0 +1,23 @@
+{
+  "name": "sisyphus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rotates keys forever. Opens Notices of Assessment for wif.tax.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "check": "tsx src/cli.ts check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
+    "cheerio": "^1.2.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.20.0",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.0"
+  }
+}

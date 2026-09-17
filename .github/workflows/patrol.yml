@@ -1,0 +1,121 @@
+name: patrol
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Mondays 09:00 UTC. The boulder does not wait.
+  workflow_dispatch:
+    inputs:
+      card:
+        description: "Only check this card id (e.g. github-api). Blank = every card."
+        required: false
+        default: ""
+      dry_run:
+        description: "Report drift and write proposals to out/, but open nothing and commit nothing."
+        type: boolean
+        default: false
+
+# One patrol at a time. A second trigger waits rather than racing the state commit.
+concurrency:
+  group: patrol
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write # GitHub OIDC token, exchanged for an Anthropic access token (WIF)
+
+jobs:
+  patrol:
+    runs-on: ubuntu-latest
+    env:
+      # Workload Identity Federation. None of these are secrets; they are repository variables.
+      # See README "Anthropic: Workload Identity Federation".
+      ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+      ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+      ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+      ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/gha-jwt
+      WIFTAX_DIR: ${{ github.workspace }}/wiftax
+    steps:
+      - name: Mint GitHub App installation token
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.SISYPHUS_APP_ID }}
+          private-key: ${{ secrets.SISYPHUS_APP_PRIVATE_KEY }}
+          owner: wiftax
+          repositories: |
+            wiftax
+            sisyphus
+
+      - name: Checkout sisyphus
+        uses: actions/checkout@v5
+        with:
+          token: ${{ steps.app.outputs.token }}
+          persist-credentials: true
+
+      - name: Checkout wiftax/wiftax
+        uses: actions/checkout@v5
+        with:
+          repository: wiftax/wiftax
+          ref: main
+          path: wiftax
+          token: ${{ steps.app.outputs.token }}
+          persist-credentials: true # the code pushes sisyphus/* branches from this checkout
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: |
+          npm ci
+          npm --prefix wiftax ci
+
+      # Ask GitHub for an OIDC identity token with the audience Anthropic expects.
+      # Fetched immediately before the run because the JWT expires about five
+      # minutes after issuance, and the SDK exchanges it on first use.
+      - name: Request GitHub OIDC token for Anthropic
+        run: |
+          curl -sS --fail-with-body -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
+            | jq -r .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+          test -s "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+
+      - name: Patrol
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          SISYPHUS_CARD: ${{ github.event.inputs.card }}
+        run: |
+          set -o pipefail
+          ARGS=""
+          if [ -n "$SISYPHUS_CARD" ]; then ARGS="$ARGS --card $SISYPHUS_CARD"; fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          npx tsx src/cli.ts check --data "$WIFTAX_DIR" $ARGS
+
+      - name: Remove identity token
+        if: always()
+        run: rm -f "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+
+      - name: Upload dry-run proposals
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: proposals
+          path: out/
+          if-no-files-found: ignore
+
+      # Persist page hashes so "text changed since last patrol" works next week.
+      - name: Commit state
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          git config user.name "sisyphus[bot]"
+          git config user.email "sisyphus[bot]@users.noreply.github.com"
+          git add state
+          if git diff --cached --quiet; then
+            echo "state unchanged"
+            exit 0
+          fi
+          git commit -m "state: patrol $(date -u +%Y-%m-%d)"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
