@@ -93,7 +93,7 @@ Create the App at <https://github.com/organizations/wiftax/settings/apps/new>:
 
 | Field | Value |
 |---|---|
-| GitHub App name | `sisyphus` |
+| GitHub App name | `wiftax-sisyphus` (GitHub App names are global and `sisyphus` was taken) |
 | Homepage URL | `https://rotate.fail` |
 | Webhook | **Active** unchecked (no webhook) |
 | Repository permissions | Contents: **Read and write**; Pull requests: **Read and write**; Issues: **Read and write**; Metadata: **Read-only** (added automatically) |
@@ -118,7 +118,7 @@ Then:
 The workflow mints an installation token with
 [`actions/create-github-app-token@v2`](https://github.com/actions/create-github-app-token)
 scoped to those two repositories, and the code uses it through `gh` (`GH_TOKEN`).
-PRs and commits appear as `sisyphus[bot]`.
+PRs and commits appear as `wiftax-sisyphus[bot]`.
 
 ### 2. Anthropic: Workload Identity Federation
 
