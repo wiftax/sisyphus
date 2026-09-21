@@ -1,0 +1,102 @@
+{
+  "card": "datadog-api",
+  "updated_at": "2026-09-21T15:25:33.936Z",
+  "urls": {
+    "https://docs.datadoghq.com/account_management/workload_identity_federation/": {
+      "hash": "dccce115541a62bd73117243a7e377e82da7cebb87cc2c9a001f172681edd1ac",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:03.851Z",
+      "quotes_found": 3,
+      "quotes_total": 3
+    },
+    "https://docs.datadoghq.com/account_management/api-app-keys/": {
+      "hash": "3962a37b9b7fcb198b78b8668fa29f4ffddeb550604741b2bf91932c5573aa1e",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:04.850Z",
+      "quotes_found": 4,
+      "quotes_total": 4
+    },
+    "https://docs.datadoghq.com/developers/integrations/oauth_for_integrations/": {
+      "hash": "6d425327e0240ede592db8dcf05fcddf10d2aff900a209b00d4edad59511705b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:05.851Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.datadoghq.com/integrations/guide/aws-manual-setup/": {
+      "hash": "edc08e3fbb10f0fa512a140535559f404eaef37ce4e033de5bff6d90944a4b95",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:06.850Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.datadoghq.com/integrations/amazon_web_services/": {
+      "hash": "84496ad1693226d9242b8b8f84d4562d1c18c94a3569208b8d1bbbba31114a34",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:07.907Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.datadoghq.com/integrations/google_cloud_platform/": {
+      "hash": "0e215a633c63bdb710e0ce402a048f892f3a1f654e117a702b5c60a5516a4004",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:08.905Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.datadoghq.com/integrations/guide/azure-manual-setup/": {
+      "hash": "a4cb1613607bde8545eb0448db9db9d5e1614432b219bd6b0a3323c8a082eb82",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:09.906Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.datadoghq.com/integrations/guide/azure-native-manual-setup/": {
+      "hash": "2bf7f6a646319a7ed8c5a9c9f4f9e84ee08a5ebf7689a26304446a7076bf10fe",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:10.907Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.datadoghq.com/api/latest/key-management/": {
+      "hash": "73835445446511f645ec7fd82ec977d0d0021037c4520b4b3df052f34e9784ec",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:11.908Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.datadoghq.com/api/latest/scopes/": {
+      "hash": "bdde3dc257fec97cfbaea8a28cf153ba6e3c9ef4c09ada20eefb77d2158363f4",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:12.908Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://raw.githubusercontent.com/DataDog/datadog-api-client-python/master/.generator/schemas/v2/openapi.yaml": {
+      "hash": "d27bff24d8b8aec632aabf43d891c1e1b8a2ba583ac2ee7b8efb959c99808ec5",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:08.949Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    }
+  }
+}

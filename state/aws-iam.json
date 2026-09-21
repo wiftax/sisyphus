@@ -1,0 +1,158 @@
+{
+  "card": "aws-iam",
+  "updated_at": "2026-09-21T15:25:33.860Z",
+  "urls": {
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html": {
+      "hash": "1d6de4732b5f4105f9d9ae028b58cfdff719871fe2d74c5364c1a39ba4fe2a7c",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:36.416Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html": {
+      "hash": "0d4278bfdce841c0928fff107fcfa1e4a6b7a80ade0dd966d9e0257ecb3a19f7",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:37.416Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html": {
+      "hash": "40c06b5e6b01b48caeec7b85669e42eb6c15879dd4323af3bcb95529123e2bfc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:38.417Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html": {
+      "hash": "3e12824b11b029d4ef7451992a7a84e8914ff317ca499595b9e1cd0b9ef526a6",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:39.417Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound.html": {
+      "hash": "8cda770ef045fe5a82828d2e707f7c7bec29a4d733a6eeadcdd5a47f68a9f11f",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:40.417Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/STS/latest/APIReference/API_GetWebIdentityToken.html": {
+      "hash": "31c41b10d5b55307ab3a06b638f14a54f0b68bff0c1c54ab91fd48a9d2895e01",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:41.418Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_getting_started.html": {
+      "hash": "13317f431a21c938ba121aed3e9a5730da51a889d9c33a742fc6bd9244269797",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:42.418Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_outbound_token_claims.html": {
+      "hash": "b34714db17b8e3169746a84608a188d86c81756c6cbe8f4e13fbc7bc9c48a503",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:43.419Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation": {
+      "hash": "1f017e03a58a9057cdd2a1af3e743f9cf62ac50a39addd647775ebad32558d17",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:39.622Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html": {
+      "hash": "79883a92ddfc82ffbf49ffac0a65131d17116f4c24279a886689c631a8297444",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:44.419Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds": {
+      "hash": "d7501de7d3dc919a1b9e96f5fe96492bdb9e628765e6ad9d0332e924ea21f018",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:40.521Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html": {
+      "hash": "d978d07d8f0617110d392d21d2be40d66a01dd987680e4384d68b924faa5ced9",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:45.420Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-keys_inline-policy.html": {
+      "hash": "0f1a93007e4a32746766b5cd064f6b50092f6601a28400d56e10e477e8f667ca",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:46.421Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html": {
+      "hash": "e0760f5a12e7bf05b4d3b67caa1b2973e5383e96b878ff95af666bd21b18c62b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:47.422Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html": {
+      "hash": "7e92a65e4c442fc2a5e503bc3d53096b54b14c2730f68c30f95da2f8286288e7",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:48.422Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html": {
+      "hash": "31423de43e0a05ffb47389882a68981284fb6b298869313eadd707c24b9862aa",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:49.422Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html": {
+      "hash": "3253d81a7896e3f7d4b80748d70844ad8efbd082c7609a03265598e9e75d7b98",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:50.423Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 0,
+      "quotes_total": 0
+    },
+    "https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSCompromisedKeyQuarantineV3.html": {
+      "hash": "968fec9e3df9030e82f8ee5ae0fec7ceb2ad1b77bd1bc64e3d7baafb9c9c30de",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:51.424Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    }
+  }
+}

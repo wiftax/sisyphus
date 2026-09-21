@@ -1,0 +1,126 @@
+{
+  "card": "azure-entra-workload-identity",
+  "updated_at": "2026-09-21T15:25:33.879Z",
+  "urls": {
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation": {
+      "hash": "1f017e03a58a9057cdd2a1af3e743f9cf62ac50a39addd647775ebad32558d17",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:39.622Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust": {
+      "hash": "afcc283b5c58f2fcc147b34a56a98cef21026f2a76883877e1a9c36aae3ff33a",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:44.565Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-considerations": {
+      "hash": "1c39ba420f06f111305685d6431b2b2d48cd99c0f566ceba99c04b982db01efc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:45.565Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-to-use-vm-token": {
+      "hash": "85714d3ecffd1d4f8f89ea9aec2d16a9ec59251404e94689607a89a42955b306",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:46.565Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-config-app-trust-managed-identity": {
+      "hash": "f1b3405254abdd207203bec83a317fb8fdaf7b3a540c4c472bda74c4b978527b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:47.567Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds": {
+      "hash": "d7501de7d3dc919a1b9e96f5fe96492bdb9e628765e6ad9d0332e924ea21f018",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:40.521Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials": {
+      "hash": "b02017ee3ec48385a438c138c314198236dab79c7310c71530cc29920d738a0d",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:48.568Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/graph/api/application-addpassword": {
+      "hash": "198d929a0c08ced4a71f00ff5dae05dbdfee1cf295a111820e5437a2c70714ce",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:49.568Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://learn.microsoft.com/en-us/graph/api/resources/applicationauthenticationmethodpolicy": {
+      "hash": "26c1b095a1661e37bd9d2b12264553160a1882109a854f1339be6875e0707e36",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:50.568Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/graph/api/application-removepassword": {
+      "hash": "8d966fcb8e68040ee0a72aaa92cae6147422a79d54022e0f3ac8b570b709c595",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:51.570Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview": {
+      "hash": "55a37d729922c67a31d0eada708cd4104ba1c5f0038291902ada5265593c2a76",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:52.570Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://learn.microsoft.com/en-us/graph/api/resources/signin?view=graph-rest-beta": {
+      "hash": "7b240969003ff9fc7f614228f97b8e340f4b41b9d626c0b96d31bf72ea1804cd",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:53.570Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/recommendation-remove-unused-credential-from-apps": {
+      "hash": "7cedc741bb317f9028e83279192828171dea4cfda5981706c721b14a75f53a82",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:54.571Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 0,
+      "quotes_total": 0
+    },
+    "https://learn.microsoft.com/en-us/entra/id-protection/concept-workload-identity-risk": {
+      "hash": "def76aec92bb088c66fbe57b85ea101bd3c454cd326db13ef9a83f12bb2fd3f7",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:55.572Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    }
+  }
+}

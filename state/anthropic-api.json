@@ -1,0 +1,134 @@
+{
+  "card": "anthropic-api",
+  "updated_at": "2026-09-21T15:25:33.836Z",
+  "urls": {
+    "https://platform.claude.com/docs/en/manage-claude/workload-identity-federation": {
+      "hash": "f93c577877ab64dfeead55fe48f10a4aee52663dbae4ec7b0ffc53b036e06a23",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:28.403Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://platform.claude.com/docs/en/api/beta/organization/federation/issuers/create": {
+      "hash": "e6323b2a3d616d959d206b12822ab2d51332e60a3676b33415814d4f39243e1f",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:29.404Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/api/beta/organization/federation/rules/create": {
+      "hash": "30354e4494cc5e6a54cdc5729b0aaa81e5cded5767eb7a130d7d14c9db55546d",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:30.404Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://platform.claude.com/docs/en/manage-claude/wif-reference": {
+      "hash": "359d85cc8c1ab46ec16800899c760233e9bf569233cbce64bae83726299b7283",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:31.404Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/manage-claude/authentication": {
+      "hash": "14f76fc700f090c3261ca261d7477ff7ff43457e203ee3129864cf667def04cf",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:32.405Z",
+      "quotes_found": 5,
+      "quotes_total": 5
+    },
+    "https://platform.claude.com/docs/en/agents-and-tools/mcp-connector": {
+      "hash": "789c846e25b74b59d8e420e079f56fc807281f34c96e6f36a822ffd1179bbf97",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:33.405Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/managed-agents/vaults": {
+      "hash": "ebc11a1b07579162f3aa74e4e28a34ae73a91ab1ff38d504b3303cd2ef2da11c",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:34.406Z",
+      "quotes_found": 4,
+      "quotes_total": 4
+    },
+    "https://platform.claude.com/docs/en/managed-agents/github": {
+      "hash": "5408a1004e02b44b03594562be0dd30545e815cdb93c8a97e1f2d3e92505f442",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.406Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview": {
+      "hash": "adb6036bc8778cff279f55587386aff9201f95095bdc1574aa6601187ac0c8a9",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:36.419Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/security": {
+      "hash": "237dfb393906ad1ccc8e250b2e2e2c44d109d666506e75f33b66501cf3c51658",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:37.419Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/api/beta/organization/api_keys/list": {
+      "hash": "bee4391a4ead66dded01fac1a84ddbd7b9dfc93e4a2ae6b0961ea8a96bdcba4b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:38.419Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://platform.claude.com/docs/en/manage-claude/admin-api": {
+      "hash": "04a5448d82e4f74ff5197d9dc68edc771b4ac2dc47a884e165f90b7a05241a7b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:39.420Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/get-api-key": {
+      "hash": "8451f7eac0c74fd8b7135113d580ee9a70784143280defe3b5d5e8fa44827a03",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:40.421Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/manage-claude/admin-api-keys": {
+      "hash": "38bf7eec6125d5a490019f729bc9c9ebfabd37eee681068d99bdf0537aa0e640",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:41.421Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://platform.claude.com/docs/en/manage-claude/usage-cost-api": {
+      "hash": "8a9adb2d76ba991ef04d9a8a2e6b631652c550ef694ee159aa5edcc896096590",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:42.423Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    }
+  }
+}

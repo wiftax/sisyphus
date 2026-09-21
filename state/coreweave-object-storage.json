@@ -1,0 +1,70 @@
+{
+  "card": "coreweave-object-storage",
+  "updated_at": "2026-09-21T15:25:33.930Z",
+  "urls": {
+    "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/workload-identity-federation/configure-wif-for-object-storage": {
+      "hash": "582140e473bf2864e3f2a4d7376b1ef5fcd644f9f75e0b5a8262d2878c46efd1",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:05.668Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/about": {
+      "hash": "97aaa2543054ed5253ffac0709766f92baf6574a129db1e0b4b26dbd1627de50",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:06.668Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/about": {
+      "hash": "6c362fe4b012a4f1eb02cdc57d84e3366eedcd7bf75c36c08fa20b0ce271e6e5",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:07.669Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/workload-identity-federation/saml-workload-federation": {
+      "hash": "2573d4e975da509b5dcd893bd8e2870ce05cad32c1a54ec29e6b21be5fd1ad22",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:08.669Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.coreweave.com/docs/changelog/release-notes/oidc-workload-identity-federation": {
+      "hash": "8ad98d196e0ac7384113e0a7e304262655134e4a7e1ce99ddff99052fa8e2697",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:04.667Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/manage-access-keys/create-keys": {
+      "hash": "8f775b6eaf5cc9c4899ac5a29fba8daf935eb1996ccea78291fd5530d492a1b8",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:09.671Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.coreweave.com/llms.txt": {
+      "hash": "62ae30449623a46b4bad93b232fef3f20fdc469973ce7c9b8d418369e517782c",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:10.672Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 0,
+      "quotes_total": 0
+    }
+  }
+}

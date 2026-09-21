@@ -1,0 +1,94 @@
+{
+  "card": "twilio-api",
+  "updated_at": "2026-09-21T15:25:34.463Z",
+  "urls": {
+    "https://www.twilio.com/en-us/changelog/oauth-public-beta": {
+      "hash": "ddc16885793ddec4af75460c3630e2eec015d639ad7fdd66ed8c9738811da808",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:24.570Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/iam/oauth-apps/overview": {
+      "hash": "982d7ba47e1388a840c580732d77cb9e9ee7209e8c57775956684cfaeeaa9d7c",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:25.570Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://www.twilio.com/docs/iam/api-keys": {
+      "hash": "8143c7d48f9e36a3439de7496da26ff3ee3bf7c29e9cc8f165864ccb21884240",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:26.635Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/voice/recording-settings": {
+      "hash": "8e7f509108b9a525bc32ca7d668748fa190052fbfd8edbc3eeaf9803dcba6d51",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:27.636Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/iam/credentialaws-resource": {
+      "hash": "14748dce924fa1214cdafddb7763582d543ce6f911219ad49d136ff1ef81f99e",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:28.636Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/video/tutorials/storing-aws-s3": {
+      "hash": "8ef84a3b2d1e7e764503e7c8ce4b6fdab6e4ffa71a7e1fee779722d8cbada4b4",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:29.636Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/usage/api/keys": {
+      "hash": "fdc820fbf1cdabc593e8cbfafd6b6f5352a616a5ff83ee0669b05263b0264e31",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:30.637Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/iam/api-keys/keys-in-console": {
+      "hash": "deaa82a6138af9551a62fa3c1695db5232f8953b06dada139deeb96be18c42a5",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:31.637Z",
+      "quotes_found": 0,
+      "quotes_total": 0
+    },
+    "https://www.twilio.com/en-us/changelog/restricted-api-keys-ga": {
+      "hash": "207d86fe7d65fc45b4d3585910499d622e3f0985fd44892929410e7bd17616be",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:32.638Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://www.twilio.com/docs/iam/api-keys/restricted-api-keys": {
+      "hash": "aec9230355f49aea205c607cc6dc3794a6a8f3c2ee15673528569428c337ff2b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:33.638Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    }
+  }
+}

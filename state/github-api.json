@@ -1,0 +1,78 @@
+{
+  "card": "github-api",
+  "updated_at": "2026-09-21T15:25:34.379Z",
+  "urls": {
+    "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-an-installation-access-token-for-a-github-app": {
+      "hash": "33b71b0f6d9833e7e7fc7a25f1cecbe5823e98da409586aa08187a55210c9ea7",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:09.177Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps": {
+      "hash": "41d62ed63807024c09609eafcc4ef81e8885743f90cbbabf89ba95bb56524ea7",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:10.177Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens": {
+      "hash": "983d50d78d78dee817b7f40419f617371be1b5d49aae7a46b2bd851f03324b1b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:11.178Z",
+      "quotes_found": 3,
+      "quotes_total": 3
+    },
+    "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect": {
+      "hash": "e5edf27fcea3aceff119b0eacc9aa1e0d0470c0b975ea10adcb4290bd0e10ae4",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:12.178Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.github.com/en/organizations/managing-programmatic-access-to-your-organization/setting-a-personal-access-token-policy-for-your-organization": {
+      "hash": "4d6f0f6d90d9b8f619b546420f9d6df2b3c582417e99127c71239aa9da8083bf",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:13.180Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/rest/orgs/personal-access-tokens": {
+      "hash": "170563bf91d1e37ba78d787614ea8fc542590529044f38d9ded4a05613fc976f",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:14.181Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.github.com/en/rest/credentials/revoke": {
+      "hash": "81a30151d10ad25dad9749d38c84bafee960463b1950b44ce7d3921e0771749c",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:15.181Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/token-expiration-and-revocation": {
+      "hash": "15b40659481b097bea6813c8f21007fe7e06f53bcb1d7323bcd3543ea80bcbef",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:16.183Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    }
+  }
+}

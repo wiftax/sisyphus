@@ -1,0 +1,102 @@
+{
+  "card": "google-cloud-iam",
+  "updated_at": "2026-09-21T15:25:34.389Z",
+  "urls": {
+    "https://docs.cloud.google.com/iam/docs/workload-identity-federation": {
+      "hash": "80a15abb175aecc3a8e0c5440f7508df00830e669238956d70547877c4142161",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:11.752Z",
+      "quotes_found": 3,
+      "quotes_total": 3
+    },
+    "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-providers": {
+      "hash": "f16fed5e4d16ab8e40b08513f79bd85ed7e96ae7a1ada6deeca28b5168031141",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:12.752Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.cloud.google.com/docs/authentication/get-id-token": {
+      "hash": "1e22b7532270cc97ff530d21bdd23e8f4f00a96ac5f11f2eb981818e5055bfa0",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:13.753Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.cloud.google.com/iam/docs/create-short-lived-credentials-direct": {
+      "hash": "c10272cc37859c6f05513a401f5476561406cd4e2218d55edc256d0360c44e66",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:14.755Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.cloud.google.com/docs/authentication/token-types": {
+      "hash": "9060e885a70c789fb5e089e14347293241202d6788ed318d44deecf5d3279627",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:15.755Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust": {
+      "hash": "afcc283b5c58f2fcc147b34a56a98cef21026f2a76883877e1a9c36aae3ff33a",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:44.565Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.cloud.google.com/iam/docs/keys-create-delete": {
+      "hash": "ee92a220973de3efc52ed6f74b38e090c0a47ff501b16045c089276fc3d81dc3",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:16.755Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts": {
+      "hash": "529722ae2d6ea4dd33617c755f123c0f2ba872d7a999ea790f2076f40db8f47b",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:17.757Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys": {
+      "hash": "b9629b4c9db9d15118dc0e9634776e1a01706e27db30d5fe1f630f458f3c3533",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:18.758Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.cloud.google.com/iam/docs/overview": {
+      "hash": "9014317498f1da48ce1a26fca30c4afe61289736c4e5f8f64116802796daf4ba",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:19.758Z",
+      "quotes_found": 2,
+      "quotes_total": 2
+    },
+    "https://docs.cloud.google.com/policy-intelligence/docs/activity-analyzer-service-account-authentication": {
+      "hash": "9702f42cd803de8e299e0a6c0cdc4a0b14062a35e41b0facfd2ea880d8ece5af",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:25:20.759Z",
+      "quotes_found": 1,
+      "quotes_total": 1
+    },
+    "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
+      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "status": 200,
+      "ok": true,
+      "checked_at": "2026-09-21T15:24:35.522Z",
+      "quotes_found": 0,
+      "quotes_total": 0
+    }
+  }
+}
