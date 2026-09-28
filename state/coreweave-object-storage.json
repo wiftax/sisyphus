@@ -1,12 +1,12 @@
 {
   "card": "coreweave-object-storage",
-  "updated_at": "2026-09-21T15:25:33.930Z",
+  "updated_at": "2026-09-28T17:07:50.887Z",
   "urls": {
     "https://docs.coreweave.com/docs/products/storage/object-storage/auth-access/workload-identity-federation/configure-wif-for-object-storage": {
       "hash": "582140e473bf2864e3f2a4d7376b1ef5fcd644f9f75e0b5a8262d2878c46efd1",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:05.668Z",
+      "checked_at": "2026-09-28T17:07:22.372Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -14,7 +14,7 @@
       "hash": "97aaa2543054ed5253ffac0709766f92baf6574a129db1e0b4b26dbd1627de50",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:06.668Z",
+      "checked_at": "2026-09-28T17:07:23.374Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -22,7 +22,7 @@
       "hash": "6c362fe4b012a4f1eb02cdc57d84e3366eedcd7bf75c36c08fa20b0ce271e6e5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:07.669Z",
+      "checked_at": "2026-09-28T17:07:24.374Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -30,7 +30,7 @@
       "hash": "2573d4e975da509b5dcd893bd8e2870ce05cad32c1a54ec29e6b21be5fd1ad22",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:08.669Z",
+      "checked_at": "2026-09-28T17:07:25.377Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -38,7 +38,7 @@
       "hash": "8ad98d196e0ac7384113e0a7e304262655134e4a7e1ce99ddff99052fa8e2697",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:04.667Z",
+      "checked_at": "2026-09-28T17:07:21.372Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,15 +46,15 @@
       "hash": "8f775b6eaf5cc9c4899ac5a29fba8daf935eb1996ccea78291fd5530d492a1b8",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:09.671Z",
+      "checked_at": "2026-09-28T17:07:26.378Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.coreweave.com/llms.txt": {
-      "hash": "62ae30449623a46b4bad93b232fef3f20fdc469973ce7c9b8d418369e517782c",
+      "hash": "362f9bc5fded0e212e7cda23fbe4a4b7a6e682b4cbf59d799b78540497ac1633",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:10.672Z",
+      "checked_at": "2026-09-28T17:07:27.379Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,7 +62,7 @@
       "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:35.522Z",
+      "checked_at": "2026-09-28T17:06:52.514Z",
       "quotes_found": 0,
       "quotes_total": 0
     }

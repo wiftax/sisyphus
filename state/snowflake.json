@@ -1,36 +1,36 @@
 {
   "card": "snowflake",
-  "updated_at": "2026-09-21T15:25:34.446Z",
+  "updated_at": "2026-09-28T17:07:51.390Z",
   "urls": {
     "https://docs.snowflake.com/en/user-guide/workload-identity-federation": {
       "hash": "cd5d4755d309e6a93d9c894e4a1deebac746d80d5dafa8991ba19a9aea5d2895",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:20.722Z",
+      "checked_at": "2026-09-28T17:07:38.062Z",
       "quotes_found": 4,
       "quotes_total": 4
     },
     "https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration": {
-      "hash": "48d956bef7aad5ecfa5f5d57c6ab548f99d4586ffdaecf0057f6e060534a286f",
+      "hash": "f2d97055d2e2e4a28f3513e81138b8b77a27998eb144697e3fe6ebe7eabda2a0",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:21.746Z",
+      "checked_at": "2026-09-28T17:07:39.062Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.snowflake.com/en/user-guide/data-load-gcs-config": {
-      "hash": "db8ca95c608b954869534abef0a23cd132c29144c9a35b6af47931fe218eb5e4",
+      "hash": "121503f7e8b2db476ba213de9ff90e694c42e134d5d477b2a9bc8944c081d545",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:22.746Z",
+      "checked_at": "2026-09-28T17:07:40.065Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.snowflake.com/en/user-guide/data-load-azure-config": {
-      "hash": "c8726a16e862692b0ff64d6d270d3ef787d3a4ec16b82dc99c0f9b91cf8f3630",
+      "hash": "6669dbead814a4b781a82d91f0fbaf763b7658824224cd2e416cf545be2c9557",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:23.785Z",
+      "checked_at": "2026-09-28T17:07:41.064Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -38,7 +38,7 @@
       "hash": "54557feff9b33a17d80240f8ee44d51079467a674ae20f29b5c823a3fc0ccd4a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:24.785Z",
+      "checked_at": "2026-09-28T17:07:42.065Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
@@ -46,7 +46,7 @@
       "hash": "8a744964e4d96c140ee27371661cdd9a5d815f2057d4281df0c9d92d9df77d25",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:25.790Z",
+      "checked_at": "2026-09-28T17:07:43.067Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,7 +54,7 @@
       "hash": "7a71bd9705c3dd656c9f78cf51efe09c14d0028f216a1a6341ea441e1ddbb8d5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:26.798Z",
+      "checked_at": "2026-09-28T17:07:44.067Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,7 +62,7 @@
       "hash": "5131b669a5ebd1ef32c92e080f9320b535bb4a1afc771b42ea1452f0fe2737ba",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:27.799Z",
+      "checked_at": "2026-09-28T17:07:45.067Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -70,7 +70,7 @@
       "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:35.522Z",
+      "checked_at": "2026-09-28T17:06:52.514Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

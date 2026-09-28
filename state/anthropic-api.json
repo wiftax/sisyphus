@@ -1,76 +1,76 @@
 {
   "card": "anthropic-api",
-  "updated_at": "2026-09-21T15:25:33.836Z",
+  "updated_at": "2026-09-28T17:07:50.797Z",
   "urls": {
     "https://platform.claude.com/docs/en/manage-claude/workload-identity-federation": {
-      "hash": "f93c577877ab64dfeead55fe48f10a4aee52663dbae4ec7b0ffc53b036e06a23",
+      "hash": "c0f55d4e441591056c252fdfbf4f16972130206283cfee49f0fc76c856170701",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:28.403Z",
+      "checked_at": "2026-09-28T17:06:45.329Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://platform.claude.com/docs/en/api/beta/organization/federation/issuers/create": {
-      "hash": "e6323b2a3d616d959d206b12822ab2d51332e60a3676b33415814d4f39243e1f",
+      "hash": "e9c5439e390b7446bfa8f98b23d1753e7cecea71de72b14c4b20c55629b8533b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:29.404Z",
+      "checked_at": "2026-09-28T17:06:46.329Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/api/beta/organization/federation/rules/create": {
-      "hash": "30354e4494cc5e6a54cdc5729b0aaa81e5cded5767eb7a130d7d14c9db55546d",
+      "hash": "093f007b2e104b96e07fb8e64224b6e5445a61376674819a031ea641cbec5426",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:30.404Z",
+      "checked_at": "2026-09-28T17:06:47.329Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://platform.claude.com/docs/en/manage-claude/wif-reference": {
-      "hash": "359d85cc8c1ab46ec16800899c760233e9bf569233cbce64bae83726299b7283",
+      "hash": "1c36072aa4e9eab038e6ff2c7d443d7fba6182ad6ad05a26289821d4e34b2f4b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:31.404Z",
+      "checked_at": "2026-09-28T17:06:48.330Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/manage-claude/authentication": {
-      "hash": "14f76fc700f090c3261ca261d7477ff7ff43457e203ee3129864cf667def04cf",
+      "hash": "a916d05d8d38ef1070a27a4c1a27cb2b66f4e394f1a728cd17e94d716e3538d5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:32.405Z",
+      "checked_at": "2026-09-28T17:06:49.330Z",
       "quotes_found": 5,
       "quotes_total": 5
     },
     "https://platform.claude.com/docs/en/agents-and-tools/mcp-connector": {
-      "hash": "789c846e25b74b59d8e420e079f56fc807281f34c96e6f36a822ffd1179bbf97",
+      "hash": "b83731f33072d30e2e22248af5a80e5a7350a065701137c21ea7b53d129ff443",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:33.405Z",
+      "checked_at": "2026-09-28T17:06:50.330Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/managed-agents/vaults": {
-      "hash": "ebc11a1b07579162f3aa74e4e28a34ae73a91ab1ff38d504b3303cd2ef2da11c",
+      "hash": "799440f233246ecfc5deb7257721a2b39af78a43ba35e49d0f4d9a8590ca7ea5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:34.406Z",
+      "checked_at": "2026-09-28T17:06:51.331Z",
       "quotes_found": 4,
       "quotes_total": 4
     },
     "https://platform.claude.com/docs/en/managed-agents/github": {
-      "hash": "5408a1004e02b44b03594562be0dd30545e815cdb93c8a97e1f2d3e92505f442",
+      "hash": "3e4098157dca8e9d78e88becd0605ecbf330e11b1f30c84e8f6a3a3096c3f2e3",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:35.406Z",
+      "checked_at": "2026-09-28T17:06:52.331Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/agents-and-tools/mcp-tunnels/overview": {
-      "hash": "adb6036bc8778cff279f55587386aff9201f95095bdc1574aa6601187ac0c8a9",
+      "hash": "51d0a58eab2708ac8970a07c7a25631ef70999bdd571fbe958df98c3e0cd1178",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:36.419Z",
+      "checked_at": "2026-09-28T17:06:53.332Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -78,15 +78,15 @@
       "hash": "237dfb393906ad1ccc8e250b2e2e2c44d109d666506e75f33b66501cf3c51658",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:37.419Z",
+      "checked_at": "2026-09-28T17:06:54.333Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/api/beta/organization/api_keys/list": {
-      "hash": "bee4391a4ead66dded01fac1a84ddbd7b9dfc93e4a2ae6b0961ea8a96bdcba4b",
+      "hash": "019cb02cb362a08a864fbf3579628c80cd2f5725edaefae38af370f3c51a5380",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:38.419Z",
+      "checked_at": "2026-09-28T17:06:55.334Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -94,7 +94,7 @@
       "hash": "04a5448d82e4f74ff5197d9dc68edc771b4ac2dc47a884e165f90b7a05241a7b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:39.420Z",
+      "checked_at": "2026-09-28T17:06:56.334Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -102,7 +102,7 @@
       "hash": "8451f7eac0c74fd8b7135113d580ee9a70784143280defe3b5d5e8fa44827a03",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:40.421Z",
+      "checked_at": "2026-09-28T17:06:57.336Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -110,15 +110,15 @@
       "hash": "38bf7eec6125d5a490019f729bc9c9ebfabd37eee681068d99bdf0537aa0e640",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:41.421Z",
+      "checked_at": "2026-09-28T17:06:58.336Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://platform.claude.com/docs/en/manage-claude/usage-cost-api": {
-      "hash": "8a9adb2d76ba991ef04d9a8a2e6b631652c550ef694ee159aa5edcc896096590",
+      "hash": "2e12df969dba7ddf03988f754b700e4d24706dd4b1a14cd20b66280d3957f037",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:42.423Z",
+      "checked_at": "2026-09-28T17:06:59.336Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -126,7 +126,7 @@
       "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:35.522Z",
+      "checked_at": "2026-09-28T17:06:52.514Z",
       "quotes_found": 2,
       "quotes_total": 2
     }

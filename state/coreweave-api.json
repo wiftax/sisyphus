@@ -1,12 +1,12 @@
 {
   "card": "coreweave-api",
-  "updated_at": "2026-09-21T15:25:33.921Z",
+  "updated_at": "2026-09-28T17:07:50.878Z",
   "urls": {
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/api-access": {
       "hash": "365dfb7b2ecb8b9ec93ccbc75ab7c007a224e30566e600b5b88b5090b63cd9e2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:55.651Z",
+      "checked_at": "2026-09-28T17:07:12.371Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -14,7 +14,7 @@
       "hash": "482d23a4fcb4a4205ed4530c3458d1680c32420886ad49ecb6fc3e329b13f2e9",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:56.651Z",
+      "checked_at": "2026-09-28T17:07:13.370Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
@@ -22,7 +22,7 @@
       "hash": "9c23c415bb341044a78acb5ebc1e974b74692bfe28252ff85b220c7aaf17a356",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:57.651Z",
+      "checked_at": "2026-09-28T17:07:14.371Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -30,15 +30,15 @@
       "hash": "9a77c8ac75d07fac16e0452789115a1c8cc43852c90741ff6552894adc239d65",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:58.653Z",
+      "checked_at": "2026-09-28T17:07:15.371Z",
       "quotes_found": 0,
       "quotes_total": 0
     },
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/kubeconfig": {
-      "hash": "cae678b722d36381624da14c044473f154903e0e43df765fedef21d209e1e9fe",
+      "hash": "524851d47e0db95bd85f06d068306d9a4bfa7b352ff45a388b09aa2100e50e74",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:59.653Z",
+      "checked_at": "2026-09-28T17:07:16.371Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,7 +46,7 @@
       "hash": "1a1df5425d653015316fb536da7cb46b2aa872075a2158d2fac0e9f408af45c1",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:25:00.654Z",
+      "checked_at": "2026-09-28T17:07:17.373Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,7 +54,7 @@
       "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-21T15:24:35.522Z",
+      "checked_at": "2026-09-28T17:06:52.514Z",
       "quotes_found": 0,
       "quotes_total": 0
     }
