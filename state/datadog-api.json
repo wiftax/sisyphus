@@ -1,12 +1,12 @@
 {
   "card": "datadog-api",
-  "updated_at": "2026-09-28T17:07:50.893Z",
+  "updated_at": "2026-10-05T17:36:45.100Z",
   "urls": {
     "https://docs.datadoghq.com/account_management/workload_identity_federation/": {
       "hash": "dccce115541a62bd73117243a7e377e82da7cebb87cc2c9a001f172681edd1ac",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:20.675Z",
+      "checked_at": "2026-10-05T17:31:42.209Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
@@ -14,7 +14,7 @@
       "hash": "3962a37b9b7fcb198b78b8668fa29f4ffddeb550604741b2bf91932c5573aa1e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:21.676Z",
+      "checked_at": "2026-10-05T17:31:43.210Z",
       "quotes_found": 4,
       "quotes_total": 4
     },
@@ -22,7 +22,7 @@
       "hash": "6d425327e0240ede592db8dcf05fcddf10d2aff900a209b00d4edad59511705b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:22.677Z",
+      "checked_at": "2026-10-05T17:31:44.210Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -30,7 +30,7 @@
       "hash": "edc08e3fbb10f0fa512a140535559f404eaef37ce4e033de5bff6d90944a4b95",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:23.678Z",
+      "checked_at": "2026-10-05T17:31:45.211Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -38,15 +38,15 @@
       "hash": "0160608fe3f97cf2084bcd638ee9603c9e8047531450e915507a4f90925840ca",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:24.706Z",
+      "checked_at": "2026-10-05T17:31:46.212Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.datadoghq.com/integrations/google_cloud_platform/": {
-      "hash": "0e215a633c63bdb710e0ce402a048f892f3a1f654e117a702b5c60a5516a4004",
+      "hash": "3d83f8aeeac923c9c11b865837ba993eab503551eaacd9677b946469b493e17b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:25.706Z",
+      "checked_at": "2026-10-05T17:31:47.212Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,7 +54,7 @@
       "hash": "a4cb1613607bde8545eb0448db9db9d5e1614432b219bd6b0a3323c8a082eb82",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:26.706Z",
+      "checked_at": "2026-10-05T17:31:48.240Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -62,7 +62,7 @@
       "hash": "2bf7f6a646319a7ed8c5a9c9f4f9e84ee08a5ebf7689a26304446a7076bf10fe",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:27.707Z",
+      "checked_at": "2026-10-05T17:31:49.240Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -70,31 +70,31 @@
       "hash": "73835445446511f645ec7fd82ec977d0d0021037c4520b4b3df052f34e9784ec",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:28.707Z",
+      "checked_at": "2026-10-05T17:31:50.241Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.datadoghq.com/api/latest/scopes/": {
-      "hash": "869355f7916bf3a5e9bcec1f496c8eee0a64d2c860e5d7cdbad678d20ebe5060",
+      "hash": "98311c17af9a216571ba12d5f5bf8dc49d657a8bded427c200350b89fe2fff03",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:29.709Z",
+      "checked_at": "2026-10-05T17:31:51.241Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://raw.githubusercontent.com/DataDog/datadog-api-client-python/master/.generator/schemas/v2/openapi.yaml": {
-      "hash": "5da2f57f24fc829aadd5f4a01f1a546a3874742da3e3d0919f0e871d449c4dfa",
+      "hash": "9a12f4e518b8cd8f6631e9514b9482eeebf5cd368c82bbcfd686ef9212fb8a1d",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:25.720Z",
+      "checked_at": "2026-10-05T17:31:47.679Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:06:52.514Z",
+      "checked_at": "2026-10-05T17:31:13.542Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

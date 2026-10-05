@@ -1,84 +1,84 @@
 {
   "card": "coreweave-cks",
-  "updated_at": "2026-09-28T17:07:50.882Z",
+  "updated_at": "2026-10-05T17:35:06.744Z",
   "urls": {
     "https://docs.coreweave.com/docs/products/cks/reference/cks-api": {
-      "hash": "9a77c8ac75d07fac16e0452789115a1c8cc43852c90741ff6552894adc239d65",
+      "hash": "59434bfed8783717141d26e4933b3d230e1ba3762629cfc75ebd20974795cfeb",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:15.371Z",
+      "checked_at": "2026-10-05T17:31:36.552Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://docs.coreweave.com/docs/products/cks/clusters/create": {
-      "hash": "0af60c88c09367015b5883b7807112a8ef63f1b4299f3cda078babcc25ba7ac3",
+      "hash": "28996a5de958e315ef14835f310d0bc80913b50785f1f5f6ba4675e559b7f084",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:18.371Z",
+      "checked_at": "2026-10-05T17:31:39.553Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/docs/changelog/release-notes/unmanaged-auth": {
-      "hash": "59d8ea81d6d2db128da01abc668268bf3423d56de4aac9aa2e51aa3e7e522464",
+      "hash": "91f1be22cfa76f4533057808cc180cdfc3c22ef332d35a40efa08dff252d3114",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:19.372Z",
+      "checked_at": "2026-10-05T17:31:40.554Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/support/cks/articles/what-is-the-difference-between-managed-auth-and-unmanaged-auth.md": {
-      "hash": "9c23c415bb341044a78acb5ebc1e974b74692bfe28252ff85b220c7aaf17a356",
+      "hash": "70047738957260a9e98517525172fbda4b20db6c7a197cc8d222b1500925326b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:14.371Z",
+      "checked_at": "2026-10-05T17:31:35.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/products/cks/auth-access/workload-identity/introduction": {
-      "hash": "61c65ec3b21ef4a39c02efdbd5e5df20bba93e6aa89344d0ff91125590811b3d",
+      "hash": "73729d8b6de18c509c1b6f9ba1f8757496c8dd04912efb5d21ea31af2180c40e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:20.372Z",
+      "checked_at": "2026-10-05T17:31:41.555Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://docs.coreweave.com/docs/changelog/release-notes/oidc-workload-identity-federation": {
-      "hash": "8ad98d196e0ac7384113e0a7e304262655134e4a7e1ce99ddff99052fa8e2697",
+      "hash": "43bb992481fde2a88f5b678ae96a1a9e0838dcd30b60d76d61a87faf7e431f99",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:21.372Z",
+      "checked_at": "2026-10-05T17:31:42.555Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/kubeconfig": {
-      "hash": "524851d47e0db95bd85f06d068306d9a4bfa7b352ff45a388b09aa2100e50e74",
+      "hash": "548b2953798f0ad57ada4833dce26da1d900f28be4cf9cc5cdeab544cadad8b2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:16.371Z",
+      "checked_at": "2026-10-05T17:31:37.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/docs/products/cks/auth-access/manage-api-access-tokens": {
-      "hash": "482d23a4fcb4a4205ed4530c3458d1680c32420886ad49ecb6fc3e329b13f2e9",
+      "hash": "5a9fb100add9af5b9db7aa9a2375a51ed51cc12e855f97a4681b416545224ba0",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:13.370Z",
+      "checked_at": "2026-10-05T17:31:34.544Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.coreweave.com/support/cks/articles/where-do-i-find-my-api-access-tokens-in-the-cloud-console.md": {
-      "hash": "1a1df5425d653015316fb536da7cb46b2aa872075a2158d2fac0e9f408af45c1",
+      "hash": "6d4037a51eb2adc7c8d1bc6ad0278aa8b6cc49b8f6434d81c683b49e9df09499",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:17.373Z",
+      "checked_at": "2026-10-05T17:31:38.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:06:52.514Z",
+      "checked_at": "2026-10-05T17:31:13.542Z",
       "quotes_found": 0,
       "quotes_total": 0
     }

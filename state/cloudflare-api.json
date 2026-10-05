@@ -1,20 +1,20 @@
 {
   "card": "cloudflare-api",
-  "updated_at": "2026-09-28T17:07:50.850Z",
+  "updated_at": "2026-10-05T17:34:05.750Z",
   "urls": {
     "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/": {
       "hash": "50437505df0c59307bfe80bf02b61684746a3685e985b03347491b6936ee9db3",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:07.296Z",
+      "checked_at": "2026-10-05T17:31:28.466Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://developers.cloudflare.com/fundamentals/api/get-started/account-owned-tokens/": {
-      "hash": "e4ff6775da93c8a3a8003dc9abf58bcbbc022d154115bbf7680af99406d1b6d0",
+      "hash": "cb73ad96d5b31a62a906ac0a61f523816599636d371a593a33323b74f2157f76",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:08.296Z",
+      "checked_at": "2026-10-05T17:31:29.466Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -22,39 +22,39 @@
       "hash": "14d2d72438da6c1368f101dcb43a536be790a97dd160548ce32ff45763b1c28c",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:09.297Z",
+      "checked_at": "2026-10-05T17:31:30.466Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/logs/get-started/enable-destinations/aws-s3/": {
-      "hash": "1aa20bda8bb323492d3a86192c405a0621bdcb026b559158adf56314509935d5",
+      "hash": "25316cbbe066390f6d5ca2d6956c2d74a80c757a8e8ec86e260a333318e764a5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:10.298Z",
+      "checked_at": "2026-10-05T17:31:31.467Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/logs/get-started/enable-destinations/google-cloud-storage/": {
-      "hash": "ad7c53dae36420650981b339808dcfe01d65300e804b5cd0c89fbca23d128acb",
+      "hash": "b7ee52f93cf4107048c9ed21974f6c63b4e2490a06be5c2d9761aac351b55f79",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:11.298Z",
+      "checked_at": "2026-10-05T17:31:32.468Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/r2/data-migration/super-slurper/": {
-      "hash": "1403202e04f01f731805bd3b9b573b1c63207aa0ba9aaa89c98ac1f54f61e39b",
+      "hash": "b0118962ea552418aadf4e98fad431af9cbfbccd5b12f38235b84c64ad61ecb7",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:12.299Z",
+      "checked_at": "2026-10-05T17:31:33.468Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/r2/data-migration/sippy/": {
-      "hash": "6a0c2f6f16f080497e95c1c9bd86dcf4c2f5f6e1f04a6f1ff5fea5b17fbd096a",
+      "hash": "e007d646b346ba117842d3cf37d3fb2d45da5a685f456f1a4d5219f55d26add2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:13.299Z",
+      "checked_at": "2026-10-05T17:31:34.469Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,47 +62,47 @@
       "hash": "47ffec1e919f909918f4f14e1b5b471c8b4073b17c86a473c823cd4579bf0402",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:14.299Z",
+      "checked_at": "2026-10-05T17:31:35.470Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/create/": {
-      "hash": "96b40f476c92d82a266fc17385639ccf94a5decc82c1ccf3173b26d4a0c287cd",
+      "hash": "6308f7e1d56d4a9a4c9b60de127246361b4e4db966a94513cda40a345ad056fa",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:15.300Z",
+      "checked_at": "2026-10-05T17:31:36.470Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/create/": {
-      "hash": "f7da050ead33e5784b37c5dcbfc1d54eba6032e6c43c42a30ee5ecc206a852e0",
+      "hash": "0a96722b26e81384806940adb572e2d8744394eed3b84d345042042b9f465340",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:16.301Z",
+      "checked_at": "2026-10-05T17:31:37.471Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/delete/": {
-      "hash": "a384d3eaadaae6c48d7b75a208d541fdf17c67720debdfdfe1e83bf9f10a60a1",
+      "hash": "80dc7515a96cd27ff865739d5fe1564a751b9ade97345281a46c6d7223ad4a77",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:17.302Z",
+      "checked_at": "2026-10-05T17:31:38.471Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/list/": {
-      "hash": "cfed1881637b610f260f6487df1cf90e7fa6050111e99695731d2c14bb2e35ea",
+      "hash": "463177bbd66e64203e7b211ab22ccd305dbd35e66b2e151d53195612c6935c3a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:18.303Z",
+      "checked_at": "2026-10-05T17:31:39.471Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:06:52.514Z",
+      "checked_at": "2026-10-05T17:31:13.542Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

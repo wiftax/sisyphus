@@ -1,60 +1,60 @@
 {
   "card": "coreweave-api",
-  "updated_at": "2026-09-28T17:07:50.878Z",
+  "updated_at": "2026-10-05T17:34:05.792Z",
   "urls": {
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/api-access": {
-      "hash": "365dfb7b2ecb8b9ec93ccbc75ab7c007a224e30566e600b5b88b5090b63cd9e2",
+      "hash": "c7320f19255d7333007f634ae63bbc45b0d6d264b60d9d652e5bc9d4fbd079aa",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:12.371Z",
+      "checked_at": "2026-10-05T17:31:33.543Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/docs/products/cks/auth-access/manage-api-access-tokens": {
-      "hash": "482d23a4fcb4a4205ed4530c3458d1680c32420886ad49ecb6fc3e329b13f2e9",
+      "hash": "5a9fb100add9af5b9db7aa9a2375a51ed51cc12e855f97a4681b416545224ba0",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:13.370Z",
+      "checked_at": "2026-10-05T17:31:34.544Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://docs.coreweave.com/support/cks/articles/what-is-the-difference-between-managed-auth-and-unmanaged-auth.md": {
-      "hash": "9c23c415bb341044a78acb5ebc1e974b74692bfe28252ff85b220c7aaf17a356",
+      "hash": "70047738957260a9e98517525172fbda4b20db6c7a197cc8d222b1500925326b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:14.371Z",
+      "checked_at": "2026-10-05T17:31:35.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/docs/products/cks/reference/cks-api": {
-      "hash": "9a77c8ac75d07fac16e0452789115a1c8cc43852c90741ff6552894adc239d65",
+      "hash": "59434bfed8783717141d26e4933b3d230e1ba3762629cfc75ebd20974795cfeb",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:15.371Z",
+      "checked_at": "2026-10-05T17:31:36.552Z",
       "quotes_found": 0,
       "quotes_total": 0
     },
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/kubeconfig": {
-      "hash": "524851d47e0db95bd85f06d068306d9a4bfa7b352ff45a388b09aa2100e50e74",
+      "hash": "548b2953798f0ad57ada4833dce26da1d900f28be4cf9cc5cdeab544cadad8b2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:16.371Z",
+      "checked_at": "2026-10-05T17:31:37.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.coreweave.com/support/cks/articles/where-do-i-find-my-api-access-tokens-in-the-cloud-console.md": {
-      "hash": "1a1df5425d653015316fb536da7cb46b2aa872075a2158d2fac0e9f408af45c1",
+      "hash": "6d4037a51eb2adc7c8d1bc6ad0278aa8b6cc49b8f6434d81c683b49e9df09499",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:07:17.373Z",
+      "checked_at": "2026-10-05T17:31:38.552Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "e8c30c3bab52a906cbd107d156888eaf489b33e6e992e356056a5b582adc1abc",
+      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-09-28T17:06:52.514Z",
+      "checked_at": "2026-10-05T17:31:13.542Z",
       "quotes_found": 0,
       "quotes_total": 0
     }
