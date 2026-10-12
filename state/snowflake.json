@@ -1,60 +1,60 @@
 {
   "card": "snowflake",
-  "updated_at": "2026-10-05T17:37:37.930Z",
+  "updated_at": "2026-10-12T18:25:16.602Z",
   "urls": {
     "https://docs.snowflake.com/en/user-guide/workload-identity-federation": {
-      "hash": "c3bfd8003683e60f4ddbdc2688d55e7f792705d5a42a55e6dfddc5178be25b92",
+      "hash": "1c3d36bb85b83dc9682b8a1902432fa101cceabf03b5f192d372a367883a92ee",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:59.428Z",
+      "checked_at": "2026-10-12T18:19:04.212Z",
       "quotes_found": 4,
       "quotes_total": 4
     },
     "https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration": {
-      "hash": "8589d9c4e1501a604a587741fd44a38b7bd503655392d50c717e06834016b680",
+      "hash": "b27259e9aaf94345c8ec946c102065a86a6f9424e47d553ec31e56560c49bf76",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:00.452Z",
+      "checked_at": "2026-10-12T18:19:05.212Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.snowflake.com/en/user-guide/data-load-gcs-config": {
-      "hash": "d1b0d4035cdb29c31ed6137e9278a67b2d908acd062217d940bd957140eee6db",
+      "hash": "2d11bb2b9e7c90a90721e1100e61593afafafafcb468cc672f54a061c7e2b8f5",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:01.452Z",
+      "checked_at": "2026-10-12T18:19:06.213Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.snowflake.com/en/user-guide/data-load-azure-config": {
-      "hash": "fc44bda5672be9b943e2675a3456206a4dc85da9394dd49ed90d74d8eeeb77ea",
+      "hash": "811829bfe14f3c550b70714bcaad67f53cf30d1021baf32fe7938975db3b31b6",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:02.452Z",
+      "checked_at": "2026-10-12T18:19:07.212Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.snowflake.com/en/user-guide/programmatic-access-tokens": {
-      "hash": "8cea78525f11a78b6d0db48bb2e53acda5bedb6787a2290bda438b6bf8e6d58c",
+      "hash": "cf11ac99d4d4030587658acf5b755d6a6e4ae54e3b8c07d65e22ebeacc830948",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:03.452Z",
+      "checked_at": "2026-10-12T18:19:08.212Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://docs.snowflake.com/en/user-guide/key-pair-auth": {
-      "hash": "b617ce22dc315d01aa419061f19d90a84452f97c543254b797ae15bc3fefde6b",
+      "hash": "245a129bf40e489f3768ea417e8d5dc1a75db4a207b6c2b14a215147352a682f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:04.538Z",
+      "checked_at": "2026-10-12T18:19:09.212Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.snowflake.com/en/sql-reference/sql/alter-user-rotate-key-pair": {
-      "hash": "7a71bd9705c3dd656c9f78cf51efe09c14d0028f216a1a6341ea441e1ddbb8d5",
+      "hash": "ffcca4411a3f56a81a2ae73512838005181250bf0b0ecc7c5201dc5c0c2c63ae",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:05.543Z",
+      "checked_at": "2026-10-12T18:19:10.232Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,15 +62,15 @@
       "hash": "cb8d594e52afc16011b82c2ccc0725b3b43a3e37189b7a94e04eb21a3f0adbbc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:06.582Z",
+      "checked_at": "2026-10-12T18:19:11.233Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

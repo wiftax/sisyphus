@@ -1,12 +1,12 @@
 {
   "card": "twilio-api",
-  "updated_at": "2026-10-05T17:37:37.950Z",
+  "updated_at": "2026-10-12T18:25:16.622Z",
   "urls": {
     "https://www.twilio.com/en-us/changelog/oauth-public-beta": {
       "hash": "18edc0741713e11afec136f41de1ead7632d21d01ba8d7ed812a9494a61206dc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:03.319Z",
+      "checked_at": "2026-10-12T18:19:07.611Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -14,7 +14,7 @@
       "hash": "eff0ba21d44e70e8de73453dbc454c4b9cd81bee5e91acff72c3c0993dcc5747",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:04.397Z",
+      "checked_at": "2026-10-12T18:19:08.611Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -22,15 +22,15 @@
       "hash": "140f15161377adf2740f3092e1d0965ea2b056a3465b2da0ed5d37454015e807",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:05.455Z",
+      "checked_at": "2026-10-12T18:19:09.611Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://www.twilio.com/docs/voice/recording-settings": {
-      "hash": "4feb924c1b0928254417227bb293af64752b78fc761ddadfdcd70a8bc87012b5",
+      "hash": "2f6c9cf02224a036ea8d9137aea065f96778dd58abd454dd0ec8a7f7ae67890c",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:06.455Z",
+      "checked_at": "2026-10-12T18:19:10.611Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -38,7 +38,7 @@
       "hash": "d1995646a084f6ae6f385ca87449a3fbb170d5c190280d7e51d2f3714d6dcc6b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:07.456Z",
+      "checked_at": "2026-10-12T18:19:11.611Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,7 +46,7 @@
       "hash": "645a2ff0b362c5a1abcf2485f5c4b814f877075040ee6faa6c981be437966e0f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:08.456Z",
+      "checked_at": "2026-10-12T18:19:12.612Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,7 +54,7 @@
       "hash": "2c55c26b2718ca865b247096017b17baf41af3c810693d463066101742598a80",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:09.458Z",
+      "checked_at": "2026-10-12T18:19:13.612Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,7 +62,7 @@
       "hash": "bd79f448470d3446075a77f0339d65b0cf154c77ab809836a9227934a9e3a53a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:10.458Z",
+      "checked_at": "2026-10-12T18:19:14.612Z",
       "quotes_found": 0,
       "quotes_total": 0
     },
@@ -70,7 +70,7 @@
       "hash": "428dac9302ea45f58f91b4636730f520b4f7acc20d64f8836d2284661530faef",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:11.458Z",
+      "checked_at": "2026-10-12T18:19:15.612Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -78,15 +78,15 @@
       "hash": "a89fc9e879ec3a0c90e3aa3793b9cce6893569ead2d4b01d980f4626a882aa8c",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:12.479Z",
+      "checked_at": "2026-10-12T18:19:16.611Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

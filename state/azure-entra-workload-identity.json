@@ -1,12 +1,12 @@
 {
   "card": "azure-entra-workload-identity",
-  "updated_at": "2026-10-05T17:33:10.743Z",
+  "updated_at": "2026-10-12T18:21:24.033Z",
   "urls": {
     "https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation": {
       "hash": "1f017e03a58a9057cdd2a1af3e743f9cf62ac50a39addd647775ebad32558d17",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:17.557Z",
+      "checked_at": "2026-10-12T18:18:17.073Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -14,7 +14,7 @@
       "hash": "afcc283b5c58f2fcc147b34a56a98cef21026f2a76883877e1a9c36aae3ff33a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:22.465Z",
+      "checked_at": "2026-10-12T18:18:22.034Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -22,7 +22,7 @@
       "hash": "1c39ba420f06f111305685d6431b2b2d48cd99c0f566ceba99c04b982db01efc",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:23.465Z",
+      "checked_at": "2026-10-12T18:18:23.034Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -30,7 +30,7 @@
       "hash": "85714d3ecffd1d4f8f89ea9aec2d16a9ec59251404e94689607a89a42955b306",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:24.466Z",
+      "checked_at": "2026-10-12T18:18:24.034Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -38,15 +38,15 @@
       "hash": "9357877f9e103f36517b1693d5368d0581c99aa3492eb443d743796c9338c50a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:25.467Z",
+      "checked_at": "2026-10-12T18:18:25.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds": {
-      "hash": "7860581c28cff5237078e35049903b704b0de6e82762fa9a7d280eb4beae0585",
+      "hash": "af8fa31f4a9f3d4de0fef1d39fe1ba3623f7054d621b3432ae669fe85ee9e345",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:18.473Z",
+      "checked_at": "2026-10-12T18:18:18.024Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,7 +54,7 @@
       "hash": "b02017ee3ec48385a438c138c314198236dab79c7310c71530cc29920d738a0d",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:26.467Z",
+      "checked_at": "2026-10-12T18:18:26.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -62,7 +62,7 @@
       "hash": "198d929a0c08ced4a71f00ff5dae05dbdfee1cf295a111820e5437a2c70714ce",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:27.468Z",
+      "checked_at": "2026-10-12T18:18:27.036Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -70,7 +70,7 @@
       "hash": "26c1b095a1661e37bd9d2b12264553160a1882109a854f1339be6875e0707e36",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:28.468Z",
+      "checked_at": "2026-10-12T18:18:28.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -78,7 +78,7 @@
       "hash": "8d966fcb8e68040ee0a72aaa92cae6147422a79d54022e0f3ac8b570b709c595",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:29.467Z",
+      "checked_at": "2026-10-12T18:18:29.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -86,7 +86,7 @@
       "hash": "55a37d729922c67a31d0eada708cd4104ba1c5f0038291902ada5265593c2a76",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:30.468Z",
+      "checked_at": "2026-10-12T18:18:30.035Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
@@ -94,7 +94,7 @@
       "hash": "7b240969003ff9fc7f614228f97b8e340f4b41b9d626c0b96d31bf72ea1804cd",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:31.468Z",
+      "checked_at": "2026-10-12T18:18:31.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -102,15 +102,15 @@
       "hash": "7cedc741bb317f9028e83279192828171dea4cfda5981706c721b14a75f53a82",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:32.468Z",
+      "checked_at": "2026-10-12T18:18:32.035Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 0,
       "quotes_total": 0
     },
@@ -118,7 +118,7 @@
       "hash": "def76aec92bb088c66fbe57b85ea101bd3c454cd326db13ef9a83f12bb2fd3f7",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:33.469Z",
+      "checked_at": "2026-10-12T18:18:33.036Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

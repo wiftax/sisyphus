@@ -1,44 +1,44 @@
 {
   "card": "cloudflare-api",
-  "updated_at": "2026-10-05T17:34:05.750Z",
+  "updated_at": "2026-10-12T18:22:15.529Z",
   "urls": {
     "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/": {
-      "hash": "50437505df0c59307bfe80bf02b61684746a3685e985b03347491b6936ee9db3",
+      "hash": "978cc52234430d2d0d7365994ea41df94e95f33c79e2a65de0e681cad2625644",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:28.466Z",
+      "checked_at": "2026-10-12T18:18:28.023Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://developers.cloudflare.com/fundamentals/api/get-started/account-owned-tokens/": {
-      "hash": "cb73ad96d5b31a62a906ac0a61f523816599636d371a593a33323b74f2157f76",
+      "hash": "acdfdb9d6a07c9a89f34a5b19367cc3a69100b732e81d5a61a49ab60fab9f73e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:29.466Z",
+      "checked_at": "2026-10-12T18:18:29.023Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/fundamentals/api/get-started/keys/": {
-      "hash": "14d2d72438da6c1368f101dcb43a536be790a97dd160548ce32ff45763b1c28c",
+      "hash": "dd8d412fea1b6903cf41323b28ead0784eb551e4df201d9d7108cc4713db23e9",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:30.466Z",
+      "checked_at": "2026-10-12T18:18:30.024Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/logs/get-started/enable-destinations/aws-s3/": {
-      "hash": "25316cbbe066390f6d5ca2d6956c2d74a80c757a8e8ec86e260a333318e764a5",
+      "hash": "1bf36134dd16b449093160922440f3e873ce2b88efd04e317ecd0a76dc8009c6",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:31.467Z",
+      "checked_at": "2026-10-12T18:18:31.025Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/logs/get-started/enable-destinations/google-cloud-storage/": {
-      "hash": "b7ee52f93cf4107048c9ed21974f6c63b4e2490a06be5c2d9761aac351b55f79",
+      "hash": "bc96afb7bf90953f534f9ac647568cebdbb612deb7db3cfc4f6ba1eec5bfd99c",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:32.468Z",
+      "checked_at": "2026-10-12T18:18:32.026Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,7 +46,7 @@
       "hash": "b0118962ea552418aadf4e98fad431af9cbfbccd5b12f38235b84c64ad61ecb7",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:33.468Z",
+      "checked_at": "2026-10-12T18:18:33.027Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -54,55 +54,55 @@
       "hash": "e007d646b346ba117842d3cf37d3fb2d45da5a685f456f1a4d5219f55d26add2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:34.469Z",
+      "checked_at": "2026-10-12T18:18:34.028Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/fundamentals/api/how-to/restrict-tokens/": {
-      "hash": "47ffec1e919f909918f4f14e1b5b471c8b4073b17c86a473c823cd4579bf0402",
+      "hash": "d4a09ac31c0f3f7536f708bcd77e3bb4745ca579b2fc776b3800f7268b6afb22",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:35.470Z",
+      "checked_at": "2026-10-12T18:18:35.028Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/accounts/subresources/tokens/methods/create/": {
-      "hash": "6308f7e1d56d4a9a4c9b60de127246361b4e4db966a94513cda40a345ad056fa",
+      "hash": "2cf626eb15d4521267843d994c56dce960bdab48b8f94d7873dd9cc085cc6d42",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:36.470Z",
+      "checked_at": "2026-10-12T18:18:36.029Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/create/": {
-      "hash": "0a96722b26e81384806940adb572e2d8744394eed3b84d345042042b9f465340",
+      "hash": "79933f960f846c85f9ab62aad1033594a137bba83422b8fbff703314ce070f7e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:37.471Z",
+      "checked_at": "2026-10-12T18:18:37.030Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/delete/": {
-      "hash": "80dc7515a96cd27ff865739d5fe1564a751b9ade97345281a46c6d7223ad4a77",
+      "hash": "8b4091b973f7fd73e8a66ab359ed023fb032b5a89cc32eec43684792050b4d69",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:38.471Z",
+      "checked_at": "2026-10-12T18:18:38.030Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/list/": {
-      "hash": "463177bbd66e64203e7b211ab22ccd305dbd35e66b2e151d53195612c6935c3a",
+      "hash": "6680106ca5dd7cb650a10628f58e874f25666dca05172a2d01db3230e08fb5c3",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:39.471Z",
+      "checked_at": "2026-10-12T18:18:39.031Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 1,
       "quotes_total": 1
     }

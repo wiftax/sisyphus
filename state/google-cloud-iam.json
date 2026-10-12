@@ -1,44 +1,44 @@
 {
   "card": "google-cloud-iam",
-  "updated_at": "2026-10-05T17:36:45.683Z",
+  "updated_at": "2026-10-12T18:24:29.952Z",
   "urls": {
     "https://docs.cloud.google.com/iam/docs/workload-identity-federation": {
-      "hash": "5a6bb5e7fdf31870c770c7bfca79907ac2dcf7a6f8a4129a1fd49a8526586eae",
+      "hash": "aea454cbacee09d1211b8cbfa52c3e385fe822e8ede1574f49caf42c8895f78f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:50.478Z",
+      "checked_at": "2026-10-12T18:18:55.135Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-other-providers": {
-      "hash": "19ef426ec757d8825e4415a3d7b4af7c1c63b3384c074148dd163b3b146c2b53",
+      "hash": "8b87e426f6582f14e18e246634ab7a50c040546223287c2135f4038647a1402a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:51.478Z",
+      "checked_at": "2026-10-12T18:18:56.136Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.cloud.google.com/docs/authentication/get-id-token": {
-      "hash": "7817ea6d0e649a31e9d18a8f10a01d12c9db11c33e3ec10138b9057141c987bd",
+      "hash": "08b8d240c96b344a58de231a0c21fdabbad7287544af7f92b5db9cbad8c947aa",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:52.478Z",
+      "checked_at": "2026-10-12T18:18:57.204Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.cloud.google.com/iam/docs/create-short-lived-credentials-direct": {
-      "hash": "f37fed58b62e1351084ca330db3dec32fd613e4919540d033bd92354ac1f12aa",
+      "hash": "a29a55056a67a26ef114e8b1498c33712eec82a2653c4c274f0be3dae79c347f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:53.489Z",
+      "checked_at": "2026-10-12T18:18:58.205Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.cloud.google.com/docs/authentication/token-types": {
-      "hash": "68e49f8a45975ec8117545badc43a084d634e956e3c3a8fa8922bc009481741c",
+      "hash": "d78c6bf8236e2215e0ce63bbf09ed8feae17bc9e7408873d12fad728864100eb",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:54.489Z",
+      "checked_at": "2026-10-12T18:18:59.224Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,55 +46,55 @@
       "hash": "afcc283b5c58f2fcc147b34a56a98cef21026f2a76883877e1a9c36aae3ff33a",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:22.465Z",
+      "checked_at": "2026-10-12T18:18:22.034Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.cloud.google.com/iam/docs/keys-create-delete": {
-      "hash": "31f674f11ebfceb797548dace51a9f1415f1fe1739f067ca1ecf46cef231932b",
+      "hash": "fb09ff5743b633f3ba235251355e376dbf9884c4e4f4693f67d8e086011cc2b1",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:55.489Z",
+      "checked_at": "2026-10-12T18:19:00.224Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts": {
-      "hash": "792438e385813f257c8c7c4f5c51394e87b23124ff2554659c54a14cae333787",
+      "hash": "62d12c9b95e8e6c571d77f870316c402cee4325184343d1ce5081b58dd3f3a8e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:56.489Z",
+      "checked_at": "2026-10-12T18:19:01.225Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys": {
-      "hash": "79c4fa978ffb807cd4f4378ee0b9ce7e483e2e11e05e96053651e3ee1df07e19",
+      "hash": "5adfa558ecc3d8badf0167cfa3128c5f881aef1caa909e0426db963502992433",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:57.489Z",
+      "checked_at": "2026-10-12T18:19:02.236Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.cloud.google.com/iam/docs/overview": {
-      "hash": "4c38c8d83142a37cf9ad78aa28dd1634e3f34335695ca166e3b9fdb5037f6654",
+      "hash": "8044c866793313a79d2f33bdede0bbdb7b26bb497f815cb4f05eee8399d2bd54",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:58.491Z",
+      "checked_at": "2026-10-12T18:19:03.236Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://docs.cloud.google.com/policy-intelligence/docs/activity-analyzer-service-account-authentication": {
-      "hash": "205b15335fae01b4aaacecf1fbe23ed33ad30e0c43384ed516bd4fc3f65338f3",
+      "hash": "ed9625b0bfc916fc4f5f43d1dbc901783fb13d95f7d01d6972d6beca0886eb1e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:59.492Z",
+      "checked_at": "2026-10-12T18:19:04.236Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 0,
       "quotes_total": 0
     }

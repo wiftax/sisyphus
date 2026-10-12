@@ -1,12 +1,12 @@
 {
   "card": "coreweave-api",
-  "updated_at": "2026-10-05T17:34:05.792Z",
+  "updated_at": "2026-10-12T18:22:15.570Z",
   "urls": {
     "https://docs.coreweave.com/docs/products/cks/auth-access/managed-auth/api-access": {
       "hash": "c7320f19255d7333007f634ae63bbc45b0d6d264b60d9d652e5bc9d4fbd079aa",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:33.543Z",
+      "checked_at": "2026-10-12T18:18:33.086Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -14,7 +14,7 @@
       "hash": "5a9fb100add9af5b9db7aa9a2375a51ed51cc12e855f97a4681b416545224ba0",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:34.544Z",
+      "checked_at": "2026-10-12T18:18:34.087Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
@@ -22,7 +22,7 @@
       "hash": "70047738957260a9e98517525172fbda4b20db6c7a197cc8d222b1500925326b",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:35.552Z",
+      "checked_at": "2026-10-12T18:18:35.095Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -30,7 +30,7 @@
       "hash": "59434bfed8783717141d26e4933b3d230e1ba3762629cfc75ebd20974795cfeb",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:36.552Z",
+      "checked_at": "2026-10-12T18:18:36.096Z",
       "quotes_found": 0,
       "quotes_total": 0
     },
@@ -38,7 +38,7 @@
       "hash": "548b2953798f0ad57ada4833dce26da1d900f28be4cf9cc5cdeab544cadad8b2",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:37.552Z",
+      "checked_at": "2026-10-12T18:18:37.095Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
@@ -46,15 +46,15 @@
       "hash": "6d4037a51eb2adc7c8d1bc6ad0278aa8b6cc49b8f6434d81c683b49e9df09499",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:38.552Z",
+      "checked_at": "2026-10-12T18:18:38.095Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 0,
       "quotes_total": 0
     }

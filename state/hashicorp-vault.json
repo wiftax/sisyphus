@@ -1,108 +1,108 @@
 {
   "card": "hashicorp-vault",
-  "updated_at": "2026-10-05T17:37:37.909Z",
+  "updated_at": "2026-10-12T18:25:16.580Z",
   "urls": {
     "https://developer.hashicorp.com/vault/docs/auth/jwt": {
-      "hash": "72cda408acad4b9df0bbd6f828c0bb9cc061f5b5584d5e1188c362d3c5c74e6c",
+      "hash": "2e1c3b638b65903b13ab0478628718b3db59453eb157ead3c97d5e3329f12295",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:54.187Z",
+      "checked_at": "2026-10-12T18:18:59.044Z",
       "quotes_found": 2,
       "quotes_total": 2
     },
     "https://developer.hashicorp.com/vault/docs/auth/aws": {
-      "hash": "a510f437b809badd8f96ab929940845f4ff8f2d096d888d9095898249d853e32",
+      "hash": "f3a97af5bf265fa7c860c87640a7af66135e8eea432500f0c424b3a905429194",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:55.188Z",
+      "checked_at": "2026-10-12T18:19:00.044Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/secrets/aws": {
-      "hash": "8af62266b083a451864b58ec123f625fa5ad5ad1974d37b94b5d76084bff63b7",
+      "hash": "f2683940944abeb5dfbf52326b44944cdd0b9904fe3a05d7f96b2dc492a7d0e7",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:56.188Z",
+      "checked_at": "2026-10-12T18:19:01.044Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/secrets/gcp": {
-      "hash": "0f07172bbcc07f0c7225387e4a639ea77dc9f08d360d2ef00c9d2d85acde99fa",
+      "hash": "3f4c83398479c5783d9fbf62cdae3761e5a6ca314b3f1839cb066bacd48ae6fe",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:57.189Z",
+      "checked_at": "2026-10-12T18:19:02.044Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/secrets/azure": {
-      "hash": "74b558bbe610d72906b97f7f5c73f5499e692a884819353d0b5e11c38914d191",
+      "hash": "1f41427dc2e1645293fe2bb39f962b46332eb19c9c2a178cf0ecc4f9a83fba10",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:58.190Z",
+      "checked_at": "2026-10-12T18:19:03.045Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/tutorials/enterprise/plugin-workload-identity-federation": {
-      "hash": "6eb2e0e42626f24c574e2b50d9ac22cffe38ee2480cf99eec75f2c52185e9cbd",
+      "hash": "5a0fe3542410e71a90b366077e4ca738fef9f17a24afb0d112963f3ff10791e9",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:59.191Z",
+      "checked_at": "2026-10-12T18:19:04.046Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/hcp/docs/vault": {
-      "hash": "543a624c9404ad4f28c1d9118c45cfd4514f79d21d00a79ceb0cde9588eef735",
+      "hash": "3ba4392019cf5529223a3fbd0f73f8d0a90a334255b5eb548559c5dd5efcfbad",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:00.199Z",
+      "checked_at": "2026-10-12T18:19:05.045Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/secrets/alicloud": {
-      "hash": "b36d790bc81379fb6fd4aa3acc0a98f3ce7aa7fdb45fed0a0b025f091c55ce89",
+      "hash": "fb9ef25c11cc9255c604decf09f643ec527d50d72c7cd48152a05caa7a4cd63e",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:01.199Z",
+      "checked_at": "2026-10-12T18:19:06.046Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/secrets/databases": {
-      "hash": "5b554572cf2fb27e6afae8641d5b2fc476c95238689aa87f5077a1982b3e666c",
+      "hash": "28a225fa0390ac0c28a60e982804341ce20f3abd98c9a354a83b8e9a3521f499",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:02.200Z",
+      "checked_at": "2026-10-12T18:19:07.046Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/docs/concepts/tokens": {
-      "hash": "2e872f0fcef7bb1d6f90cd13917820f480c9fd693fbadfa6cc08c55a7422f283",
+      "hash": "26c9d60b20ff116dbf4bcee8fc9c1af1fa7a0ecd38520a08eefe171ee439b811",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:03.201Z",
+      "checked_at": "2026-10-12T18:19:08.045Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://developer.hashicorp.com/vault/api-docs/auth/token": {
-      "hash": "ae20e931f4cf380df73c008c8725b154f05ba67d7fc01354885c0ca41df25c40",
+      "hash": "56ea33bf8263efa6f6474a9ac7d62572c5b81263025f4c43acdcac7cdc78e5ac",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:04.278Z",
+      "checked_at": "2026-10-12T18:19:09.071Z",
       "quotes_found": 3,
       "quotes_total": 3
     },
     "https://developer.hashicorp.com/vault/docs/concepts/policies": {
-      "hash": "be69d867113f4d9603ffca268ff34091c7993796e19a779a33041efdeeab8937",
+      "hash": "718429beed6e9c8f4029d84fd20181538d44cae63fc88c7b2bc5d2b6f37cb455",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:32:05.278Z",
+      "checked_at": "2026-10-12T18:19:10.072Z",
       "quotes_found": 1,
       "quotes_total": 1
     },
     "https://docs.github.com/en/code-security/secret-scanning/introduction/supported-secret-scanning-patterns": {
-      "hash": "1964ed09da7e4ef2747d30923f36585cd2ef4df8917d0fa305b2871186833e24",
+      "hash": "512e8130a0a059f941296bd473574e3a5326afaec25305eeafa8a104e8cf1d8f",
       "status": 200,
       "ok": true,
-      "checked_at": "2026-10-05T17:31:13.542Z",
+      "checked_at": "2026-10-12T18:18:12.973Z",
       "quotes_found": 1,
       "quotes_total": 1
     }
