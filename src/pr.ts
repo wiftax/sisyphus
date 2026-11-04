@@ -12,8 +12,8 @@ import type { FetchResult } from "./fetch.js";
 export const FOOTER = "Sisyphus does not merge. A human reads the receipts first.";
 export const LABEL = "sisyphus";
 export const UPSTREAM = process.env.SISYPHUS_UPSTREAM ?? "wiftax/wiftax";
-export const BOT_NAME = "wiftax-sisyphus[bot]";
-export const BOT_EMAIL = "330547003+wiftax-sisyphus[bot]@users.noreply.github.com";
+export const BOT_NAME = "github-actions[bot]"; // commits are made with the upstream workflow's GITHUB_TOKEN
+export const BOT_EMAIL = "41898282+github-actions[bot]@users.noreply.github.com";
 
 const RANK: Record<string, number> = { F: 1, D: 2, C: 3, B: 4, A: 5, "N/A": 6 };
 
@@ -203,7 +203,7 @@ export interface OpenPrArgs {
 }
 
 // Branch from origin/main, write the card, re-render the scoreboard, commit,
-// push, and open the PR. Assumes the checkout can push (app token in CI).
+// push, and open the PR. Assumes the checkout can push (the upstream workflow's GITHUB_TOKEN in CI).
 export function openPullRequest(a: OpenPrArgs): { ok: boolean; url?: string; error?: string } {
   const git = (...args: string[]) => run("git", args, { cwd: a.wiftaxDir });
   const steps: [string, () => { ok: boolean; out: string }][] = [
@@ -228,6 +228,13 @@ export function openPullRequest(a: OpenPrArgs): { ok: boolean; url?: string; err
   ensureLabels(a.cardId);
   const pr = run("gh", ["pr", "create", "-R", UPSTREAM, "--base", "main", "--head", a.branch, "--title", a.title, "--body-file", "-", "--label", LABEL, "--label", cardLabel(a.cardId)], { input: a.body, cwd: a.wiftaxDir });
   if (!pr.ok) return { ok: false, error: `gh pr create: ${pr.out}` };
+  // Pushes and PRs made with the workflow's GITHUB_TOKEN do not trigger other workflows,
+  // so start the upstream's required "check" on this branch explicitly.
+  const checkWorkflow = process.env.SISYPHUS_CHECK_WORKFLOW;
+  if (checkWorkflow) {
+    const d = run("gh", ["workflow", "run", checkWorkflow, "-R", UPSTREAM, "--ref", a.branch]);
+    if (!d.ok) console.error(`  could not start ${checkWorkflow} on ${a.branch}: ${d.out}`);
+  }
   git("checkout", "main");
   return { ok: true, url: pr.out.split("\n").pop() };
 }

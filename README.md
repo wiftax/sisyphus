@@ -13,7 +13,8 @@ should say now, with receipts.
 
 ## What a patrol does
 
-Every Monday at 09:00 UTC (and on demand), the `patrol` workflow:
+Every Monday at 09:00 UTC (and on demand), the `patrol` workflow in
+[wiftax/wiftax](https://github.com/wiftax/wiftax/blob/main/.github/workflows/patrol.yml):
 
 1. Checks out `wiftax/wiftax` and reads every card in `data/products/`.
 2. Fetches every unique evidence URL once. Polite: user agent
@@ -27,7 +28,7 @@ Every Monday at 09:00 UTC (and on demand), the `patrol` workflow:
      trailing sentence mark the card author may have dropped);
    - the URL errors or returns a non-2xx status;
    - for URLs with no quote, the visible text's hash differs from the one
-     stored in `state/<card-id>.json` on the last patrol.
+     stored in `<card-id>.json` on the `sisyphus-state` branch on the last patrol.
 4. For each card with drift, calls Claude once (`claude-opus-5`, adaptive
    thinking, structured JSON output). The system prompt is `RUBRIC.md` plus
    `VOICE.md`. The user content is the current card and, for each drifted URL,
@@ -47,7 +48,10 @@ Every Monday at 09:00 UTC (and on demand), the `patrol` workflow:
    grade goes down or holds; `Notice of Relief: <Vendor> <Product>` when it
    goes up. The body lists before/after grades per surface, vanished quotes,
    new receipts with links, the rationale, and the fixed footer.
-7. Commits `state/` back to this repo's `main` so hash comparison works next week.
+7. Commits state to the `sisyphus-state` branch of `wiftax/wiftax` so hash
+   comparison works next week. PRs are made with that workflow's `GITHUB_TOKEN`,
+   which does not trigger other workflows, so Sisyphus starts the required
+   `check` workflow on each `sisyphus/*` branch itself.
 
 ## Running it locally
 
@@ -70,55 +74,32 @@ Locally the SDK resolves credentials the usual way (`ANTHROPIC_API_KEY`, an
 `ant auth login` profile, or the federation variables below). In CI there is
 no API key anywhere.
 
-## Auth: zero static secrets, minus one
+## Auth: zero static secrets
 
 | Who Sisyphus talks to | How | Static secret |
 |---|---|---|
 | Anthropic | Workload Identity Federation: the job's GitHub OIDC token is exchanged for a short-lived Anthropic access token | none |
-| GitHub | A GitHub App installation token minted at the start of each run, valid for one hour | the App's private key |
+| GitHub | The `GITHUB_TOKEN` of the `wiftax/wiftax` workflow run, valid for one job | none |
 
-The GitHub App private key is the one static secret in the whole project.
-GitHub Apps have no federated authentication path: the root of trust is a PEM
-file that never expires. wif.tax grades GitHub's inbound surface C for exactly
-this reason, and Sisyphus pays the same tax it assesses. When GitHub ships
-federated App auth, this row goes away.
+Sisyphus used to run in this repo with a GitHub App, whose private key was the
+project's one static secret. GitHub Apps have no federated authentication path,
+so the patrol moved into `wiftax/wiftax`, the only repo it writes to, where the
+job's own `GITHUB_TOKEN` can push branches and open PRs. The App and its key are
+gone. This repo holds code only and has no workflows or secrets.
 
 ## Owner setup
 
-Two things must be created by a human. Nothing else needs a login.
+### 1. GitHub
 
-### 1. GitHub App
+In `wiftax/wiftax`:
 
-Create the App at <https://github.com/organizations/wiftax/settings/apps/new>:
-
-| Field | Value |
-|---|---|
-| GitHub App name | `wiftax-sisyphus` (GitHub App names are global and `sisyphus` was taken) |
-| Homepage URL | `https://rotate.fail` |
-| Webhook | **Active** unchecked (no webhook) |
-| Repository permissions | Contents: **Read and write**; Pull requests: **Read and write**; Issues: **Read and write**; Metadata: **Read-only** (added automatically) |
-| Where can this GitHub App be installed? | Only on this account |
-
-Then:
-
-1. On the App's settings page, note the **App ID**.
-2. Under **Private keys**, click **Generate a private key**. A `.pem` downloads.
-3. **Install App** on the `wiftax` organization, selecting **Only select
-   repositories**: `wiftax/wiftax` and `wiftax/sisyphus`. The App needs
-   `wiftax` to push branches, open PRs and issues, and create labels; it needs
-   `sisyphus` only to push the `state/` commit to `main`. (LAUNCH.md said
-   `wiftax/wiftax` only; the state commit is why `sisyphus` is added. If you
-   would rather not, install on `wiftax/wiftax` only and change the
-   `Commit state` step to use `${{ github.token }}` with `contents: write`.)
-4. In `wiftax/sisyphus` → Settings → Secrets and variables → Actions:
-   - **Variable** `SISYPHUS_APP_ID` = the App ID (a number).
-   - **Secret** `SISYPHUS_APP_PRIVATE_KEY` = the full contents of the `.pem`,
-     including the `-----BEGIN RSA PRIVATE KEY-----` and `END` lines.
-
-The workflow mints an installation token with
-[`actions/create-github-app-token@v2`](https://github.com/actions/create-github-app-token)
-scoped to those two repositories, and the code uses it through `gh` (`GH_TOKEN`).
-PRs and commits appear as `wiftax-sisyphus[bot]`.
+- The `patrol` workflow is `.github/workflows/patrol.yml`. Its job permissions are
+  `contents`, `pull-requests`, `issues` and `actions` write, and `id-token` write.
+- Settings → Actions → General → **Allow GitHub Actions to create and approve pull
+  requests** must be on (and allowed by the `wiftax` organization). The `main`
+  ruleset still requires a code-owner review, so the workflow cannot merge anything.
+- The `sisyphus-state` branch holds one JSON per card. It is outside the `main` ruleset.
+- `check.yml` accepts `workflow_dispatch`; Sisyphus starts it on each PR branch.
 
 ### 2. Anthropic: Workload Identity Federation
 
@@ -149,8 +130,8 @@ the wizard or send them to the Admin API):
 }
 ```
 
-**Federation rule** (`fdrl_...`). The subject is pinned to this repository's
-`main` branch so pull-request runs (including from forks) cannot mint a token.
+**Federation rule** (`fdrl_...`). The subject is pinned to `wiftax/wiftax`'s
+`main` branch, where the patrol workflow runs, so pull-request runs (including from forks) cannot mint a token.
 The docs' GitHub Actions example includes `audience` and a `repository_owner`
 claim, and warns: "A trailing wildcard such as `repo:my-org/my-repo:*` also
 matches `pull_request` runs, including runs triggered from forks."
@@ -160,7 +141,7 @@ matches `pull_request` runs, including runs triggered from forks."
   "name": "sisyphus-patrol",
   "issuer_id": "fdis_...",
   "match": {
-    "subject_prefix": "repo:wiftax@330212943/sisyphus@1374555161:ref:refs/heads/main",
+    "subject_prefix": "repo:wiftax@330212943/wiftax@1373787774:ref:refs/heads/main",
     "audience": "https://api.anthropic.com",
     "claims": { "repository_owner": "wiftax" }
   },
@@ -199,7 +180,7 @@ Notes on those fields, from the WIF reference:
   workspace, add `ANTHROPIC_WORKSPACE_ID` as a repository variable and to the
   workflow's `env`.
 
-Then in `wiftax/sisyphus` → Settings → Secrets and variables → Actions →
+Then in `wiftax/wiftax` → Settings → Secrets and variables → Actions →
 **Variables** (none of these are secret):
 
 | Variable | Value |
@@ -218,9 +199,11 @@ curl -sS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
 
 and sets `ANTHROPIC_IDENTITY_TOKEN_FILE` to that path. With the three
 variables above also in the environment, `new Anthropic()` with no arguments
-performs the exchange at `POST /v1/oauth/token` on the first request. The
-identity token is fetched immediately before the run because "Each
-GitHub-issued identity token expires roughly five minutes after issuance."
+performs the exchange at `POST /v1/oauth/token` on the first request. "Each
+GitHub-issued identity token expires roughly five minutes after issuance," and a
+patrol spends longer than that fetching pages, so `src/assess.ts` writes a fresh
+one into the same file before each model call; the SDK re-reads it whenever it
+exchanges.
 
 To verify: run the workflow by hand with `dry_run` checked. A denied exchange
 is an opaque `401 Authentication failed`; the reason (for example
@@ -231,12 +214,12 @@ is an opaque `401 Authentication failed`; the reason (for example
 
 | Where | Kind | Name |
 |---|---|---|
-| `wiftax/sisyphus` Actions | Variable | `SISYPHUS_APP_ID` |
-| `wiftax/sisyphus` Actions | **Secret** | `SISYPHUS_APP_PRIVATE_KEY` |
-| `wiftax/sisyphus` Actions | Variable | `ANTHROPIC_FEDERATION_RULE_ID` |
-| `wiftax/sisyphus` Actions | Variable | `ANTHROPIC_ORGANIZATION_ID` |
-| `wiftax/sisyphus` Actions | Variable | `ANTHROPIC_SERVICE_ACCOUNT_ID` |
-| `wiftax/sisyphus` Actions | Variable (optional) | `ANTHROPIC_WORKSPACE_ID`, only for multi-workspace rules |
+| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_FEDERATION_RULE_ID` |
+| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_ORGANIZATION_ID` |
+| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_SERVICE_ACCOUNT_ID` |
+| `wiftax/wiftax` Actions | Variable (optional) | `ANTHROPIC_WORKSPACE_ID`, only for multi-workspace rules |
+
+No secrets.
 
 ## Layout
 
@@ -246,9 +229,7 @@ src/drift.ts    card model, citation walk, normalization, drift detection, state
 src/assess.ts   the one model call per card: prompts, schema, retry
 src/pr.ts       validator, quote verification, stamping, PR/issue bodies, git + gh
 src/cli.ts      `sisyphus check`
-state/          one JSON per card: last hash and status per URL (committed by CI)
 VOICE.md        how Sisyphus writes
-.github/workflows/patrol.yml
 ```
 
 ## License

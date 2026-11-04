@@ -3,7 +3,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import type { BetaMessage, BetaContentBlockParam } from "@anthropic-ai/sdk/resources/beta/messages/messages";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { excerpt, type UrlDrift } from "./drift.js";
@@ -133,6 +133,25 @@ function parseAssessment(message: BetaMessage): Assessment {
   return parsed;
 }
 
+// In GitHub Actions the OIDC JWT handed to Anthropic lives about five minutes, but a
+// patrol spends longer than that fetching pages before its first model call. Mint a
+// fresh one into ANTHROPIC_IDENTITY_TOKEN_FILE before each call; the SDK re-reads the
+// file whenever it exchanges it.
+const OIDC_AUDIENCE = "https://api.anthropic.com";
+const REFRESH_AFTER_MS = 3 * 60 * 1000;
+let mintedAt = 0;
+async function refreshIdentityToken(): Promise<void> {
+  const url = process.env.ACTIONS_ID_TOKEN_REQUEST_URL, bearer = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
+  const file = process.env.ANTHROPIC_IDENTITY_TOKEN_FILE;
+  if (!url || !bearer || !file || Date.now() - mintedAt < REFRESH_AFTER_MS) return;
+  const res = await fetch(`${url}&audience=${encodeURIComponent(OIDC_AUDIENCE)}`, { headers: { Authorization: `Bearer ${bearer}` } });
+  if (!res.ok) throw new Error(`GitHub OIDC token request failed: ${res.status}`);
+  const { value } = (await res.json()) as { value?: string };
+  if (!value) throw new Error("GitHub OIDC token response had no value");
+  writeFileSync(file, value, { mode: 0o600 });
+  mintedAt = Date.now();
+}
+
 let client: Anthropic | null = null;
 function getClient(): Anthropic {
   // Zero-arg: the SDK resolves ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, a profile,
@@ -142,6 +161,7 @@ function getClient(): Anthropic {
 }
 
 async function call(system: string, messages: { role: "user" | "assistant"; content: string | BetaContentBlockParam[] }[]): Promise<BetaMessage> {
+  await refreshIdentityToken();
   const stream = getClient().beta.messages.stream({
     model: MODEL,
     max_tokens: 32_000,
