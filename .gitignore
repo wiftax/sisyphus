@@ -3,3 +3,4 @@ out/
 wiftax/
 *.log
 .DS_Store
+state/
