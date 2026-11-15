@@ -8,7 +8,7 @@
 // is re-rendered instead, so the output is always exactly the proposed value.
 
 import { isMap, isScalar, isSeq, LineCounter, parseDocument, stringify, type Node, type Scalar } from "yaml";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 
 interface Edit {
   start: number;
