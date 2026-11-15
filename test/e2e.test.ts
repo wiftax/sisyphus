@@ -141,3 +141,14 @@ test("a grade change becomes a notice; the same drift with no change is not asse
   const report = JSON.parse(readFileSync(join(fresh.state, "patrol.json"), "utf8")) as PatrolReport;
   assert.match(report.outcomes[0].action, /same drift already assessed/);
 });
+
+test("patrol.json carries model usage and its list-price cost", async () => {
+  const { data, state, out } = setup();
+  answers.push(JSON.stringify({ change_needed: false, proposed_card: null, rationale: "Same.", vanished_quotes: [], new_quotes: [] }));
+  await main(["check", "--data", data, "--state", state, "--out", out]);
+  const report = JSON.parse(readFileSync(join(state, "patrol.json"), "utf8")) as PatrolReport;
+  assert.ok(report.usage && report.usage.calls >= 1);
+  assert.ok(report.usage.input_tokens >= 10);
+  assert.equal(typeof report.usage.cost_usd, "number");
+  assert.equal(report.history.at(-1)?.cost_usd, report.usage.cost_usd);
+});

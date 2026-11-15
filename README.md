@@ -82,8 +82,9 @@ runs every Monday at 09:00 UTC, and by hand.
 6. **Record.** Per-card state (page hashes, failure streaks, the last
    assessment) and `patrol.json` are committed to the `sisyphus-state` branch,
    even when the patrol fails partway. `patrol.json` holds the counts, the
-   outcome for every card, the open PRs, the unreachable hosts, and a year of
-   weekly history. rotate.fail reads it from
+   outcome for every card, the open PRs, the unreachable hosts, the model's
+   token use and its cost at list price, and a year of weekly history.
+   rotate.fail reads it from
    `raw.githubusercontent.com/wiftax/wiftax/sisyphus-state/patrol.json`.
 
 ## Running it locally

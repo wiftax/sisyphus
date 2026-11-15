@@ -7,6 +7,7 @@ import { join } from "node:path";
 import type { DriftReport } from "./drift.js";
 import type { FetchResult } from "./fetch.js";
 import type { HostReport, OpenPr } from "./pr.js";
+import type { UsageTotals } from "./usage.js";
 
 export const REPORT_FILE = "patrol.json";
 const HISTORY = 52;
@@ -19,6 +20,7 @@ export interface HistoryEntry {
   unreachable_urls: number;
   notices: number;
   refreshed: number;
+  cost_usd?: number;
 }
 
 export interface PatrolReport {
@@ -31,6 +33,7 @@ export interface PatrolReport {
   partial: boolean; // true when --card limited the patrol
   sisyphus: { commit: string | null };
   model: string | null;
+  usage: UsageTotals | null; // model calls this patrol, priced at list price
   cards: number;
   urls: number;
   urls_ok: number;
@@ -100,6 +103,7 @@ export interface BuildArgs {
   unreachableIssues: PatrolReport["unreachable_issues"];
   openPrs: OpenPr[] | null;
   previousDir: string;
+  usage: UsageTotals | null;
 }
 
 export function buildReport(a: BuildArgs): PatrolReport {
@@ -117,6 +121,7 @@ export function buildReport(a: BuildArgs): PatrolReport {
     partial: !!a.opts.card,
     sisyphus: { commit: a.commit },
     model: a.model,
+    usage: a.usage,
     cards: a.reports.length,
     urls: fetched.length,
     urls_ok: fetched.filter((r) => r.ok).length,
@@ -152,6 +157,7 @@ export function buildReport(a: BuildArgs): PatrolReport {
       unreachable_urls: report.unreachable.urls,
       notices: report.notices.length,
       refreshed: report.refresh?.cards.length ?? 0,
+      ...(report.usage ? { cost_usd: report.usage.cost_usd } : {}),
     });
   }
   report.history = history.slice(-HISTORY);
