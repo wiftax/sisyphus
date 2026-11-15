@@ -1,6 +1,6 @@
 node_modules/
-out/
-wiftax/
+/out/
+/wiftax/
 *.log
 .DS_Store
-state/
+/state/

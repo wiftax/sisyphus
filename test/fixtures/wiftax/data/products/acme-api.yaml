@@ -1,0 +1,62 @@
+id: acme-api
+vendor: Acme
+product: API
+covers: The Acme API.
+website: https://acme.example
+category: cloud
+status: listed
+summary: >-
+  Your code calls the Acme API with a static token that never expires. The token can be scoped and
+  revoked by API.
+
+surfaces:
+  inbound:
+    grade: F
+    mechanism: A static API token.
+    evidence:
+      - url: http://127.0.0.1:PORT/tokens
+        checked_on: 2026-09-16
+        checked_by: tehreet
+        quote: "Tokens never expire."
+      - url: http://127.0.0.1:PORT/blocked
+        checked_on: 2026-09-16
+        checked_by: tehreet
+        quote: "Keep your token secret."
+  outbound:
+    grade: N/A
+    mechanism: Acme does not call out.
+    evidence: []
+
+hygiene:
+  expiry:
+    pass: false
+    evidence:
+      - url: http://127.0.0.1:PORT/tokens
+        checked_on: 2026-09-16
+        checked_by: tehreet
+        quote: "Tokens never expire."
+  rotation_api:
+    pass: true
+    evidence:
+      - url: http://127.0.0.1:PORT/rotate
+        checked_on: 2026-09-16
+        checked_by: tehreet
+        quote: "Call POST /tokens/rotate to rotate a token."
+  scoping:
+    pass: true
+    evidence:
+      - url: http://127.0.0.1:PORT/changelog
+        checked_on: 2026-09-16
+        checked_by: tehreet
+  last_used:
+    pass: false
+    evidence:
+      - url: http://127.0.0.1:PORT/tokens
+        checked_on: 2026-09-16
+        checked_by: tehreet
+  leak_revocation:
+    pass: false
+    evidence:
+      - url: http://127.0.0.1:PORT/tokens
+        checked_on: 2026-09-16
+        checked_by: tehreet
