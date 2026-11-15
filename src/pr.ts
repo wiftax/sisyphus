@@ -10,7 +10,7 @@
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync, cpSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 import type { Assessment } from "./assess.js";
 import { citations, quoteOnPage, type Card, type UnreachableUrl, type UrlDrift } from "./drift.js";
 import type { FetchResult } from "./fetch.js";

@@ -130,6 +130,7 @@ test("under node:test the real gh is refused", async () => {
   try {
     assert.throws(() => ghBin(), /refusing to run the real gh/);
   } finally {
-    process.env.SISYPHUS_GH = saved;
+    if (saved === undefined) delete process.env.SISYPHUS_GH;
+    else process.env.SISYPHUS_GH = saved;
   }
 });

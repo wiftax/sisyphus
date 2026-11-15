@@ -7,6 +7,10 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+    ignore:
+      # Types follow the Node version CI and the patrol run on (22), not the latest.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
