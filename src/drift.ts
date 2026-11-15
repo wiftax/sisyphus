@@ -226,31 +226,53 @@ export function tidy(s: string): string {
     .trim();
 }
 
-export function excerpt(pageText: string, anchor: string | undefined, maxChars = 12_000): string {
-  const page = tidy(pageText);
-  if (page.length <= maxChars) return page;
+function anchorIndex(page: string, anchor: string): number {
   // bestMatchIndex works on normalized text; normalize() only removes or
   // shortens characters, so its index is a lower bound on the tidy index.
-  // Search tidy text directly for the anchor's forms, falling back to the
-  // normalized index as an approximation.
-  let idx = -1;
-  if (anchor) {
-    const lower = page.toLowerCase();
-    const a = anchor.toLowerCase().replace(/\s+/g, " ").trim();
-    idx = lower.indexOf(a);
-    if (idx < 0) {
-      const words = a.split(" ");
-      for (const size of [8, 6, 5, 4, 3]) {
-        if (idx >= 0 || words.length < size) continue;
-        for (let i = 0; i + size <= words.length && idx < 0; i++) idx = lower.indexOf(words.slice(i, i + size).join(" "));
-      }
+  // Search tidy text directly first, then fall back to that approximation.
+  const lower = page.toLowerCase();
+  const a = anchor.toLowerCase().replace(/\s+/g, " ").trim();
+  let idx = lower.indexOf(a);
+  if (idx < 0) {
+    const words = a.split(" ");
+    for (const size of [8, 6, 5, 4, 3]) {
+      if (idx >= 0 || words.length < size) continue;
+      for (let i = 0; i + size <= words.length && idx < 0; i++) idx = lower.indexOf(words.slice(i, i + size).join(" "));
     }
-    if (idx < 0) idx = bestMatchIndex(page, anchor);
   }
-  if (idx < 0) return page.slice(0, maxChars) + "\n[... truncated ...]";
-  const start = Math.max(0, idx - Math.floor(maxChars / 2));
-  const end = Math.min(page.length, start + maxChars);
-  return (start > 0 ? "[... truncated ...]\n" : "") + page.slice(start, end) + (end < page.length ? "\n[... truncated ...]" : "");
+  return idx >= 0 ? idx : bestMatchIndex(page, anchor);
+}
+
+// Up to `maxChars` of the page, as one window per anchor (each vanished quote),
+// merged where they overlap. Anchors that match nowhere share the top of the
+// page. A page that fits is returned whole.
+export function excerpt(pageText: string, anchors: string | string[] | undefined, maxChars = 12_000): string {
+  const page = tidy(pageText);
+  if (page.length <= maxChars) return page;
+  const list = (Array.isArray(anchors) ? anchors : anchors ? [anchors] : []).filter(Boolean);
+  const centres = [...new Set(list.map((a) => anchorIndex(page, a)).map((i) => (i < 0 ? 0 : i)))];
+  if (!centres.length) centres.push(0);
+  const each = Math.floor(maxChars / centres.length);
+  const windows = centres
+    .map((c) => {
+      const start = Math.max(0, Math.min(c - Math.floor(each / 2), page.length - each));
+      return [start, Math.min(page.length, start + each)] as [number, number];
+    })
+    .sort((a, b) => a[0] - b[0]);
+  const merged: [number, number][] = [];
+  for (const w of windows) {
+    const last = merged[merged.length - 1];
+    if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
+    else merged.push([...w]);
+  }
+  const parts: string[] = [];
+  if (merged[0][0] > 0) parts.push("[... truncated ...]");
+  merged.forEach(([a, b], i) => {
+    if (i > 0) parts.push("[... truncated ...]");
+    parts.push(page.slice(a, b));
+  });
+  if (merged[merged.length - 1][1] < page.length) parts.push("[... truncated ...]");
+  return parts.join("\n");
 }
 
 export function loadState(stateDir: string, cardId: string): CardState | null {

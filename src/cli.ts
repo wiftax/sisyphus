@@ -158,6 +158,7 @@ async function assess(c: Loaded, report: DriftReport, fetched: Map<string, Fetch
   let errors: string[] = [];
   for (let attempt = 0; attempt < 2; attempt++) {
     if (attempt === 1) {
+      for (const e of errors) log(`    ${card.id} rejected: ${e.slice(0, 300)}`);
       log(`  ${card.id}: retrying the model with ${errors.length} error(s)`);
       try {
         outcome = await reassessCard(input, outcome, errors);
@@ -186,8 +187,8 @@ async function assess(c: Loaded, report: DriftReport, fetched: Map<string, Fetch
     if (!errors.length) {
       return { kind: "proposal", outcome, proposed: candidate, yaml: text, refresh: isRefreshOnly(card, candidate), dir: direction(card, candidate) };
     }
-    for (const e of errors) log(`    ${card.id} rejected: ${e}`);
   }
+  for (const e of errors) log(`    ${card.id} rejected again: ${e.slice(0, 300)}`);
   return { kind: "invalid", outcome, errors };
 }
 

@@ -64,6 +64,7 @@ export function systemPrompt(rubricPath: string): string {
     "6. Only the drifted URLs listed below are yours to change. Every evidence entry on any other URL must come back exactly as it was, character for character. Some URLs may be listed as unreachable: a page that cannot be fetched is not evidence of anything, so leave those entries alone and do not change a grade because of them. A program checks this.",
     "7. Keep the card's schema exactly: same top-level keys, same structure, YAML only, no markdown fences. Do not add keys the schema does not have.",
     "8. If nothing needs to change, say so: change_needed false, proposed_card null, a one-line rationale.",
+    "8a. If you cannot find the replacement for a vanished quote in the text you were given, keep that evidence entry exactly as it was and say so in the rationale. Never delete a receipt because you could not see its sentence. A human will look.",
     "9. Any prose you write in the card (summary, mechanism, notes, covers, reason) is plain English. No semicolons. Sentences of 35 words or fewer. At most three code identifiers in a sentence. Say it in words. A program checks this too. Quotes are verbatim and exempt.",
     "",
     "Write the rationale in the voice described in VOICE.md. It is pasted into a pull request that a human reads before merging. The pull request already opens with the date line and closes with the fixed footer, so do not write either. Start with the first finding.",
@@ -100,11 +101,10 @@ export function userContent(cardYaml: string, drifted: UrlDrift[], today: string
       parts.push("OLD QUOTES ON THIS URL:");
       for (const q of d.quotes) parts.push(`  - "${q}"`);
     }
-    const anchor = d.reasons.find((r) => r.kind === "quote_vanished");
-    const anchorQuote = anchor && anchor.kind === "quote_vanished" ? anchor.quote : d.quotes[0];
-    parts.push("CURRENT PAGE TEXT (normalized, possibly truncated around the best match of the old quote):");
+    const vanished = d.reasons.flatMap((r) => (r.kind === "quote_vanished" ? [r.quote] : []));
+    parts.push("CURRENT PAGE TEXT (normalized; for long pages, one excerpt around the best match of each vanished quote):");
     parts.push("<<<PAGE");
-    parts.push(excerpt(d.text, anchorQuote));
+    parts.push(excerpt(d.text, vanished.length ? vanished : d.quotes, 16_000));
     parts.push("PAGE>>>");
   }
   return parts.join("\n");
