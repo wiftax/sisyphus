@@ -20,7 +20,10 @@ The `patrol` workflow in
 runs every Monday at 09:00 UTC, and by hand.
 
 1. **Fetch.** Every unique evidence URL across every card in `data/products/`
-   is fetched once. The user agent is `sisyphus/0.2 (+https://rotate.fail)`.
+   is fetched once. The user agent is
+   `Mozilla/5.0 (compatible; sisyphus/0.2; +https://rotate.fail)`, the usual
+   crawler form: some hosts answer a user agent without the `Mozilla/5.0`
+   prefix with a 404 instead of the redirect a reader gets.
    Each host gets at most one request per second, with a 20 second timeout.
    A 5xx, timeout or network error is retried once. HTML is reduced to visible
    text. Strings in embedded JSON (`__NEXT_DATA__` and similar) are read too,

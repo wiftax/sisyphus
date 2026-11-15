@@ -13,7 +13,7 @@ import { join } from "node:path";
 import * as yaml from "js-yaml";
 import type { Assessment } from "./assess.js";
 import { citations, quoteOnPage, type Card, type UnreachableUrl, type UrlDrift } from "./drift.js";
-import type { FetchResult } from "./fetch.js";
+import { USER_AGENT, type FetchResult } from "./fetch.js";
 import type { Move } from "./moved.js";
 import { gh, git, run } from "./run.js";
 
@@ -481,7 +481,7 @@ export function unreachableBody(h: HostReport, today: string): string {
   const lines = [
     `As of the patrol dated ${today}, ${h.urls.length} receipt URL(s) on ${h.host} could not be fetched. ${why}`,
     "",
-    "The receipts that cite these pages have not been changed. Grades are held. A human checks the pages by hand, then either updates the receipts or asks the host to allow the crawler's user agent, `sisyphus/0.2 (+https://rotate.fail)`.",
+    `The receipts that cite these pages have not been changed. Grades are held. A human checks the pages by hand, then either updates the receipts or asks the host to allow the crawler's user agent, \`${USER_AGENT}\`.`,
     "",
     "| URL | Status | Patrols failing | Cards |",
     "|---|---|---|---|",

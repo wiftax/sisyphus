@@ -11,7 +11,10 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { gunzipSync } from "node:zlib";
 
-export const USER_AGENT = "sisyphus/0.2 (+https://rotate.fail)";
+// The usual crawler form (as Googlebot and Bingbot use): some docs hosts answer
+// a user agent that does not start with "Mozilla/5.0" with a 404 instead of the
+// redirect a reader gets. It still names Sisyphus and where to read about it.
+export const USER_AGENT = "Mozilla/5.0 (compatible; sisyphus/0.2; +https://rotate.fail)";
 const TIMEOUT_MS = 20_000;
 const minGapMs = () => Number(process.env.SISYPHUS_MIN_GAP_MS ?? 1_000);
 const retryAfterMs = () => Number(process.env.SISYPHUS_RETRY_AFTER_MS ?? 5_000);
@@ -132,12 +135,49 @@ function dump(url: string, text: string): void {
   writeFileSync(join(dir, name + ".txt"), text);
 }
 
+// Redirects are followed by hand so cookies set along the way are sent back,
+// as a browser does. Some docs hosts set a cookie and redirect to the same URL,
+// and loop forever for a client that drops it. The jar lives for one patrol.
+const jar = new Map<string, Map<string, string>>(); // host -> cookie name -> value
+const MAX_REDIRECTS = 10;
+
+function remember(host: string, res: Response): void {
+  const set = typeof res.headers.getSetCookie === "function" ? res.headers.getSetCookie() : [];
+  for (const c of set) {
+    const m = c.match(/^\s*([^=;\s]+)=([^;]*)/);
+    if (!m) continue;
+    const forHost = jar.get(host) ?? new Map<string, string>();
+    forHost.set(m[1], m[2]);
+    jar.set(host, forHost);
+  }
+}
+
+async function get(url: string, headers: Record<string, string>): Promise<{ res: Response; finalUrl: string }> {
+  const signal = AbortSignal.timeout(TIMEOUT_MS);
+  let current = url;
+  for (let i = 0; i <= MAX_REDIRECTS; i++) {
+    const host = new URL(current).host;
+    const cookies = jar.get(host);
+    const cookie = cookies?.size ? [...cookies].map(([k, v]) => `${k}=${v}`).join("; ") : "";
+    const res = await fetch(current, { headers: cookie ? { ...headers, cookie } : headers, redirect: "manual", signal });
+    remember(host, res);
+    const loc = res.headers.get("location");
+    if (res.status >= 300 && res.status < 400 && loc) {
+      await res.body?.cancel().catch(() => {});
+      current = new URL(loc, current).toString();
+      continue;
+    }
+    return { res, finalUrl: current };
+  }
+  throw new Error(`more than ${MAX_REDIRECTS} redirects`);
+}
+
 // A raw body, for sitemaps and robots.txt. Same politeness as page fetches.
 // Gzipped sitemaps (.xml.gz) are inflated. Bodies over 50 MB are refused.
 export async function fetchRaw(url: string): Promise<{ ok: boolean; status: number; text: string }> {
   await throttle(new URL(url).host);
   try {
-    const res = await fetch(url, { headers: { "user-agent": USER_AGENT }, redirect: "follow", signal: AbortSignal.timeout(TIMEOUT_MS) });
+    const { res } = await get(url, { "user-agent": USER_AGENT });
     if (!res.ok) {
       await res.body?.cancel().catch(() => {});
       return { ok: false, status: res.status, text: "" };
@@ -155,29 +195,26 @@ async function fetchOnce(url: string): Promise<FetchResult> {
   await throttle(new URL(url).host);
   const fetchedAt = new Date().toISOString();
   try {
-    const res = await fetch(url, {
-      headers: {
-        "user-agent": USER_AGENT,
-        "accept-language": "en-US,en;q=0.9",
-        accept: "text/html;q=1.0, application/xhtml+xml;q=0.9, text/plain;q=0.5, text/markdown;q=0.4, */*;q=0.1",
-      },
-      redirect: "follow",
-      signal: AbortSignal.timeout(TIMEOUT_MS),
+    const { res, finalUrl } = await get(url, {
+      "user-agent": USER_AGENT,
+      "accept-language": "en-US,en;q=0.9",
+      accept: "text/html;q=1.0, application/xhtml+xml;q=0.9, text/plain;q=0.5, text/markdown;q=0.4, */*;q=0.1",
     });
     const contentType = res.headers.get("content-type") ?? "";
     if (!res.ok) {
       await res.body?.cancel().catch(() => {});
-      return { url, finalUrl: res.url || url, status: res.status, ok: false, failure: classifyStatus(res.status), contentType, text: "", data: "", fetchedAt, error: `HTTP ${res.status}` };
+      return { url, finalUrl, status: res.status, ok: false, failure: classifyStatus(res.status), contentType, text: "", data: "", fetchedAt, error: `HTTP ${res.status}` };
     }
     const raw = await res.text();
     const isHtml = /html|xml/i.test(contentType) || /^\s*<(!doctype|html)/i.test(raw);
     const text = isHtml ? htmlToText(raw) : markdownToText(raw);
     const data = isHtml ? htmlToData(raw) : "";
     dump(url, data ? `${text}\n\n===== embedded data =====\n${data}` : text);
-    if ((text + data).replace(/[^\p{L}\p{N}]+/gu, "").length < MIN_READABLE) {
-      return { url, finalUrl: res.url || url, status: res.status, ok: false, failure: "empty", contentType, text: "", data: "", fetchedAt, error: "no readable text (the page may render in the browser)" };
+    // An HTML page with nothing to read is an app shell. A short text file is just short.
+    if (isHtml && (text + data).replace(/[^\p{L}\p{N}]+/gu, "").length < MIN_READABLE) {
+      return { url, finalUrl, status: res.status, ok: false, failure: "empty", contentType, text: "", data: "", fetchedAt, error: "no readable text (the page may render in the browser)" };
     }
-    return { url, finalUrl: res.url || url, status: res.status, ok: true, contentType, text, data, fetchedAt };
+    return { url, finalUrl, status: res.status, ok: true, contentType, text, data, fetchedAt };
   } catch (err) {
     const msg = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
     return { url, finalUrl: url, status: 0, ok: false, failure: "network", contentType: "", text: "", data: "", fetchedAt, error: msg };
