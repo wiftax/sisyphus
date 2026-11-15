@@ -1,27 +1,49 @@
 // Polite fetching of vendor documentation and conversion to plain text.
 //
 // One request per second per host, a 20 second timeout, redirects followed,
-// a UA that says who is knocking. Nothing here retries; a failed fetch is a
-// finding in its own right.
+// a user agent that says who is knocking. A transient failure (5xx, network
+// error, timeout) is retried once after a pause. Anything else is reported
+// as it is, with a kind, so that a bot block is never mistaken for a page
+// that changed.
 
 import * as cheerio from "cheerio";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const USER_AGENT = "sisyphus/0.1 (+https://rotate.fail)";
+export const USER_AGENT = "sisyphus/0.2 (+https://rotate.fail)";
 const TIMEOUT_MS = 20_000;
-const MIN_GAP_MS = 1_000;
+const minGapMs = () => Number(process.env.SISYPHUS_MIN_GAP_MS ?? 1_000);
+const retryAfterMs = () => Number(process.env.SISYPHUS_RETRY_AFTER_MS ?? 5_000);
+
+// Why a URL could not be read.
+//   blocked  401, 403, 429: the host refused us. Usually bot protection.
+//   gone     404, 410: the page is not there.
+//   server   any other non-2xx status
+//   network  DNS, TLS, connection reset, timeout
+export type FailureKind = "blocked" | "gone" | "server" | "network";
 
 export interface FetchResult {
   url: string;
   finalUrl: string;
   status: number; // 0 when the request never produced a response
   ok: boolean;
+  failure?: FailureKind; // set when !ok
   contentType: string;
   text: string; // visible plain text, empty when !ok
   data: string; // strings mined from embedded JSON data islands (__NEXT_DATA__ and friends); "" when none
   error?: string;
   fetchedAt: string; // ISO timestamp
+}
+
+export function classifyStatus(status: number): FailureKind {
+  if (status === 0) return "network";
+  if (status === 401 || status === 403 || status === 429) return "blocked";
+  if (status === 404 || status === 410) return "gone";
+  return "server";
+}
+
+function transient(r: FetchResult): boolean {
+  return !r.ok && (r.failure === "network" || r.failure === "server" || r.status === 429);
 }
 
 // Per-host serial queue so that a host sees at most one request per second,
@@ -32,10 +54,9 @@ function throttle(host: string): Promise<void> {
   const prev = hostQueues.get(host) ?? Promise.resolve();
   let release!: () => void;
   const gate = new Promise<void>((r) => (release = r));
-  const next = prev.then(() => gate);
-  hostQueues.set(host, next);
+  hostQueues.set(host, prev.then(() => gate));
   return prev.then(() => {
-    setTimeout(release, MIN_GAP_MS);
+    setTimeout(release, minGapMs());
   });
 }
 
@@ -105,9 +126,8 @@ function dump(url: string, text: string): void {
   writeFileSync(join(dir, name + ".txt"), text);
 }
 
-export async function fetchText(url: string): Promise<FetchResult> {
-  const host = new URL(url).host;
-  await throttle(host);
+async function fetchOnce(url: string): Promise<FetchResult> {
+  await throttle(new URL(url).host);
   const fetchedAt = new Date().toISOString();
   try {
     const res = await fetch(url, {
@@ -121,7 +141,8 @@ export async function fetchText(url: string): Promise<FetchResult> {
     });
     const contentType = res.headers.get("content-type") ?? "";
     if (!res.ok) {
-      return { url, finalUrl: res.url || url, status: res.status, ok: false, contentType, text: "", data: "", fetchedAt, error: `HTTP ${res.status}` };
+      await res.body?.cancel().catch(() => {});
+      return { url, finalUrl: res.url || url, status: res.status, ok: false, failure: classifyStatus(res.status), contentType, text: "", data: "", fetchedAt, error: `HTTP ${res.status}` };
     }
     const raw = await res.text();
     const isHtml = /html|xml/i.test(contentType) || /^\s*<(!doctype|html)/i.test(raw);
@@ -131,8 +152,15 @@ export async function fetchText(url: string): Promise<FetchResult> {
     return { url, finalUrl: res.url || url, status: res.status, ok: true, contentType, text, data, fetchedAt };
   } catch (err) {
     const msg = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
-    return { url, finalUrl: url, status: 0, ok: false, contentType: "", text: "", data: "", fetchedAt, error: msg };
+    return { url, finalUrl: url, status: 0, ok: false, failure: "network", contentType: "", text: "", data: "", fetchedAt, error: msg };
   }
+}
+
+export async function fetchText(url: string): Promise<FetchResult> {
+  const first = await fetchOnce(url);
+  if (!transient(first)) return first;
+  await new Promise((r) => setTimeout(r, retryAfterMs()));
+  return fetchOnce(url);
 }
 
 // Fetch a set of URLs. Hosts are throttled independently, so this runs with

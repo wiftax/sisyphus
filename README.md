@@ -3,115 +3,159 @@
 Rotates keys forever. Opens Notices of Assessment for [wif.tax](https://wif.tax).
 
 wif.tax grades products on whether a machine can authenticate to them without
-holding a long-lived static secret. Every grade on every card cites vendor
-documentation: a URL, a date, and the exact sentence. Sisyphus is the crawler
-that notices when those sentences move, and opens a pull request against
-[wiftax/wiftax](https://github.com/wiftax/wiftax) proposing what the card
-should say now, with receipts.
+holding a long-lived static secret. Every grade cites vendor documentation: a
+URL, a date and the exact sentence. Sisyphus re-reads every cited page each
+week. When a sentence has moved, it asks Claude what the card should say now
+and opens a pull request against [wiftax/wiftax](https://github.com/wiftax/wiftax)
+with the receipts.
 
 **Sisyphus does not merge. A human reads the receipts first.**
 
+The latest patrol is on [rotate.fail](https://rotate.fail).
+
 ## What a patrol does
 
-Every Monday at 09:00 UTC (and on demand), the `patrol` workflow in
-[wiftax/wiftax](https://github.com/wiftax/wiftax/blob/main/.github/workflows/patrol.yml):
+The `patrol` workflow in
+[wiftax/wiftax](https://github.com/wiftax/wiftax/blob/main/.github/workflows/patrol.yml)
+runs every Monday at 09:00 UTC, and by hand.
 
-1. Checks out `wiftax/wiftax` and reads every card in `data/products/`.
-2. Fetches every unique evidence URL once. Polite: user agent
-   `sisyphus/0.1 (+https://rotate.fail)`, one request per second per host,
-   20 second timeout, redirects followed. HTML is reduced to visible text;
-   strings embedded in JSON data islands (`__NEXT_DATA__` and friends) are
-   mined as a secondary source, since some docs sites render tables client-side.
-3. Decides, per URL, whether the documentation has drifted:
-   - a `quote` the card cites no longer appears on the page, after
-     normalization (whitespace, case, quote marks, dashes, table pipes, and a
-     trailing sentence mark the card author may have dropped);
-   - the URL errors or returns a non-2xx status;
-   - for URLs with no quote, the visible text's hash differs from the one
-     stored in `<card-id>.json` on the `sisyphus-state` branch on the last patrol.
-4. For each card with drift, calls Claude once (`claude-opus-5`, adaptive
-   thinking, structured JSON output). The system prompt is `RUBRIC.md` plus
-   `VOICE.md`. The user content is the current card and, for each drifted URL,
-   the old quotes and up to 12,000 characters of the current page centred on
-   the best fuzzy match. The model returns `{change_needed, proposed_card,
-   rationale, vanished_quotes, new_quotes}` and may lower or raise grades, flip
-   hygiene checks, or only refresh quotes and `checked_on`.
-5. If a change is proposed: the YAML is written into the checkout and the
-   repo's own `node scripts/validate.mjs` runs. Every new quote is checked
-   programmatically against the fetched text. On failure the model is retried
-   once with the errors; on a second failure an issue is opened instead of a
-   PR. Touched evidence entries get `checked_on: <today>` and
-   `checked_by: sisyphus`.
-6. Opens a PR from branch `sisyphus/<card-id>-<YYYYMMDD>`, labelled `sisyphus`
-   and `card:<card-id>`, unless an open PR with the card's label already
-   exists. Title: `Notice of Assessment: <Vendor> <Product>` when the headline
-   grade goes down or holds; `Notice of Relief: <Vendor> <Product>` when it
-   goes up. The body lists before/after grades per surface, vanished quotes,
-   new receipts with links, the rationale, and the fixed footer.
-7. Commits state to the `sisyphus-state` branch of `wiftax/wiftax` so hash
-   comparison works next week. PRs are made with that workflow's `GITHUB_TOKEN`,
-   which does not trigger other workflows, so Sisyphus starts the required
-   `check` workflow on each `sisyphus/*` branch itself.
+1. **Fetch.** Every unique evidence URL across every card in `data/products/`
+   is fetched once. The user agent is `sisyphus/0.2 (+https://rotate.fail)`.
+   Each host gets at most one request per second, with a 20 second timeout.
+   A 5xx, timeout or network error is retried once. HTML is reduced to visible
+   text. Strings in embedded JSON (`__NEXT_DATA__` and similar) are read too,
+   because some docs sites render tables in the browser.
+
+2. **Compare.** For each URL:
+   - **Quote vanished.** A quote the card cites is no longer on the page.
+     Matching ignores case, whitespace, quote marks, dash styles, table pipes
+     and a trailing full stop.
+   - **Text changed.** The URL has no quote, and its text hash differs from
+     last week's.
+   - **Unreachable.** The fetch failed. This is not drift. It is classified as
+     blocked (401, 403, 429), gone (404, 410), server error or network error.
+     The receipts are left alone and a streak counts consecutive failed
+     patrols.
+
+3. **Assess.** Each card with drift gets one call to Claude (`claude-opus-5-5`,
+   adaptive thinking, effort `high`, structured JSON output). The system prompt
+   is wiftax's `RUBRIC.md` plus [`VOICE.md`](VOICE.md). It is cached across
+   cards. The user content is the card, the drifted URLs, and up to 12,000
+   characters of each current page centred on the best match of the old
+   quote. Calls for different cards run four at a time.
+
+   A card is not assessed when a notice for it is already open, or when the
+   card and its drift are exactly what Sisyphus assessed last time and the
+   answer was "no change" or an issue.
+
+4. **Check.** A proposed card must pass all of these. On failure the model
+   gets one retry with the errors. After a second failure an issue is opened.
+   - Every new quote appears verbatim on the fetched page for its URL.
+   - Every receipt on a URL that did not drift is unchanged.
+   - wiftax's own `scripts/validate.mjs` passes. It runs in a scratch copy,
+     never in the checkout.
+
+   Touched evidence gets `checked_on: <today>` and `checked_by: sisyphus`. The
+   change is written into the original YAML in place, so the PR diff shows
+   only the lines that moved.
+
+5. **File.**
+   - **Notice of Assessment** or **Notice of Relief**: one PR per card whose
+     grades, tier gate, issuer list, status or hygiene results change. Relief
+     when the headline grade goes up. Grade drops are filed first. At most 10
+     per patrol (`--max-notices`); the rest wait for next week.
+   - **Receipts refreshed**: one PR for every card whose quotes moved but whose
+     grades held. Each patrol's refresh PR closes the previous one.
+   - **Proposal rejected**: an issue, when a proposal fails its checks twice.
+   - **Unreachable: \<host\>**: one issue per docs host whose pages have failed
+     for two patrols in a row (`--unreachable-after`). It is updated each
+     patrol and closed when the host answers again.
+
+   Each PR is built in a temporary git worktree from `origin/main`, with the
+   scoreboard re-rendered. A failure in one card cannot affect the next. If
+   `gh pr create` fails after the push, the branch is deleted. GitHub calls
+   retry on 5xx and network errors. PRs made with a workflow's `GITHUB_TOKEN`
+   do not trigger other workflows, so Sisyphus starts the required `check`
+   workflow on each branch itself.
+
+6. **Record.** Per-card state (page hashes, failure streaks, the last
+   assessment) and `patrol.json` are committed to the `sisyphus-state` branch,
+   even when the patrol fails partway. `patrol.json` holds the counts, the
+   outcome for every card, the open PRs, the unreachable hosts, and a year of
+   weekly history. rotate.fail reads it from
+   `raw.githubusercontent.com/wiftax/wiftax/sisyphus-state/patrol.json`.
 
 ## Running it locally
 
 ```sh
 npm ci
-# drift only, no model call, nothing written except out/
+npm test
+
+# drift only, no model, nothing written outside out/
 npx tsx src/cli.ts check --dry-run --no-llm --data ../wiftax
-# one card, with the model, proposals written to out/ instead of git
+
+# one card with the model; the proposal and PR body go to out/
 npx tsx src/cli.ts check --dry-run --card github-api --data ../wiftax
 ```
 
-Flags: `--card <id>` limits to one card; `--dry-run` prints what would happen
-and writes proposed YAML and PR bodies to `out/` without touching git or
-`state/`; `--no-llm` reports drift and skips assessment; `--data <path>` is a
-wiftax checkout (default `./wiftax`); `--state <dir>` overrides the state
-directory. Set `SISYPHUS_DUMP_DIR=/some/dir` to write every fetched page's
-text to disk for debugging.
+| Flag | Default | |
+|---|---|---|
+| `--data <path>` | `./wiftax` or `$WIFTAX_DIR` | a wiftax checkout with `npm ci` done |
+| `--state <dir>` | `./state` | per-card state and `patrol.json` |
+| `--out <dir>` | `./out` | dry-run output |
+| `--card <id>` | all | one card. Its report goes to `out/`, not the state branch |
+| `--dry-run` | off | write proposals, PR bodies and issues to `out/`. No git, no GitHub, no state |
+| `--no-llm` | off | report drift and skip the model |
+| `--max-notices <n>` | 10 | most notices per patrol |
+| `--concurrency <n>` | 4 | model calls in flight |
+| `--unreachable-after <n>` | 2 | patrols a URL must fail before its host gets an issue |
 
-Locally the SDK resolves credentials the usual way (`ANTHROPIC_API_KEY`, an
-`ant auth login` profile, or the federation variables below). In CI there is
-no API key anywhere.
+| Environment | |
+|---|---|
+| `SISYPHUS_MODEL`, `SISYPHUS_EFFORT` | override `claude-opus-5-5` and `high` |
+| `SISYPHUS_DUMP_DIR` | write every fetched page's text here |
+| `SISYPHUS_UPSTREAM` | the repo PRs go to, default `wiftax/wiftax` |
+| `SISYPHUS_CHECK_WORKFLOW` | workflow to start on each PR branch |
+
+Locally the SDK finds credentials the usual way: `ANTHROPIC_API_KEY`, an
+`ant auth login` profile, or the federation variables below. CI has no API key.
 
 ## Auth: zero static secrets
 
 | Who Sisyphus talks to | How | Static secret |
 |---|---|---|
-| Anthropic | Workload Identity Federation: the job's GitHub OIDC token is exchanged for a short-lived Anthropic access token | none |
+| Anthropic | Workload Identity Federation. The job's GitHub OIDC token is exchanged for a short-lived Anthropic access token | none |
 | GitHub | The `GITHUB_TOKEN` of the `wiftax/wiftax` workflow run, valid for one job | none |
 
-Sisyphus used to run in this repo with a GitHub App, whose private key was the
-project's one static secret. GitHub Apps have no federated authentication path,
-so the patrol moved into `wiftax/wiftax`, the only repo it writes to, where the
-job's own `GITHUB_TOKEN` can push branches and open PRs. The App and its key are
-gone. This repo holds code only and has no workflows or secrets.
+Sisyphus used to run in this repo as a GitHub App, whose private key was the
+project's one static secret. GitHub Apps have no federated authentication, so
+the patrol moved into `wiftax/wiftax`, the only repo it writes to. The App and
+its key are deleted. This repo holds code, tests and a CI workflow with
+read-only permissions. It has no secrets.
 
 ## Owner setup
 
-### 1. GitHub
+### GitHub
 
 In `wiftax/wiftax`:
 
-- The `patrol` workflow is `.github/workflows/patrol.yml`. Its job permissions are
-  `contents`, `pull-requests`, `issues` and `actions` write, and `id-token` write.
-- Settings → Actions → General → **Allow GitHub Actions to create and approve pull
-  requests** must be on (and allowed by the `wiftax` organization). The `main`
-  ruleset still requires a code-owner review, so the workflow cannot merge anything.
-- The `sisyphus-state` branch holds one JSON per card. It is outside the `main` ruleset.
-- `check.yml` accepts `workflow_dispatch`; Sisyphus starts it on each PR branch.
+- `.github/workflows/patrol.yml` needs `contents`, `pull-requests`, `issues`
+  and `actions` write, and `id-token` write.
+- Settings → Actions → General → **Allow GitHub Actions to create and approve
+  pull requests** is on, and allowed by the `wiftax` organization. The `main`
+  ruleset still requires a code-owner review, so nothing merges itself.
+- The `sisyphus-state` branch is outside the `main` ruleset.
+- `check.yml` accepts `workflow_dispatch`.
 
-### 2. Anthropic: Workload Identity Federation
+### Anthropic: Workload Identity Federation
 
-Everything below is quoted from or matches the Anthropic docs:
+From the Anthropic docs:
 [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation),
-[Use WIF with GitHub Actions](https://platform.claude.com/docs/en/manage-claude/wif-providers/github-actions),
+[WIF with GitHub Actions](https://platform.claude.com/docs/en/manage-claude/wif-providers/github-actions),
 [WIF reference](https://platform.claude.com/docs/en/manage-claude/wif-reference).
 
-In the Claude Console, open **Settings → Workload identity**, click **Connect
-workload**, and select the **GitHub Actions** tile. The wizard creates the
-three resources. Use these values (they are the same whether you enter them in
-the wizard or send them to the Admin API):
+In the Claude Console, open **Settings → Workload identity → Connect
+workload → GitHub Actions**. The wizard creates three resources:
 
 **Service account** (`svac_...`):
 
@@ -119,8 +163,8 @@ the wizard or send them to the Admin API):
 { "name": "sisyphus", "organization_role": "developer" }
 ```
 
-**Federation issuer** (`fdis_...`). Per the GitHub Actions guide, GitHub
-"publishes its OIDC discovery document and JWKS publicly, so use discovery mode":
+**Federation issuer** (`fdis_...`). GitHub publishes its discovery document
+and JWKS, so use discovery mode:
 
 ```json
 {
@@ -130,11 +174,9 @@ the wizard or send them to the Admin API):
 }
 ```
 
-**Federation rule** (`fdrl_...`). The subject is pinned to `wiftax/wiftax`'s
-`main` branch, where the patrol workflow runs, so pull-request runs (including from forks) cannot mint a token.
-The docs' GitHub Actions example includes `audience` and a `repository_owner`
-claim, and warns: "A trailing wildcard such as `repo:my-org/my-repo:*` also
-matches `pull_request` runs, including runs triggered from forks."
+**Federation rule** (`fdrl_...`). The subject is pinned to `main` of
+`wiftax/wiftax`, so pull request runs, including runs from forks, cannot mint
+a token:
 
 ```json
 {
@@ -152,84 +194,54 @@ matches `pull_request` runs, including runs triggered from forks."
 }
 ```
 
-> **Subject format.** GitHub now embeds numeric IDs in the OIDC `sub` claim:
-> `repo:<owner>@<owner_id>/<repo>@<repo_id>:ref:refs/heads/main`. The Console
-> wizard pre-fills the old `repo:<owner>/<repo>:...` form, which is denied with
-> `match_subject_prefix`. Use the exact `sub` shown in the Console's
-> authentication log (Settings → Workload identity → Authentication events).
+Notes:
 
-Notes on those fields, from the WIF reference:
+- **Subject format.** GitHub's OIDC `sub` claim now carries numeric IDs:
+  `repo:<owner>@<owner_id>/<repo>@<repo_id>:ref:refs/heads/main`. The Console
+  wizard pre-fills the old `repo:<owner>/<repo>:...` form, which is denied
+  with `match_subject_prefix`. Copy the exact `sub` from **Settings → Workload
+  identity → Authentication events**.
+- `subject_prefix` without a trailing `*` is an exact match, so only `main`
+  matches. A trailing `*` would also match `pull_request` runs.
+- `workspace:inference` covers Messages, token counting and Models, which is
+  all Sisyphus uses.
+- A patrol takes longer than one GitHub identity token lives (about five
+  minutes) and can take longer than one Anthropic token lives. Each GitHub
+  token can be exchanged only once. So before each model call,
+  `src/assess.ts` writes a fresh GitHub token into
+  `ANTHROPIC_IDENTITY_TOKEN_FILE`, at most once every three minutes, and the
+  SDK reads that file whenever it re-exchanges. Concurrent calls share one
+  Anthropic token.
+- If the rule covers more than one workspace, set `ANTHROPIC_WORKSPACE_ID`.
 
-- `subject_prefix` is "Exact match against the JWT `sub` claim. A trailing `*`
-  makes it a prefix match." No wildcard here, so only `main` matches.
-- `audience`: "The JWT `aud` claim must contain this exact string." The
-  workflow requests the GitHub token with `audience=https://api.anthropic.com`,
-  which is the value the docs use throughout.
-- `oauth_scope: workspace:inference` grants "the inference endpoints in the
-  rule's workspace: Messages (including streaming and token counting), Models".
-  Sisyphus needs nothing else. Use `workspace:developer` if you later want
-  Files or Skills.
-- `token_lifetime_seconds` is 60 to 86400, default 3600. A patrol must finish
-  within one Anthropic token lifetime: GitHub Actions identity tokens carry a
-  `jti`, and "an assertion that carries a `jti` claim can be exchanged only
-  once per issuer", so the SDK cannot re-exchange the same file on refresh.
-  One hour is ample for a patrol of a dozen cards.
-- `workspace_id`: the workspace whose quota and billing apply. If the rule is
-  bound to a single workspace, `ANTHROPIC_WORKSPACE_ID` is optional and the
-  workflow does not set it. If you enable the rule for more than one
-  workspace, add `ANTHROPIC_WORKSPACE_ID` as a repository variable and to the
-  workflow's `env`.
-
-Then in `wiftax/wiftax` → Settings → Secrets and variables → Actions →
-**Variables** (none of these are secret):
+Then set these **repository variables** (not secrets) in `wiftax/wiftax` →
+Settings → Secrets and variables → Actions:
 
 | Variable | Value |
 |---|---|
-| `ANTHROPIC_FEDERATION_RULE_ID` | the rule's ID, `fdrl_...` |
-| `ANTHROPIC_ORGANIZATION_ID` | your organization's UUID, from Console **Settings → Organization** |
-| `ANTHROPIC_SERVICE_ACCOUNT_ID` | the service account's ID, `svac_...` |
+| `ANTHROPIC_FEDERATION_RULE_ID` | `fdrl_...` |
+| `ANTHROPIC_ORGANIZATION_ID` | organization UUID, from Console **Settings → Organization** |
+| `ANTHROPIC_SERVICE_ACCOUNT_ID` | `svac_...` |
+| `ANTHROPIC_WORKSPACE_ID` | optional, only for multi-workspace rules |
 
-The workflow requests the OIDC token exactly as the GitHub Actions guide shows:
-
-```sh
-curl -sS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-  "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
-  | jq -r .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE"
-```
-
-and sets `ANTHROPIC_IDENTITY_TOKEN_FILE` to that path. With the three
-variables above also in the environment, `new Anthropic()` with no arguments
-performs the exchange at `POST /v1/oauth/token` on the first request. "Each
-GitHub-issued identity token expires roughly five minutes after issuance," and a
-patrol spends longer than that fetching pages, so `src/assess.ts` writes a fresh
-one into the same file before each model call; the SDK re-reads it whenever it
-exchanges.
-
-To verify: run the workflow by hand with `dry_run` checked. A denied exchange
-is an opaque `401 Authentication failed`; the reason (for example
-`match_subject_prefix`) is in the Console's authentication history at
-**Settings → Workload identity → History**.
-
-### Everything the owner sets, in one place
-
-| Where | Kind | Name |
-|---|---|---|
-| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_FEDERATION_RULE_ID` |
-| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_ORGANIZATION_ID` |
-| `wiftax/wiftax` Actions | Variable | `ANTHROPIC_SERVICE_ACCOUNT_ID` |
-| `wiftax/wiftax` Actions | Variable (optional) | `ANTHROPIC_WORKSPACE_ID`, only for multi-workspace rules |
-
-No secrets.
+To verify, run the patrol workflow by hand with `dry_run` checked. It makes a
+free `count_tokens` call. A denied exchange is an opaque `401 Authentication
+failed`. The reason is in the Console under **Settings → Workload identity →
+History**.
 
 ## Layout
 
 ```
-src/fetch.ts    polite fetching, HTML and Markdown to text, JSON data islands
-src/drift.ts    card model, citation walk, normalization, drift detection, state
-src/assess.ts   the one model call per card: prompts, schema, retry
-src/pr.ts       validator, quote verification, stamping, PR/issue bodies, git + gh
-src/cli.ts      `sisyphus check`
-VOICE.md        how Sisyphus writes
+src/fetch.ts      polite fetching, HTML and Markdown to text, failure kinds
+src/drift.ts      card model, citations, matching, drift and unreachable URLs, state
+src/assess.ts     the model call: prompts, schema, retry, identity token refresh
+src/yamlpatch.ts  write a proposal into the original YAML, changing only what moved
+src/pr.ts         checks on a proposal, PR and issue bodies, worktree publishing
+src/report.ts     patrol.json
+src/run.ts        git and gh, with retries for gh
+src/cli.ts        sisyphus check
+test/             node:test, with a fixture checkout, a local docs server and a gh stub
+VOICE.md          how Sisyphus writes
 ```
 
 ## License
