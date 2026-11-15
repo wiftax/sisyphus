@@ -6,7 +6,8 @@ import { appendFileSync, existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { assessCard, describeUsage, MODEL, reassessCard, type AssessOutcome } from "./assess.js";
-import { detectDrift, driftFingerprint, loadState, saveState, uniqueUrls, type Card, type DriftReport, type LastAssessment } from "./drift.js";
+import { citations, detectDrift, driftFingerprint, loadState, saveState, uniqueUrls, type Card, type DriftReport, type Evidence, type LastAssessment } from "./drift.js";
+import { findMoves, type Move } from "./moved.js";
 import { fetchAll, USER_AGENT, type FetchResult } from "./fetch.js";
 import {
   cardLabel,
@@ -56,9 +57,10 @@ export interface Opts {
   maxNotices: number;
   concurrency: number;
   unreachableAfter: number;
+  moves: boolean;
 }
 
-const USAGE = "usage: sisyphus check [--card <id>] [--dry-run] [--no-llm] [--data <path>] [--state <dir>] [--out <dir>] [--max-notices <n>] [--concurrency <n>] [--unreachable-after <n>]";
+const USAGE = "usage: sisyphus check [--card <id>] [--dry-run] [--no-llm] [--data <path>] [--state <dir>] [--out <dir>] [--max-notices <n>] [--concurrency <n>] [--unreachable-after <n>] [--no-moves]";
 
 function usage(msg?: string): never {
   if (msg) console.error(msg);
@@ -84,6 +86,7 @@ export function parseArgs(argv: string[]): Opts {
     maxNotices: 10,
     concurrency: 4,
     unreachableAfter: 2,
+    moves: true,
   };
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i];
@@ -91,6 +94,7 @@ export function parseArgs(argv: string[]): Opts {
     if (a === "--card") o.card = next();
     else if (a === "--dry-run") o.dryRun = true;
     else if (a === "--no-llm") o.llm = false;
+    else if (a === "--no-moves") o.moves = false;
     else if (a === "--data") o.data = resolve(next());
     else if (a === "--state") o.state = resolve(next());
     else if (a === "--out") o.out = resolve(next());
@@ -127,6 +131,7 @@ async function pool<T, R>(items: T[], n: number, fn: (item: T) => Promise<R>): P
 interface Loaded {
   text: string;
   card: Card;
+  moves?: Move[];
 }
 
 interface CardOutcome {
@@ -256,6 +261,28 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     printDrift(report);
   }
 
+  // Pages that are gone or empty: find where they went, proven by the cited
+  // sentences. No model is involved, so this also runs with --no-llm.
+  const movedPages: { card: string; from: string; to: string }[] = [];
+  if (opts.moves) {
+    const gone = new Map<string, Set<string>>();
+    for (const c of cards) {
+      for (const u of reports.get(c.card.id)!.unreachable) {
+        if (u.failure !== "gone" && u.failure !== "empty") continue;
+        const qs = gone.get(u.url) ?? new Set<string>();
+        for (const x of citations(c.card)) if (x.url === u.url && x.quote) qs.add(x.quote);
+        gone.set(u.url, qs);
+      }
+    }
+    if (gone.size) {
+      log(`\nlooking for ${gone.size} moved page(s)...`);
+      const moves = await findMoves([...gone].map(([url, quotes]) => ({ url, quotes: [...quotes] })), { log });
+      for (const c of cards) {
+        for (const m of applyMoves(c, moves, reports.get(c.card.id)!, fetched, date)) movedPages.push({ card: c.card.id, from: m.from, to: m.to });
+      }
+    }
+  }
+
   const outcomes = new Map<string, CardOutcome>();
   const setOutcome = (id: string, action: string, error = false) => {
     const r = reports.get(id)!;
@@ -269,7 +296,7 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     reports.get(id)!.nextState.last_assessment = la;
   };
 
-  const sandbox = opts.llm ? new Sandbox(opts.data) : null;
+  const sandbox = new Sandbox(opts.data);
   try {
     // Which cards already have a notice open, and which refresh PRs exist.
     let open: OpenPr[] | null = [];
@@ -280,8 +307,11 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     const hasNotice = new Set((open ?? []).filter((p) => !p.labels.includes(REFRESH_LABEL)).flatMap((p) => p.labels.filter((l) => l.startsWith("card:")).map((l) => l.slice(5))));
 
     const queue: { c: Loaded; report: DriftReport; fingerprint: string }[] = [];
+    const movedOnly: Loaded[] = [];
     for (const c of cards) {
       const report = reports.get(c.card.id)!;
+      // Moved pages with nothing for the model to read go straight to the refresh.
+      if (c.moves?.length && (!report.drifted.length || !opts.llm) && open !== null && !hasNotice.has(c.card.id)) movedOnly.push(c);
       if (!report.drifted.length) {
         setOutcome(c.card.id, report.unreachable.length ? "no drift (some receipts unreachable)" : "no drift");
         continue;
@@ -309,7 +339,7 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     }
 
     if (queue.length) log(`\nassessing ${queue.length} card(s), ${opts.concurrency} at a time...`);
-    const verdicts = await pool(queue, opts.concurrency, async (q) => ({ ...q, verdict: await assess(q.c, q.report, fetched, sandbox!, rubricPath, date) }));
+    const verdicts = await pool(queue, opts.concurrency, async (q) => ({ ...q, verdict: await assess(q.c, q.report, fetched, sandbox, rubricPath, date) }));
 
     const refreshEntries: (RefreshEntry & { fingerprint: string })[] = [];
     const noticeQueue: (typeof verdicts)[number][] = [];
@@ -335,8 +365,18 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
           } else setOutcome(id, `issue failed: ${r.error}`, true);
         }
       } else if (v.refresh) {
-        refreshEntries.push({ card: c.card, drifted: report.drifted, assessment: v.outcome.assessment, yaml: v.yaml, fingerprint });
+        refreshEntries.push({ card: c.card, drifted: report.drifted, assessment: v.outcome.assessment, yaml: v.yaml, fingerprint, moves: c.moves });
       } else noticeQueue.push(item);
+    }
+
+    for (const c of movedOnly) {
+      const v = sandbox.validate(c.card.id, c.text);
+      if (!v.ok) {
+        setOutcome(c.card.id, `moved pages found, but the card then failed validation: ${v.errors[0] ?? "see the validator"}`, true);
+        continue;
+      }
+      const assessment = { change_needed: true, proposed_card: null, rationale: "", vanished_quotes: [], new_quotes: [] };
+      refreshEntries.push({ card: c.card, drifted: [], assessment, yaml: c.text, fingerprint: driftFingerprint(c.text, []), moves: c.moves });
     }
 
     // Notices: grade drops first, then rises, then other changes; capped.
@@ -349,7 +389,7 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
       const v = item.verdict as Extract<Verdict, { kind: "proposal" }>;
       const id = c.card.id;
       const title = prTitle(c.card, v.dir);
-      const body = prBody(c.card, v.proposed, v.outcome.assessment, report.drifted, date, report.unreachable);
+      const body = prBody(c.card, v.proposed, v.outcome.assessment, report.drifted, date, report.unreachable, c.moves);
       log(`  ${id}: headline ${headline(c.card)} -> ${headline(v.proposed)} (${v.dir})`);
       if (i >= opts.maxNotices) {
         setOutcome(id, `deferred: over this patrol's limit of ${opts.maxNotices} notices`);
@@ -419,7 +459,7 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
       for (const e of held.errors) log(`  held runs: ${e}`);
     }
   } finally {
-    sandbox?.dispose();
+    sandbox.dispose();
     // State is saved whatever happened above, so next week's hashes and streaks are right.
     if (!opts.dryRun) for (const r of reports.values()) saveState(opts.state, r.nextState);
   }
@@ -442,6 +482,7 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     openPrs: openNow,
     previousDir: opts.state,
     usage: opts.llm ? meter.totals() : null,
+    movedPages,
   });
   // Only a full, real patrol replaces the report on the state branch.
   const reportPath = writeReport(opts.dryRun || report.partial ? opts.out : opts.state, report);
@@ -458,6 +499,35 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     return 1;
   }
   return 0;
+}
+
+// Point every receipt on a moved URL at its new address, re-dated, and treat
+// the new page as fetched. Returns the moves that applied to this card.
+function applyMoves(c: Loaded, moves: Map<string, Move>, report: DriftReport, fetched: Map<string, FetchResult>, date: string): Move[] {
+  const mine = report.unreachable.filter((u) => moves.has(u.url)).map((u) => moves.get(u.url)!);
+  if (!mine.length) return [];
+  const moved = structuredClone(c.card);
+  const visit = (list: Evidence[] | undefined) => {
+    for (const e of list ?? []) {
+      const m = moves.get(e.url);
+      if (!m) continue;
+      e.url = m.to;
+      e.checked_on = date;
+      e.checked_by = "sisyphus";
+    }
+  };
+  visit(moved.surfaces.inbound?.evidence);
+  visit(moved.surfaces.outbound?.evidence);
+  for (const check of Object.values(moved.hygiene ?? {})) visit(check?.evidence);
+  if (moved.vendor_statement && moves.has(moved.vendor_statement.url)) moved.vendor_statement.url = moves.get(moved.vendor_statement.url)!.to;
+  c.text = patchYaml(c.text, moved).text;
+  c.card = moved;
+  c.moves = mine;
+  for (const m of mine) fetched.set(m.to, m.page);
+  report.unreachable = report.unreachable.filter((u) => !moves.has(u.url));
+  report.card = moved;
+  for (const m of mine) log(`  ${c.card.id}: ${m.from} moved to ${m.to}`);
+  return mine;
 }
 
 function printDrift(report: DriftReport): void {

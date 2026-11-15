@@ -14,6 +14,7 @@ import * as yaml from "js-yaml";
 import type { Assessment } from "./assess.js";
 import { citations, quoteOnPage, type Card, type UnreachableUrl, type UrlDrift } from "./drift.js";
 import type { FetchResult } from "./fetch.js";
+import type { Move } from "./moved.js";
 import { gh, git, run } from "./run.js";
 
 export const FOOTER = "Sisyphus does not merge. A human reads the receipts first.";
@@ -203,6 +204,10 @@ function gradeRow(label: string, b: string, a: string): string {
   return `| ${label} | ${b} | ${a} | ${b === a ? "unchanged" : `${b} → ${a}`} |`;
 }
 
+export function movedLines(moves: Move[] = []): string[] {
+  return moves.map((m) => `- ${m.from} is gone. The page now lives at ${m.to}, which contains all ${m.quotes} cited sentence${m.quotes === 1 ? "" : "s"}. The receipts point there now.`);
+}
+
 export function circumstances(drifted: UrlDrift[]): string[] {
   const lines: string[] = [];
   for (const d of drifted) {
@@ -222,7 +227,7 @@ function unreachableNote(unreachable: UnreachableUrl[]): string[] {
   ];
 }
 
-export function prBody(before: Card, after: Card | null, assessment: Assessment, drifted: UrlDrift[], today: string, unreachable: UnreachableUrl[] = []): string {
+export function prBody(before: Card, after: Card | null, assessment: Assessment, drifted: UrlDrift[], today: string, unreachable: UnreachableUrl[] = [], moves: Move[] = []): string {
   const lines: string[] = [];
   lines.push(`On review of the taxpayer's documentation dated ${today}, the following changes in circumstance were noted.`);
   lines.push("");
@@ -237,7 +242,7 @@ export function prBody(before: Card, after: Card | null, assessment: Assessment,
     if (hyg.length) lines.push("", "| Hygiene check | Before | After |", "|---|---|---|", ...hyg);
     lines.push("");
   }
-  lines.push("## Changes in circumstance", "", ...circumstances(drifted), ...unreachableNote(unreachable));
+  lines.push("## Changes in circumstance", "", ...movedLines(moves), ...circumstances(drifted), ...unreachableNote(unreachable));
   if (assessment.vanished_quotes.length) {
     lines.push("", "## Vanished quotes");
     for (const q of assessment.vanished_quotes) lines.push("", ...quoteBlock(q));
@@ -255,6 +260,7 @@ export interface RefreshEntry {
   drifted: UrlDrift[];
   assessment: Assessment;
   yaml: string;
+  moves?: Move[];
 }
 
 export function refreshTitle(entries: RefreshEntry[], today: string): string {
@@ -267,17 +273,17 @@ export function refreshBody(entries: RefreshEntry[], today: string): string {
     "",
     "This pull request replaces any earlier receipts refresh. Merge it whole, or close it and Sisyphus will propose again next patrol.",
     "",
-    "| Card | Pages drifted | Quotes replaced | Quotes added |",
-    "|---|---|---|---|",
+    "| Card | Pages drifted | Pages moved | Quotes replaced | Quotes added |",
+    "|---|---|---|---|---|",
   ];
   for (const e of entries) {
-    head.push(`| ${displayName(e.card)} (\`${e.card.id}\`) | ${e.drifted.length} | ${e.assessment.vanished_quotes.length} | ${e.assessment.new_quotes.length} |`);
+    head.push(`| ${displayName(e.card)} (\`${e.card.id}\`) | ${e.drifted.length} | ${e.moves?.length ?? 0} | ${e.assessment.vanished_quotes.length} | ${e.assessment.new_quotes.length} |`);
   }
   // Few cards get their whole rationale; many share the body limit.
   const perCard = Math.max(1500, Math.floor(40_000 / entries.length));
   const sections: string[] = [];
   for (const e of entries) {
-    const s: string[] = ["", `## ${displayName(e.card)}`, "", ...circumstances(e.drifted)];
+    const s: string[] = ["", `## ${displayName(e.card)}`, "", ...movedLines(e.moves), ...circumstances(e.drifted)];
     for (const q of e.assessment.new_quotes) s.push("", ...quoteBlock(q.quote), ">", `> ${q.url}`);
     const rationale = cleanRationale(e.assessment.rationale);
     if (rationale) s.push("", rationale.length > perCard ? rationale.slice(0, perCard).replace(/\s\S*$/, "") + " [...]" : rationale);
