@@ -417,6 +417,30 @@ function prForBranch(branch: string): string | null {
   return r.ok && r.out ? r.out : null;
 }
 
+// A pull request opened with a workflow's GITHUB_TOKEN gets a pull_request run
+// of every workflow, held until a maintainer approves it. Sisyphus starts the
+// required check itself (SISYPHUS_CHECK_WORKFLOW), so those held runs are
+// duplicates that only clutter the PR. Delete the ones on sisyphus/* branches
+// that github-actions[bot] started. Nothing else is touched.
+export function deleteHeldRuns(): { deleted: number; errors: string[] } {
+  const list = gh([
+    "api",
+    `repos/${upstream()}/actions/runs?event=pull_request&status=action_required&per_page=100`,
+    "--jq",
+    '.workflow_runs[] | select(.head_branch | startswith("sisyphus/")) | select(.actor.login == "github-actions[bot]") | .id',
+  ]);
+  if (!list.ok) return { deleted: 0, errors: [`list held runs: ${list.out}`] };
+  const ids = list.out.split("\n").map((s) => s.trim()).filter((s) => /^\d+$/.test(s));
+  const errors: string[] = [];
+  let deleted = 0;
+  for (const id of ids) {
+    const r = gh(["api", "-X", "DELETE", `repos/${upstream()}/actions/runs/${id}`]);
+    if (r.ok) deleted++;
+    else errors.push(`delete run ${id}: ${r.out}`);
+  }
+  return { deleted, errors };
+}
+
 export function closePr(number: number, comment: string): boolean {
   return gh(["pr", "close", String(number), "-R", upstream(), "--delete-branch", "--comment", comment]).ok;
 }
