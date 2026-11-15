@@ -24,5 +24,7 @@ if (a === "pr" && b === "create") {
 }
 if (a === "pr" && b === "list") { console.log(args.includes("--head") ? "" : "[]"); process.exit(0); }
 if (a === "issue" && b === "list") { console.log("[]"); process.exit(0); }
+// Held pull_request runs: GH_STUB_HELD="11 22" lists those run ids.
+if (a === "api" && (args[1] ?? "").includes("status=action_required")) { console.log((process.env.GH_STUB_HELD ?? "").split(" ").filter(Boolean).join("\n")); process.exit(0); }
 if (a === "issue" && b === "create") { console.log("https://github.com/wiftax/wiftax/issues/1000"); process.exit(0); }
 process.exit(0);

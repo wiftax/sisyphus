@@ -77,7 +77,10 @@ runs every Monday at 09:00 UTC, and by hand.
    `gh pr create` fails after the push, the branch is deleted. GitHub calls
    retry on 5xx and network errors. PRs made with a workflow's `GITHUB_TOKEN`
    do not trigger other workflows, so Sisyphus starts the required `check`
-   workflow on each branch itself.
+   workflow on each branch itself. GitHub still creates a `pull_request` run
+   for each such PR and holds it for approval. It would duplicate that check,
+   so at the end of the patrol Sisyphus deletes held runs on `sisyphus/*`
+   branches that `github-actions[bot]` started.
 
 6. **Record.** Per-card state (page hashes, failure streaks, the last
    assessment) and `patrol.json` are committed to the `sisyphus-state` branch,

@@ -16,6 +16,7 @@ import { docsServer, fixtureCopy } from "./helpers.js";
 process.env.SISYPHUS_MIN_GAP_MS = "0";
 process.env.SISYPHUS_RETRY_AFTER_MS = "0";
 process.env.SISYPHUS_GH_BACKOFF_MS = "1";
+process.env.SISYPHUS_HELD_WAIT_MS = "0";
 
 const docs = await docsServer({
   "/tokens": [200, "<p>Tokens never expire.</p>"],
@@ -140,6 +141,22 @@ test("a grade change becomes a notice; the same drift with no change is not asse
   assert.equal(requests.length, 1);
   const report = JSON.parse(readFileSync(join(fresh.state, "patrol.json"), "utf8")) as PatrolReport;
   assert.match(report.outcomes[0].action, /same drift already assessed/);
+});
+
+test("after opening a PR, held pull_request runs on sisyphus branches are deleted", async () => {
+  const { data, log, state, out } = setup();
+  process.env.GH_STUB_HELD = "111 222";
+  const swap = (y: string) => y.replace('quote: "Call POST /tokens/rotate to rotate a token."', 'quote: "Rotate a token with POST /v2/tokens/rotate."');
+  answers.push(proposal(data, swap, "The endpoint moved to v2.", "Rotate a token with POST /v2/tokens/rotate."));
+  try {
+    await main(["check", "--data", data, "--state", state, "--out", out]);
+  } finally {
+    delete process.env.GH_STUB_HELD;
+  }
+  const deletes = ghCalls(log).filter((c) => c.args[0] === "api" && c.args.includes("DELETE")).map((c) => c.args.at(-1));
+  assert.deepEqual(deletes.sort(), ["repos/sisyphus-test/does-not-exist/actions/runs/111", "repos/sisyphus-test/does-not-exist/actions/runs/222"]);
+  const listCall = ghCalls(log).find((c) => c.args[0] === "api" && String(c.args[1]).includes("status=action_required"));
+  assert.match(listCall.args.join(" "), /startswith\("sisyphus\/"\).*github-actions\[bot\]/);
 });
 
 test("patrol.json carries model usage and its list-price cost", async () => {

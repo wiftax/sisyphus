@@ -11,6 +11,7 @@ import { fetchAll, USER_AGENT, type FetchResult } from "./fetch.js";
 import {
   cardLabel,
   closePr,
+  deleteHeldRuns,
   direction,
   displayName,
   FOOTER,
@@ -405,6 +406,17 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
       for (const e of res.errors) log(`  unreachable issues: ${e}`);
     } else if (opts.dryRun && failing.length) {
       writeOut(opts.out, "unreachable.json", JSON.stringify(failing, null, 2) + "\n");
+    }
+
+    // PRs opened with GITHUB_TOKEN leave held pull_request runs behind; the
+    // check Sisyphus started replaces them. They appear a few seconds after
+    // the PR, so wait briefly, then clear them (older ones too).
+    const opened = notices.filter((n) => n.url).length + (refresh?.url ? 1 : 0);
+    if (!opts.dryRun && opened) {
+      await new Promise((r) => setTimeout(r, Number(process.env.SISYPHUS_HELD_WAIT_MS ?? 20_000)));
+      const held = deleteHeldRuns();
+      if (held.deleted) log(`deleted ${held.deleted} held pull_request run(s) on sisyphus/* branches`);
+      for (const e of held.errors) log(`  held runs: ${e}`);
     }
   } finally {
     sandbox?.dispose();
