@@ -108,3 +108,12 @@ test("excerpt centres on the old quote in a long page", () => {
   assert.ok(e.includes("The anchor sentence is here."));
   assert.ok(e.startsWith("[... truncated ...]"));
 });
+
+test("excerpt gives each vanished quote its own window", () => {
+  const long = "a ".repeat(20000) + "First anchor sentence here. " + "b ".repeat(20000) + "Second anchor sentence here. " + "c ".repeat(20000);
+  const e = excerpt(long, ["First anchor sentence here.", "Second anchor sentence here."], 4000);
+  assert.ok(e.includes("First anchor sentence here."));
+  assert.ok(e.includes("Second anchor sentence here."));
+  assert.ok(e.length <= 4000 + 100);
+  assert.equal(e.match(/truncated/g)?.length, 3);
+});

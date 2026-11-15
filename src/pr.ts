@@ -273,12 +273,14 @@ export function refreshBody(entries: RefreshEntry[], today: string): string {
   for (const e of entries) {
     head.push(`| ${displayName(e.card)} (\`${e.card.id}\`) | ${e.drifted.length} | ${e.assessment.vanished_quotes.length} | ${e.assessment.new_quotes.length} |`);
   }
+  // Few cards get their whole rationale; many share the body limit.
+  const perCard = Math.max(1500, Math.floor(40_000 / entries.length));
   const sections: string[] = [];
   for (const e of entries) {
     const s: string[] = ["", `## ${displayName(e.card)}`, "", ...circumstances(e.drifted)];
     for (const q of e.assessment.new_quotes) s.push("", ...quoteBlock(q.quote), ">", `> ${q.url}`);
     const rationale = cleanRationale(e.assessment.rationale);
-    if (rationale) s.push("", rationale.length > 1500 ? rationale.slice(0, 1500).replace(/\s\S*$/, "") + " [...]" : rationale);
+    if (rationale) s.push("", rationale.length > perCard ? rationale.slice(0, perCard).replace(/\s\S*$/, "") + " [...]" : rationale);
     sections.push(s.join("\n"));
   }
   const foot = ["", "---", "", FOOTER].join("\n");
