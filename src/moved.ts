@@ -242,7 +242,9 @@ export async function findMoves(gone: GoneUrl[], opts: MoveOptions = {}): Promis
       else unresolved.push(g);
     }
     // A small site can be read in full: every page once, every quote checked.
-    if (unresolved.length && sitemap && sitemap.length && sitemap.length <= scanLimit && sitemap.length <= scanBudget) {
+    // A code host's sitemap is its marketing site, never a deleted file's new home.
+    const codeHost = /^(github\.com|gitlab\.com|bitbucket\.org|raw\.githubusercontent\.com|gist\.githubusercontent\.com)$/.test(new URL(host).host);
+    if (!codeHost && unresolved.length && sitemap && sitemap.length && sitemap.length <= scanLimit && sitemap.length <= scanBudget) {
       log(`  moved pages: scanning all ${sitemap.length} pages on ${host}`);
       scanBudget -= sitemap.length;
       for (const p of sitemap) await get(p);
