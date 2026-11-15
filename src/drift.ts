@@ -1,14 +1,17 @@
 // Drift detection: does the page still say what the card says it says?
 //
-// Three kinds of drift per URL:
+// Two kinds of drift per URL:
 //   (a) a quote the card cites no longer appears in the page text
-//   (b) the URL errors or 404s
-//   (c) for URLs with no quote, the text hash differs from the stored one
+//   (b) for URLs with no quote, the text hash differs from the stored one
+//
+// A URL that cannot be fetched is not drift. It is "unreachable": its quotes
+// are left alone, its last good hash is kept, and a streak counts how many
+// patrols in a row it has failed. Unreachable URLs never reach the model.
 
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import type { FetchResult } from "./fetch.js";
+import type { FailureKind, FetchResult } from "./fetch.js";
 
 export interface Evidence {
   url: string;
@@ -49,24 +52,45 @@ export interface Card {
 }
 
 export interface UrlState {
-  hash: string | null; // sha256 of normalized text, null when the fetch failed
+  hash: string | null; // sha256 of normalized text from the last good fetch
   status: number;
   ok: boolean;
+  failure?: FailureKind;
+  fail_streak?: number; // consecutive patrols this URL has failed; 0 or absent when ok
+  last_ok_at?: string;
   checked_at: string;
   quotes_found: number;
   quotes_total: number;
+}
+
+// What the model concluded the last time this card was assessed, keyed by a
+// fingerprint of the card and the drift. The same drift is not assessed twice.
+export interface LastAssessment {
+  fingerprint: string;
+  outcome: "no_change" | "issue" | "notice" | "refresh";
+  at: string;
+  url?: string;
 }
 
 export interface CardState {
   card: string;
   updated_at: string;
   urls: Record<string, UrlState>;
+  last_assessment?: LastAssessment;
 }
 
 export type DriftReason =
   | { kind: "quote_vanished"; quote: string; where: string }
-  | { kind: "fetch_failed"; status: number; error: string }
   | { kind: "hash_changed"; previous: string; current: string };
+
+export interface UnreachableUrl {
+  url: string;
+  status: number;
+  failure: FailureKind;
+  error: string;
+  streak: number;
+  last_ok_at?: string;
+}
 
 export interface UrlDrift {
   url: string;
@@ -132,9 +156,26 @@ export function quotePresent(pageText: string, quote: string): boolean {
   const page = normalize(pageText);
   if (forms.some((f) => page.includes(f))) return true;
   // Inline markup can glue words together ("POST/accounts/..."); compare
-  // with all whitespace removed as a last resort.
+  // with all whitespace removed.
   const dense = page.replace(/ /g, "");
-  return forms.some((f) => dense.includes(f.replace(/ /g, "")));
+  if (forms.some((f) => dense.includes(f.replace(/ /g, "")))) return true;
+  // Cards quote Markdown and JSON as written (**bold**, `code`, table pipes,
+  // {"key":...}), while the page may render it. Last resort: letters and
+  // digits only, for quotes long enough that this cannot match by accident.
+  const q = alnum(forms[0]);
+  return q.length >= MIN_LOOSE && alnumPage(page).includes(q);
+}
+
+const MIN_LOOSE = 24;
+const alnum = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, "");
+// The same page is checked against several quotes in a row.
+let lastPage = "", lastAlnum = "";
+function alnumPage(page: string): string {
+  if (page !== lastPage) {
+    lastPage = page;
+    lastAlnum = alnum(page);
+  }
+  return lastAlnum;
 }
 
 // Visible text first, embedded page data second.
@@ -230,46 +271,68 @@ export function saveState(stateDir: string, state: CardState): void {
 export interface DriftReport {
   card: Card;
   drifted: UrlDrift[];
+  unreachable: UnreachableUrl[];
+  quotesTotal: number;
+  quotesFound: number;
   nextState: CardState;
+}
+
+// Identifies one card version plus one set of drifted pages. If a later patrol
+// sees the same fingerprint, nothing new has happened.
+export function driftFingerprint(cardYaml: string, drifted: UrlDrift[]): string {
+  const h = createHash("sha256").update(cardYaml);
+  for (const d of [...drifted].sort((a, b) => a.url.localeCompare(b.url))) {
+    h.update("\u0000" + d.url + "\u0000" + textHash(d.text));
+    for (const r of d.reasons) h.update("\u0000" + r.kind + (r.kind === "quote_vanished" ? r.where + r.quote : ""));
+  }
+  return h.digest("hex");
 }
 
 export function detectDrift(card: Card, fetched: Map<string, FetchResult>, previous: CardState | null): DriftReport {
   const cites = citations(card);
   const drifted: UrlDrift[] = [];
+  const unreachable: UnreachableUrl[] = [];
   const nextState: CardState = { card: card.id, updated_at: new Date().toISOString(), urls: {} };
+  if (previous?.last_assessment) nextState.last_assessment = previous.last_assessment;
+  let quotesTotal = 0;
+  let quotesFound = 0;
 
   for (const url of uniqueUrls(card)) {
     const r = fetched.get(url);
+    const prev = previous?.urls[url];
     const quotesHere = cites.filter((c) => c.url === url && c.quote);
-    const reasons: DriftReason[] = [];
-    let found = 0;
+    quotesTotal += quotesHere.length;
 
     if (!r || !r.ok) {
-      reasons.push({ kind: "fetch_failed", status: r?.status ?? 0, error: r?.error ?? "not fetched" });
-    } else {
-      for (const c of quotesHere) {
-        if (quoteOnPage(r, c.quote!)) found++;
-        else reasons.push({ kind: "quote_vanished", quote: c.quote!, where: c.where });
-      }
-      if (quotesHere.length === 0) {
-        const h = textHash(r.text);
-        const prev = previous?.urls[url]?.hash;
-        if (prev && prev !== h) reasons.push({ kind: "hash_changed", previous: prev, current: h });
-      }
+      const streak = (prev && !prev.ok ? (prev.fail_streak ?? 1) : 0) + 1;
+      const failure = r?.failure ?? "network";
+      unreachable.push({ url, status: r?.status ?? 0, failure, error: r?.error ?? "not fetched", streak, last_ok_at: prev?.ok ? prev.checked_at : prev?.last_ok_at });
+      nextState.urls[url] = {
+        hash: prev?.hash ?? null,
+        status: r?.status ?? 0,
+        ok: false,
+        failure,
+        fail_streak: streak,
+        ...(prev?.ok ? { last_ok_at: prev.checked_at } : prev?.last_ok_at ? { last_ok_at: prev.last_ok_at } : {}),
+        checked_at: r?.fetchedAt ?? new Date().toISOString(),
+        quotes_found: 0,
+        quotes_total: quotesHere.length,
+      };
+      continue;
     }
 
-    nextState.urls[url] = {
-      hash: r?.ok ? textHash(r.text) : (previous?.urls[url]?.hash ?? null),
-      status: r?.status ?? 0,
-      ok: !!r?.ok,
-      checked_at: r?.fetchedAt ?? new Date().toISOString(),
-      quotes_found: found,
-      quotes_total: quotesHere.length,
-    };
-
-    if (reasons.length) {
-      drifted.push({ url, reasons, quotes: quotesHere.map((c) => c.quote!), text: r?.ok ? pageCorpus(r) : "", status: r?.status ?? 0 });
+    const reasons: DriftReason[] = [];
+    let found = 0;
+    for (const c of quotesHere) {
+      if (quoteOnPage(r, c.quote!)) found++;
+      else reasons.push({ kind: "quote_vanished", quote: c.quote!, where: c.where });
     }
+    quotesFound += found;
+    const h = textHash(r.text);
+    if (quotesHere.length === 0 && prev?.hash && prev.hash !== h) reasons.push({ kind: "hash_changed", previous: prev.hash, current: h });
+
+    nextState.urls[url] = { hash: h, status: r.status, ok: true, checked_at: r.fetchedAt, quotes_found: found, quotes_total: quotesHere.length };
+    if (reasons.length) drifted.push({ url, reasons, quotes: quotesHere.map((c) => c.quote!), text: pageCorpus(r), status: r.status });
   }
-  return { card, drifted, nextState };
+  return { card, drifted, unreachable, quotesTotal, quotesFound, nextState };
 }

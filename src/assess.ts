@@ -1,14 +1,19 @@
 // One call to Claude per drifted card. Structured output, adaptive thinking,
 // credentials resolved by the SDK (Workload Identity Federation in CI).
+// Calls for different cards may run concurrently. The SDK shares one access
+// token and joins concurrent refreshes, and the GitHub identity token below is
+// minted at most once at a time.
 
 import Anthropic from "@anthropic-ai/sdk";
 import type { BetaMessage, BetaContentBlockParam } from "@anthropic-ai/sdk/resources/beta/messages/messages";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { excerpt, type UrlDrift } from "./drift.js";
+import { excerpt, type UnreachableUrl, type UrlDrift } from "./drift.js";
 
-export const MODEL = "claude-opus-5";
+export const MODEL = process.env.SISYPHUS_MODEL ?? "claude-opus-5-5";
+// Claude Opus 5.5 defaults to medium effort. Grading against a rubric is worth more.
+export const EFFORT = (process.env.SISYPHUS_EFFORT ?? "high") as "low" | "medium" | "high" | "xhigh" | "max";
 
 export interface Assessment {
   change_needed: boolean;
@@ -56,11 +61,12 @@ export function systemPrompt(rubricPath: string): string {
     "3. Keep every quote at or under 400 characters.",
     "4. You may lower grades, raise grades, flip hygiene checks, or only refresh checked_on and quotes. Do the smallest honest thing. A page that was reorganized but still says the same thing means: refresh the quote, keep the grade.",
     "5. For every evidence entry you touch, set checked_on to today's date (given below) and checked_by to sisyphus. Leave untouched entries exactly as they are.",
-    "6. A URL that now returns an error is not evidence of anything. Do not change a grade because a page 404s. Keep the entry, drop its quote if it had one, and say in the rationale that the receipt is missing so a human can find the replacement page.",
+    "6. Only the drifted URLs listed below are yours to change. Every evidence entry on any other URL must come back exactly as it was, character for character. Some URLs may be listed as unreachable: a page that cannot be fetched is not evidence of anything, so leave those entries alone and do not change a grade because of them. A program checks this.",
     "7. Keep the card's schema exactly: same top-level keys, same structure, YAML only, no markdown fences. Do not add keys the schema does not have.",
     "8. If nothing needs to change, say so: change_needed false, proposed_card null, a one-line rationale.",
+    "9. Any prose you write in the card (summary, mechanism, notes, covers, reason) is plain English. No semicolons. Sentences of 35 words or fewer. At most three code identifiers in a sentence. Say it in words. A program checks this too. Quotes are verbatim and exempt.",
     "",
-    "Write the rationale in the voice described in VOICE.md. It is pasted into a pull request that a human reads before merging.",
+    "Write the rationale in the voice described in VOICE.md. It is pasted into a pull request that a human reads before merging. The pull request already opens with the date line and closes with the fixed footer, so do not write either. Start with the first finding.",
     "",
     "=== RUBRIC.md ===",
     rubric,
@@ -70,36 +76,36 @@ export function systemPrompt(rubricPath: string): string {
   ].join("\n");
 }
 
-export function userContent(cardYaml: string, drifted: UrlDrift[], today: string): string {
+export function userContent(cardYaml: string, drifted: UrlDrift[], today: string, unreachable: UnreachableUrl[] = []): string {
   const parts: string[] = [];
   parts.push(`Today is ${today}.`);
   parts.push("");
   parts.push("=== CURRENT CARD (YAML) ===");
   parts.push(cardYaml.trimEnd());
   parts.push("");
+  if (unreachable.length) {
+    parts.push(`=== UNREACHABLE URLS (${unreachable.length}): leave their evidence entries exactly as they are ===`);
+    for (const u of unreachable) parts.push(`- ${u.url} (${u.status || u.failure})`);
+    parts.push("");
+  }
   parts.push(`=== DRIFTED URLS (${drifted.length}) ===`);
   for (const d of drifted) {
     parts.push("");
     parts.push(`--- URL: ${d.url}`);
     for (const r of d.reasons) {
-      if (r.kind === "fetch_failed") parts.push(`STATUS: fetch failed (${r.status || "no response"}: ${r.error})`);
-      else if (r.kind === "hash_changed") parts.push("STATUS: page text changed since last check (no quote was cited on this URL)");
+      if (r.kind === "hash_changed") parts.push("STATUS: page text changed since last check (no quote was cited on this URL)");
       else parts.push(`STATUS: quote vanished from ${r.where}: "${r.quote}"`);
     }
     if (d.quotes.length) {
       parts.push("OLD QUOTES ON THIS URL:");
       for (const q of d.quotes) parts.push(`  - "${q}"`);
     }
-    if (d.text) {
-      const anchor = d.reasons.find((r) => r.kind === "quote_vanished");
-      const anchorQuote = anchor && anchor.kind === "quote_vanished" ? anchor.quote : d.quotes[0];
-      parts.push("CURRENT PAGE TEXT (normalized, possibly truncated around the best match of the old quote):");
-      parts.push("<<<PAGE");
-      parts.push(excerpt(d.text, anchorQuote));
-      parts.push("PAGE>>>");
-    } else {
-      parts.push("CURRENT PAGE TEXT: none (fetch failed)");
-    }
+    const anchor = d.reasons.find((r) => r.kind === "quote_vanished");
+    const anchorQuote = anchor && anchor.kind === "quote_vanished" ? anchor.quote : d.quotes[0];
+    parts.push("CURRENT PAGE TEXT (normalized, possibly truncated around the best match of the old quote):");
+    parts.push("<<<PAGE");
+    parts.push(excerpt(d.text, anchorQuote));
+    parts.push("PAGE>>>");
   }
   return parts.join("\n");
 }
@@ -107,6 +113,7 @@ export function userContent(cardYaml: string, drifted: UrlDrift[], today: string
 export interface AssessInput {
   cardYaml: string;
   drifted: UrlDrift[];
+  unreachable?: UnreachableUrl[];
   today: string;
   rubricPath: string;
 }
@@ -140,16 +147,22 @@ function parseAssessment(message: BetaMessage): Assessment {
 const OIDC_AUDIENCE = "https://api.anthropic.com";
 const REFRESH_AFTER_MS = 3 * 60 * 1000;
 let mintedAt = 0;
-async function refreshIdentityToken(): Promise<void> {
+let minting: Promise<void> | null = null;
+function refreshIdentityToken(): Promise<void> {
   const url = process.env.ACTIONS_ID_TOKEN_REQUEST_URL, bearer = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
   const file = process.env.ANTHROPIC_IDENTITY_TOKEN_FILE;
-  if (!url || !bearer || !file || Date.now() - mintedAt < REFRESH_AFTER_MS) return;
-  const res = await fetch(`${url}&audience=${encodeURIComponent(OIDC_AUDIENCE)}`, { headers: { Authorization: `Bearer ${bearer}` } });
-  if (!res.ok) throw new Error(`GitHub OIDC token request failed: ${res.status}`);
-  const { value } = (await res.json()) as { value?: string };
-  if (!value) throw new Error("GitHub OIDC token response had no value");
-  writeFileSync(file, value, { mode: 0o600 });
-  mintedAt = Date.now();
+  if (!url || !bearer || !file || Date.now() - mintedAt < REFRESH_AFTER_MS) return Promise.resolve();
+  minting ??= (async () => {
+    const res = await fetch(`${url}&audience=${encodeURIComponent(OIDC_AUDIENCE)}`, { headers: { Authorization: `Bearer ${bearer}` } });
+    if (!res.ok) throw new Error(`GitHub OIDC token request failed: ${res.status}`);
+    const { value } = (await res.json()) as { value?: string };
+    if (!value) throw new Error("GitHub OIDC token response had no value");
+    writeFileSync(file, value, { mode: 0o600 });
+    mintedAt = Date.now();
+  })().finally(() => {
+    minting = null;
+  });
+  return minting;
 }
 
 let client: Anthropic | null = null;
@@ -164,11 +177,12 @@ async function call(system: string, messages: { role: "user" | "assistant"; cont
   await refreshIdentityToken();
   const stream = getClient().beta.messages.stream({
     model: MODEL,
-    max_tokens: 32_000,
-    system,
+    max_tokens: 64_000,
+    // The rubric and voice are the same for every card in a patrol: cache them.
+    system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }],
     messages,
     thinking: { type: "adaptive" },
-    output_config: { format: { type: "json_schema", schema: ASSESSMENT_SCHEMA as unknown as Record<string, unknown> } },
+    output_config: { effort: EFFORT, format: { type: "json_schema", schema: ASSESSMENT_SCHEMA as unknown as Record<string, unknown> } },
     // Server-side refusal fallbacks: if a safety classifier declines, the API
     // re-runs on a fallback model inside the same call.
     betas: ["server-side-fallback-2026-07-01"],
@@ -179,7 +193,7 @@ async function call(system: string, messages: { role: "user" | "assistant"; cont
 
 export async function assessCard(input: AssessInput): Promise<AssessOutcome> {
   const system = systemPrompt(input.rubricPath);
-  const user = userContent(input.cardYaml, input.drifted, input.today);
+  const user = userContent(input.cardYaml, input.drifted, input.today, input.unreachable);
   const message = await call(system, [{ role: "user", content: user }]);
   const assessment = parseAssessment(message);
   return { assessment, message, transcript: [[{ type: "text", text: user }], message.content as BetaContentBlockParam[]] };
@@ -189,7 +203,7 @@ export async function assessCard(input: AssessInput): Promise<AssessOutcome> {
 export async function reassessCard(input: AssessInput, previous: AssessOutcome, errors: string[]): Promise<AssessOutcome> {
   const system = systemPrompt(input.rubricPath);
   const followUp =
-    "Your proposed card was rejected. Fix every problem below and return the complete corrected card. The same rules apply: quotes verbatim from the supplied page text, grades per the rubric, schema unchanged.\n\n" +
+    "Your proposed card was rejected. Fix every problem below and return the complete corrected card. The same rules apply: quotes verbatim from the supplied page text, grades per the rubric, schema unchanged, receipts on undrifted URLs untouched.\n\n" +
     errors.map((e) => `- ${e}`).join("\n");
   const messages = [
     { role: "user" as const, content: previous.transcript[0] },
@@ -203,5 +217,5 @@ export async function reassessCard(input: AssessInput, previous: AssessOutcome, 
 
 export function describeUsage(m: BetaMessage): string {
   const u = m.usage;
-  return `in=${u.input_tokens} out=${u.output_tokens}${u.cache_read_input_tokens ? ` cache_read=${u.cache_read_input_tokens}` : ""}`;
+  return `in=${u.input_tokens} out=${u.output_tokens}${u.cache_read_input_tokens ? ` cache_read=${u.cache_read_input_tokens}` : ""}${m.model !== MODEL ? ` served_by=${m.model}` : ""}`;
 }
