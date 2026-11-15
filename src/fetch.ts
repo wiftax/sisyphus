@@ -20,7 +20,12 @@ const retryAfterMs = () => Number(process.env.SISYPHUS_RETRY_AFTER_MS ?? 5_000);
 //   gone     404, 410: the page is not there.
 //   server   any other non-2xx status
 //   network  DNS, TLS, connection reset, timeout
-export type FailureKind = "blocked" | "gone" | "server" | "network";
+//   empty    a 2xx with no readable text, e.g. a page rendered in the browser
+export type FailureKind = "blocked" | "gone" | "server" | "network" | "empty";
+
+// Fewer letters and digits than this, across visible text and embedded data,
+// means there is nothing to read.
+const MIN_READABLE = 200;
 
 export interface FetchResult {
   url: string;
@@ -149,6 +154,9 @@ async function fetchOnce(url: string): Promise<FetchResult> {
     const text = isHtml ? htmlToText(raw) : markdownToText(raw);
     const data = isHtml ? htmlToData(raw) : "";
     dump(url, data ? `${text}\n\n===== embedded data =====\n${data}` : text);
+    if ((text + data).replace(/[^\p{L}\p{N}]+/gu, "").length < MIN_READABLE) {
+      return { url, finalUrl: res.url || url, status: res.status, ok: false, failure: "empty", contentType, text: "", data: "", fetchedAt, error: "no readable text (the page may render in the browser)" };
+    }
     return { url, finalUrl: res.url || url, status: res.status, ok: true, contentType, text, data, fetchedAt };
   } catch (err) {
     const msg = err instanceof Error ? `${err.name}: ${err.message}` : String(err);

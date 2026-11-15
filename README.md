@@ -34,8 +34,9 @@ runs every Monday at 09:00 UTC, and by hand.
      last week's.
    - **Unreachable.** The fetch failed. This is not drift. It is classified as
      blocked (401, 403, 429), gone (404, 410), server error or network error.
-     The receipts are left alone and a streak counts consecutive failed
-     patrols.
+     A page that answers but has no readable text, such as one rendered in the
+     browser, counts as unreachable too ("empty"). The receipts are left alone
+     and a streak counts consecutive failed patrols.
 
 3. **Assess.** Each card with drift gets one call to Claude (`claude-opus-5-5`,
    adaptive thinking, effort `high`, structured JSON output). The system prompt

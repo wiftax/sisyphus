@@ -17,6 +17,7 @@ const routes: Record<string, [number, string]> = {
   "/blocked": [403, "Forbidden"],
   "/rotate": [200, "<html><body><p>Rotation moved to the dashboard.</p></body></html>"],
   "/changelog": [200, "<p>v1</p>"],
+  "/spa": [200, '<!--raw--><!doctype html><html><head><script src="/main.js"></script></head><body><div id="root"></div></body></html>'],
 };
 const { server, port } = await docsServer(routes);
 after(() => server.close());
@@ -66,4 +67,14 @@ test("a dry run writes to out/ and leaves state alone", async () => {
   assert.ok(existsSync(join(out, "patrol.json")));
   assert.ok(existsSync(join(out, "acme-api.drift.json")));
   assert.ok(existsSync(join(out, "unreachable.json")));
+});
+
+test("a page with no readable text is unreachable (empty), not drift", async () => {
+  const { fetchText } = await import("../src/fetch.js");
+  const r = await fetchText(`http://127.0.0.1:${port}/spa`);
+  assert.equal(r.ok, false);
+  assert.equal(r.failure, "empty");
+  assert.equal(r.status, 200);
+  const t = await fetchText(`http://127.0.0.1:${port}/tokens`);
+  assert.equal(t.ok, true);
 });

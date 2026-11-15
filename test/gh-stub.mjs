@@ -8,6 +8,16 @@ try { input = args.includes("-") ? readFileSync(0, "utf8") : ""; } catch {}
 appendFileSync(process.env.GH_STUB_LOG, JSON.stringify({ args, input: input.slice(0, 200) }) + "\n");
 const mode = process.env.GH_STUB_MODE ?? "ok";
 const [a, b] = args;
+// Like GitHub: a label must be created before a PR or issue can use it.
+const labelsFile = process.env.GH_STUB_LOG + ".labels";
+let labels = [];
+try { labels = readFileSync(labelsFile, "utf8").split("\n").filter(Boolean); } catch {}
+if (a === "label" && b === "create") { appendFileSync(labelsFile, args[2] + "\n"); process.exit(0); }
+if ((a === "pr" || a === "issue") && b === "create") {
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--label" && !labels.includes(args[i + 1])) { console.error(`could not add label: '${args[i + 1]}' not found`); process.exit(1); }
+  }
+}
 if (a === "pr" && b === "create") {
   if (mode === "502") { console.error("pull request create failed: HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)"); process.exit(1); }
   console.log("https://github.com/wiftax/wiftax/pull/999"); process.exit(0);
