@@ -37,6 +37,19 @@ runs every Monday at 09:00 UTC, and by hand.
      A page that answers but has no readable text, such as one rendered in the
      browser, counts as unreachable too ("empty"). The receipts are left alone
      and a streak counts consecutive failed patrols.
+   - **Moved.** For a gone or empty URL that cites quotes, Sisyphus looks for
+     where the page went. A webpack bundle (`<chunk>.<hash>.js`, which some
+     docs sites that render in the browser leave as the only readable copy)
+     is followed to its new hash through the site's runtime chunk map. Other
+     URLs try simple variants (with or without `.md`, `.html` or a trailing
+     slash), then the host's sitemap (found via `robots.txt`, `sitemap.xml`
+     and sitemap indexes, gzipped or not), ranked by how many path words a
+     page shares with the old URL and by how many of the quotes' words appear
+     in its path. A site with 400 pages or fewer is read in full if ranking
+     finds nothing. A page counts
+     only if every sentence the card cites on the old URL is on it. The receipts
+     are then pointed at the new URL and go into the refresh PR. No model is
+     involved. `--no-moves` turns this off.
 
 3. **Assess.** Each card with drift gets one call to Claude (`claude-opus-5-5`,
    adaptive thinking, effort `high`, structured JSON output). The system prompt
@@ -114,6 +127,7 @@ npx tsx src/cli.ts check --dry-run --card github-api --data ../wiftax
 | `--max-notices <n>` | 10 | most notices per patrol |
 | `--concurrency <n>` | 4 | model calls in flight |
 | `--unreachable-after <n>` | 2 | patrols a URL must fail before its host gets an issue |
+| `--no-moves` | off | do not look for the new address of gone pages |
 
 | Environment | |
 |---|---|
@@ -240,6 +254,8 @@ History**.
 src/fetch.ts      polite fetching, HTML and Markdown to text, failure kinds
 src/drift.ts      card model, citations, matching, drift and unreachable URLs, state
 src/assess.ts     the model call: prompts, schema, retry, identity token refresh
+src/moved.ts      find where a gone page went, through URL variants and the sitemap
+src/usage.ts      model token use and list-price cost per patrol
 src/yamlpatch.ts  write a proposal into the original YAML, changing only what moved
 src/pr.ts         checks on a proposal, PR and issue bodies, worktree publishing
 src/report.ts     patrol.json

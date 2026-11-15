@@ -9,6 +9,7 @@
 import * as cheerio from "cheerio";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { gunzipSync } from "node:zlib";
 
 export const USER_AGENT = "sisyphus/0.2 (+https://rotate.fail)";
 const TIMEOUT_MS = 20_000;
@@ -129,6 +130,25 @@ function dump(url: string, text: string): void {
   mkdirSync(dir, { recursive: true });
   const name = url.replace(/^https?:\/\//, "").replace(/[^a-zA-Z0-9._-]+/g, "_").slice(0, 180);
   writeFileSync(join(dir, name + ".txt"), text);
+}
+
+// A raw body, for sitemaps and robots.txt. Same politeness as page fetches.
+// Gzipped sitemaps (.xml.gz) are inflated. Bodies over 50 MB are refused.
+export async function fetchRaw(url: string): Promise<{ ok: boolean; status: number; text: string }> {
+  await throttle(new URL(url).host);
+  try {
+    const res = await fetch(url, { headers: { "user-agent": USER_AGENT }, redirect: "follow", signal: AbortSignal.timeout(TIMEOUT_MS) });
+    if (!res.ok) {
+      await res.body?.cancel().catch(() => {});
+      return { ok: false, status: res.status, text: "" };
+    }
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > 50_000_000) return { ok: false, status: res.status, text: "" };
+    const text = buf[0] === 0x1f && buf[1] === 0x8b ? gunzipSync(buf).toString("utf8") : buf.toString("utf8");
+    return { ok: true, status: res.status, text };
+  } catch {
+    return { ok: false, status: 0, text: "" };
+  }
 }
 
 async function fetchOnce(url: string): Promise<FetchResult> {

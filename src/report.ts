@@ -34,6 +34,7 @@ export interface PatrolReport {
   sisyphus: { commit: string | null };
   model: string | null;
   usage: UsageTotals | null; // model calls this patrol, priced at list price
+  moved_pages: { card: string; from: string; to: string }[]; // gone receipts found at a new address
   cards: number;
   urls: number;
   urls_ok: number;
@@ -104,6 +105,7 @@ export interface BuildArgs {
   openPrs: OpenPr[] | null;
   previousDir: string;
   usage: UsageTotals | null;
+  movedPages: { card: string; from: string; to: string }[];
 }
 
 export function buildReport(a: BuildArgs): PatrolReport {
@@ -122,6 +124,7 @@ export function buildReport(a: BuildArgs): PatrolReport {
     sisyphus: { commit: a.commit },
     model: a.model,
     usage: a.usage,
+    moved_pages: a.movedPages,
     cards: a.reports.length,
     urls: fetched.length,
     urls_ok: fetched.filter((r) => r.ok).length,

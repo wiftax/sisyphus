@@ -5,7 +5,7 @@ import { appendFileSync, readFileSync } from "node:fs";
 const args = process.argv.slice(2);
 let input = "";
 try { input = args.includes("-") ? readFileSync(0, "utf8") : ""; } catch {}
-appendFileSync(process.env.GH_STUB_LOG, JSON.stringify({ args, input: input.slice(0, 200) }) + "\n");
+appendFileSync(process.env.GH_STUB_LOG, JSON.stringify({ args, input: input.slice(0, 8000) }) + "\n");
 const mode = process.env.GH_STUB_MODE ?? "ok";
 const [a, b] = args;
 // Like GitHub: a label must be created before a PR or issue can use it.
