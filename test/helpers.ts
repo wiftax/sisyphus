@@ -39,12 +39,16 @@ export function page(url: string, text: string, ok = true, status = 200): FetchR
   };
 }
 
+const FILLER = "This page is part of the Acme documentation. It describes how machines authenticate to the Acme API, how tokens are created, scoped, rotated and revoked, and what the audit log records for each request made with a token. Each section links to the API reference for the endpoints it mentions.";
+
 // A local docs host. Each path maps to [status, html].
 export async function docsServer(routes: Record<string, [number, string]>): Promise<{ server: Server; port: number }> {
   const server = createServer((req, res) => {
     const r = routes[req.url ?? ""] ?? [404, "not here"];
     res.writeHead(r[0], { "content-type": "text/html" });
-    res.end(r[1]);
+    // Real docs pages carry more than one sentence; pad so a page counts as readable.
+    // A route whose body starts with "<!--raw-->" is served as is.
+    res.end(r[1].startsWith("<!--raw-->") || r[0] !== 200 ? r[1] : `${r[1]}<p>${FILLER}</p>`);
   });
   await new Promise<void>((ok) => server.listen(0, "127.0.0.1", ok));
   const addr = server.address();

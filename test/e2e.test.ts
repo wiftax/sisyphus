@@ -102,6 +102,9 @@ test("a moved quote becomes a receipts refresh, after one rejected attempt", asy
   assert.ok(created, "a PR was opened");
   assert.match(created.args.join(" "), /--title Receipts refreshed: 1 card/);
   assert.ok(created.args.includes("sisyphus-refresh"));
+  // Labels were created before the PR named them.
+  const labelCalls = ghCalls(log).filter((c) => c.args[0] === "label").map((c) => c.args[2]);
+  assert.ok(labelCalls.includes("sisyphus-refresh") && labelCalls.includes("sisyphus"));
   const branch = created.args[created.args.indexOf("--head") + 1];
   const committed = git(remote, "show", `${branch}:data/products/acme-api.yaml`).out;
   const original = readFileSync(join(data, "data/products/acme-api.yaml"), "utf8");

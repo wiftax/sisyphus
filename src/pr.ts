@@ -323,8 +323,20 @@ export function ensureLabel(name: string, color: string, description: string): v
   gh(["label", "create", name, "-R", upstream(), "--color", color, "--description", description, "--force"]);
 }
 
+// GitHub refuses a PR or issue that names a label which does not exist, so
+// every label is created (or updated) before it is used.
+export function ensureLabels(labels: string[]): void {
+  for (const l of new Set(labels)) {
+    if (l === LABEL) ensureLabel(l, "6F42C1", "Opened by the Sisyphus crawler");
+    else if (l === REFRESH_LABEL) ensureLabel(l, "0E8A16", "Receipts refreshed, no grade changed");
+    else if (l === UNREACHABLE_LABEL) ensureLabel(l, "D93F0B", "A docs host Sisyphus cannot fetch");
+    else if (l.startsWith("card:")) ensureLabel(l, "BFD4F2", `Concerns data/products/${l.slice(5)}.yaml`);
+    else ensureLabel(l, "EDEDED", "");
+  }
+}
+
 function ensureBaseLabels(): void {
-  ensureLabel(LABEL, "6F42C1", "Opened by the Sisyphus crawler");
+  ensureLabels([LABEL]);
 }
 
 export interface PublishArgs {
@@ -374,7 +386,7 @@ export function publish(a: PublishArgs): PublishResult {
     if (!push.ok) return fail(`git push: ${push.out}`);
     pushed = true;
 
-    ensureBaseLabels();
+    ensureLabels([LABEL, ...a.labels]);
     const create = gh(["pr", "create", "-R", upstream(), "--base", "main", "--head", a.branch, "--title", a.title, "--body-file", "-", ...a.labels.flatMap((l) => ["--label", l])], {
       input: a.body,
       cwd: wt,
@@ -410,7 +422,7 @@ export function closePr(number: number, comment: string): boolean {
 }
 
 export function openIssue(title: string, body: string, labels: string[]): PublishResult {
-  ensureBaseLabels();
+  ensureLabels([LABEL, ...labels]);
   const r = gh(["issue", "create", "-R", upstream(), "--title", title, "--body-file", "-", ...labels.flatMap((l) => ["--label", l])], { input: body });
   if (!r.ok) return { ok: false, error: r.out };
   return { ok: true, url: r.out.split("\n").pop() };
@@ -429,7 +441,9 @@ export function unreachableTitle(host: string): string {
 
 export function unreachableBody(h: HostReport, today: string): string {
   const kinds = new Set(h.urls.map((u) => u.failure));
-  const why = kinds.has("blocked")
+  const why = kinds.has("empty")
+    ? "The pages answer but contain no readable text. They may render in the browser, or the URLs may point at build files rather than pages."
+    : kinds.has("blocked")
     ? `The host refused the crawler (${[...new Set(h.urls.map((u) => u.status))].join(", ")}). This usually means bot protection, not a change in the documentation.`
     : kinds.has("gone")
       ? "The pages are not there. The documentation may have moved."
@@ -477,8 +491,7 @@ export function syncUnreachableIssues(failing: HostReport[], recovered: string[]
     res.errors.push("could not list unreachable issues");
     return res;
   }
-  ensureBaseLabels();
-  ensureLabel(UNREACHABLE_LABEL, "D93F0B", "A docs host Sisyphus cannot fetch");
+  ensureLabels([LABEL, UNREACHABLE_LABEL]);
   const byTitle = new Map(open.map((i) => [i.title, i]));
   for (const h of failing) {
     const persistent = { ...h, urls: h.urls.filter((u) => u.streak >= threshold) };
