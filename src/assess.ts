@@ -10,6 +10,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { excerpt, type UnreachableUrl, type UrlDrift } from "./drift.js";
+import { meter } from "./usage.js";
 
 export const MODEL = process.env.SISYPHUS_MODEL ?? "claude-opus-5-5";
 // Claude Opus 5.5 defaults to medium effort. Grading against a rubric is worth more.
@@ -188,7 +189,9 @@ async function call(system: string, messages: { role: "user" | "assistant"; cont
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
   });
-  return stream.finalMessage();
+  const message = await stream.finalMessage();
+  meter.add(message.model, message.usage);
+  return message;
 }
 
 export async function assessCard(input: AssessInput): Promise<AssessOutcome> {

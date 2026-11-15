@@ -40,6 +40,7 @@ import {
 import { buildReport, hostReports, recoveredHosts, writeReport, type PatrolReport } from "./report.js";
 import { git } from "./run.js";
 import { patchYaml } from "./yamlpatch.js";
+import { meter } from "./usage.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
@@ -428,10 +429,12 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     unreachableIssues,
     openPrs: openNow,
     previousDir: opts.state,
+    usage: opts.llm ? meter.totals() : null,
   });
   // Only a full, real patrol replaces the report on the state branch.
   const reportPath = writeReport(opts.dryRun || report.partial ? opts.out : opts.state, report);
   log(`\nwrote ${reportPath}`);
+  if (report.usage) log(`model: ${report.usage.calls} call(s), $${report.usage.cost_usd.toFixed(2)} at list price${report.usage.unpriced_models.length ? ` (no price for ${report.usage.unpriced_models.join(", ")})` : ""}`);
 
   log("\nsummary:");
   const list = [...outcomes.values()].sort((a, b) => a.id.localeCompare(b.id));
@@ -469,6 +472,7 @@ function writeStepSummary(report: PatrolReport, list: CardOutcome[]): void {
     `## Patrol ${report.date}`,
     "",
     `${report.cards} cards, ${report.urls} URLs, ${report.receipts} quoted receipts. ${report.drift.cards} cards drifted. ${report.unreachable.urls} URLs unreachable on ${report.unreachable.hosts.length} hosts. ${Math.round(report.duration_s / 60)} minutes.`,
+    ...(report.usage ? ["", `Model: ${report.usage.calls} calls, ${report.usage.input_tokens + report.usage.cache_read_tokens + report.usage.cache_write_tokens} input and ${report.usage.output_tokens} output tokens, $${report.usage.cost_usd.toFixed(2)} at list price.`] : []),
     "",
     "| Card | Drift | Unreachable | Outcome |",
     "|---|---|---|---|",
